@@ -10,27 +10,41 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
 draggable = require('./draggable.coffee')().draggable_000
 
+glyphane = require('./glyphane.coffee')()
+
 x = require('./test_module.coffee')()
 
 {div, h1, h3} = React.DOM
 
 curtain = rr
-  render: ->
-    div null, "hey again"
+    render: ->
+        div null, "hey again"
 
+
+{pigment, peel, room_key, room_key_container} = glyphane
 
 imp_x = rr
-  render: ->
-    div
-      style:
-        borderRadius: 4
-        position: 'absolute'
-        backgroundImage: 'url(/adom.jpg)'
-        width: '99%'
-        height: '99%'
-      ,
-      draggable(curtain)
-        initial_position: {x: 20, y: 20}
+    render: ->
+        div
+            style:
+                borderRadius: 4
+                position: 'absolute'
+                backgroundImage: 'url(/adom.jpg)'
+                backgroundSize: '100% 30%'
+                backgroundRepeat: 'no-repeat'
+                width: '99%'
+                height: '99%'
+            ,
+                draggable(curtain)
+                    initial_position: {x: 20, y: 20}
+                draggable(pigment)
+                    initial_position: {x: 100, y: 300}
+                draggable(peel)
+                    initial_position: {x: 300, y: 400}
+                draggable(room_key)
+                    initial_position: {x: 600, y: 400}
+                draggable(room_key_container)
+                    initial_position: {x: 800, y: 400}
 
 
 
