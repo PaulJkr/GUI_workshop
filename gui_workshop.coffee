@@ -10,6 +10,8 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
 draggable = require('./draggable.coffee')().draggable_000
 
+dragg_2 = require('./draggable_2.coffee')().draggable_222
+
 glyphane = require('./glyphane.coffee')()
 
 x = require('./test_module.coffee')()
@@ -21,7 +23,7 @@ curtain = rr
         div null, "hey again"
 
 
-{pigment, peel, room_key, room_key_container} = glyphane
+{pigment, peel, room_key, room_key_container, abs_position_wrapper} = glyphane
 
 imp_x = rr
     render: ->
@@ -43,8 +45,15 @@ imp_x = rr
                     initial_position: {x: 300, y: 400}
                 draggable(room_key)
                     initial_position: {x: 600, y: 400}
-                draggable(room_key_container)
-                    initial_position: {x: 800, y: 400}
+                abs_position_wrapper
+                    wrapped_element: room_key
+                    initial_position: {x: 540, y: 400}
+                #draggable(room_key_container)
+                    #initial_position: {x: 800, y: 400}
+                # dragg_2
+                #     wrapped_child: room_key
+                #     wrapped_child_initial
+                room_key_container()
 
 
 
