@@ -53,7 +53,9 @@ imp_x = rr
                 # dragg_2
                 #     wrapped_child: room_key
                 #     wrapped_child_initial
-                room_key_container()
+                abs_position_wrapper
+                    wrapped_element: room_key_container
+                    initial_position: {x: '77%', y: '67%'}
 
 
 
