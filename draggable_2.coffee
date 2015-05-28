@@ -12,7 +12,7 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
 draggable_222 = rr
     getInitialState: ->
-        position: @props.initial_position
+        position: @props.initial_position or {x: 0, y:0}
 
     addDragEvents: ->
         document.addEventListener 'mousemove', @onMouseMove
@@ -53,6 +53,8 @@ draggable_222 = rr
     render: ->
         div
             style:
+                width: @props.width or ''
+                height: @props.height or ''
                 cursor: 'pointer'
                 position: 'absolute'
                 left: @state.position.x
@@ -60,7 +62,7 @@ draggable_222 = rr
                 zIndex: 9999
             onMouseDown: @onMouseDown
             ,
-            @props.wrapped_child @props.wrapped_child_passed_props
+            @props.wrapped_element @props.wrapped_element_props
 
 module.exports = ->
     draggable_222: draggable_222
