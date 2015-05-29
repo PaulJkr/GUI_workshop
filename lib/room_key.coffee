@@ -61,11 +61,11 @@ module.exports = ->
                     #filter: 'opacity(40%) saturate(30%) drop-shadow(10px 10px 20px blue)'
                     filter: @state.filter
                 ,
-                p
-                    style:
-                        color: 'white'
-                        position: 'relative'
-                        top: '40%'
-                        left: '30%'
-                    ,
-                    "room_key"
+                # p
+                #     style:
+                #         color: 'white'
+                #         position: 'relative'
+                #         top: '40%'
+                #         left: '30%'
+                #     ,
+                #     "room_key"

@@ -11,7 +11,7 @@ React= require 'react'
 #React.render old_room_0()(), document.body
 # this works ^
 
-React.render(abs_position_wrapper({wrapped_element: root_nav_dash, initial_position:{x: 20, y:20}, height: 400, width: 600}), document.body)
+React.render(draggable({wrapped_element: root_nav_dash, initial_position:{x: 200, y:200}, height: 170, width: 170}), document.body)
 
 
 

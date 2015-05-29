@@ -11,15 +11,22 @@ module.exports = ->
 
     abs_position_wrapper : rr
         getInitialState: ->
-            position: @props.initial_position or {x: 0, y: 0}
+            position_format =
+                left : '0%'
+                right : null
+                top : '0%'
+                bottom : null
+            position: @props.initial_position or position_format
         render: ->
             div
                 style:
                     width: @props.width or ''
                     height: @props.height or ''
                     position: 'absolute'
-                    top: @state.position.y
-                    left: @state.position.x
+                    top: @state.position.top or ''
+                    left: @state.position.left or ''
+                    right: @state.position.right or ''
+                    bottom: @state.position.bottom or ''
                 ,
                 @props.wrapped_element @props.passed_props
                 # could also pass props here
