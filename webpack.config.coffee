@@ -11,7 +11,7 @@ module.exports = config =
     debug: true
     #entry: [__dirname + '/organ_tree_editor.coffee']
     entry:
-        app: ['webpack/hot/dev-server', './gui_workshop.coffee']
+        app: ['webpack/hot/dev-server', './gui_workshop_new.coffee']
     stats:
         colors: on
         reasons: on
