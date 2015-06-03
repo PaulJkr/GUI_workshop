@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "source-map-loader": "latest",
     "immutable":"latest",
     "webpack-dev-middleware": "latest",
     "react": "latest",
