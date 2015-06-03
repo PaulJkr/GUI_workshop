@@ -12,7 +12,6 @@ module.exports = ->
 
     room_key = require('./room_key.coffee')()
     room_key_2 = require('./room_key_2.coffee')()
-    internal_nav_dash = require('./internal_nav_dash.coffee')()
 
     rr
         componentWillMount: ->
@@ -29,7 +28,7 @@ module.exports = ->
                     border: '3px solid black'
                     width: '100%'
                     height: '100%'
-                    borderRadius: 4
+                    borderRadius: 14
                 ,
                 abs_position_wrapper
                     width: room_key_width
@@ -49,7 +48,7 @@ module.exports = ->
                 abs_position_wrapper
                     width: room_key_width
                     height: room_key_height
-                    wrapped_element: internal_nav_dash
+                    wrapped_element: room_key
                     initial_position:
                         right: room_key_margin
                         bottom: room_key_margin
