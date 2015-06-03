@@ -11,6 +11,7 @@ module.exports = ->
     {abs_position_wrapper, draggable} = require('./position_and_draggable_wrappers.coffee')()
 
     room_key = require('./room_key.coffee')()
+    room_key_2 = require('./room_key_2.coffee')()
 
     rr
         componentWillMount: ->
@@ -40,7 +41,7 @@ module.exports = ->
                 abs_position_wrapper
                     width: room_key_width
                     height: room_key_height
-                    wrapped_element: room_key
+                    wrapped_element: room_key_2
                     initial_position:
                         right: room_key_margin
                         top: room_key_margin

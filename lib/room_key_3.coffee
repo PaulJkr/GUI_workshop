@@ -1,5 +1,10 @@
 
+#eventually will factor out for inheritance but someone said something 
+# about premature optimisations so for now there's no optimisations for space
 
+
+# for this one i actually want to run some kind of controlled recursion.
+# so there will be four smaller keys here.  if we could reuse some components that would be nice.
 module.exports = ->
     c = -> console.log.apply console, arguments
     React = require("react")
@@ -9,7 +14,7 @@ module.exports = ->
     rr
         getInitialState: ->
             position: @props.initial_position or {x: 0, y: 0}
-            background: 'url(/static_assets/adom.jpg)'
+            background: 'url(/static_assets/blue_snow.png)'
             backgroundSize: '100% 100%'
             filter: 'drop-shadow(1px 1px 2px red)'
             
@@ -52,7 +57,7 @@ module.exports = ->
                     left: @state.position.x
 
                     cursor: 'pointer'
-                    borderRadius: 4
+                    borderRadius: 400
                     background: @state.background
                     backgroundSize: @state.backgroundSize
                     color: 'white'
