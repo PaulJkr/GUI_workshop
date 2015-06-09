@@ -1,7 +1,7 @@
 module.exports = ->
     c = -> console.log.apply console, arguments
     React = require("react")
-    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, li, ol, code, a, input} = React.DOM
+    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
     abs_pos = (a) ->
@@ -21,7 +21,11 @@ module.exports = ->
 
 
 
+
     rr
+        getInitialState: ->
+            whatever: 'yes'
+            color_a: 'lightgreen'
         render: ->
             style = (a) ->
                 position: 'absolute'
@@ -50,16 +54,27 @@ module.exports = ->
                     height: 400
 
                     ,
+                    defs
+                        clipPath
+                            id: 'myClip'
+                            ,
+                            rect
+                                x1: 100
+                                y1: 0
+                                x2: 100
+                                y2: 200
+
                     rect
                         x: 50
                         y: 100
                         width: 400
                         height: 100
+                        #clipPath: 'url(#myClip)'
                         style:
                             fill: 'darkgrey'
                     circle
                         cx: 50
                         cy: 150
                         r: 50
-                        fill: 'darkgrey'
+                        fill: @state.color_a or 'darkgrey'
 
