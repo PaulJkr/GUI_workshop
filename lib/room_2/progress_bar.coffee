@@ -23,9 +23,16 @@ module.exports = ->
 
 
     rr
+
+        rangeChange: (e) ->
+            c 'current target val', e.currentTarget.value
+            @setState
+                range: e.currentTarget.value
+
         getInitialState: ->
             whatever: 'yes'
             color_a: 'lightgreen'
+            range: 100
         render: ->
             style = (a) ->
                 position: 'absolute'
@@ -49,6 +56,25 @@ module.exports = ->
 
                     ,
                     'yes'
+                input
+                    type: 'range'
+                    onChange: @rangeChange
+                    defaultValue: 100
+                    min: 1
+                    step: 1
+                    style:
+                        position: 'absolute'
+                        left: 300
+                    ,
+                div
+                    style:
+                        position: 'absolute'
+                        left: 600
+                        top: 100
+                        fontSize: 23
+                        color: 'white'
+                    ,
+                    "" + (@state.range)
                 svg
                     width: 400
                     height: 400
@@ -59,22 +85,23 @@ module.exports = ->
                             id: 'myClip'
                             ,
                             rect
-                                x1: 100
-                                y1: 0
-                                x2: 100
-                                y2: 200
+                                x: 0
+                                y: 100
+                                width: 4 * (@state.range or 100)
+                                height: 400
 
                     rect
                         x: 50
                         y: 100
                         width: 400
                         height: 100
-                        #clipPath: 'url(#myClip)'
+                        clipPath: 'url(#myClip)'
                         style:
                             fill: 'darkgrey'
                     circle
                         cx: 50
                         cy: 150
                         r: 50
+                        clipPath: 'url(#myClip)'
                         fill: @state.color_a or 'darkgrey'
 
