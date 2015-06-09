@@ -3,16 +3,8 @@
 module.exports = ->
     c = -> console.log.apply console, arguments
     React = require("react")
-    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a, input} = React.DOM
+    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a, input, text, table} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
-
-    room_2 = require('./room_2/main.coffee')()
-    c 'room2 here is', room_2
-    amp3 = room_2
-        ref: 'room_2'
-        key: 'room_2'
-        x: 'some var'
-        y: 'some var'
 
     rr
         getInitialState: ->
@@ -34,23 +26,21 @@ module.exports = ->
                 filter: ''
 
         render_room: ->
-            #if @props.room_id is 4
-                #React.render rooms[@props.room_id](), document.body
+            if @props.room_id is 4
+                React.render rooms[@props.room_id](), document.body
 
 
         onClick: (e) ->
-            e.preventDefault()
-            c amp3
-            #
-            # @setState
-            #     filter: 'opacity(80%) saturate(30%) drop-shadow(10px 10px 20px blue)'
+            @setState
+                filter: 'opacity(80%) saturate(30%) drop-shadow(10px 10px 20px blue)'
             setTimeout =>
                 @setState
                     filter: 'drop-shadow(10px 10px 20px red)'
                 @render_room()
             , 400
             setTimeout =>
-                React.render amp3, document.body
+                imp = div null, 'hello'
+                React.render imp, document.body
             , 600
 
         render: ->

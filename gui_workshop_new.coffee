@@ -1,7 +1,7 @@
 
 
 c = -> console.log.apply console, arguments
-
+require('./lib/main.styl')
 root_nav_dash = require('./lib/root_nav_dash.coffee')()
 #old_room_0 = require('./lib/old_room_0.coffee')
 {abs_position_wrapper, draggable} = require('./lib/position_and_draggable_wrappers.coffee')()
@@ -13,7 +13,7 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 #React.render old_room_0()(), document.body
 # this works ^
 c document.body
-imp = rr
+void_main = rr
     render: ->
         div
             style:
@@ -24,7 +24,7 @@ imp = rr
                 width: '100%'
                 #height: document.body.clientHeight
                 height: '100%'
-                backgroundColor: 'grey'
+                #backgroundColor: 'grey'
         ,
             draggable
                 wrapped_element: root_nav_dash
@@ -36,9 +36,11 @@ imp = rr
                 width: 170
 
 
+imp = void_main
+    x: 'some variable'
+    y: 'some variable'
 
-
-React.render imp(), document.body
+React.render imp, document.body
 
 
 

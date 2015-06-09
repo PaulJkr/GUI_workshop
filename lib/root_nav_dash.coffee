@@ -9,13 +9,16 @@ module.exports = ->
 
 
     {abs_position_wrapper, draggable} = require('./position_and_draggable_wrappers.coffee')()
-
+    room_2 = require('./room_2/main.coffee')()
     room_key = require('./room_key.coffee')()
     room_key_2 = require('./room_key_2.coffee')()
     internal_nav_dash = require('./internal_nav_dash.coffee')()
 
     rr
         componentWillMount: ->
+            setTimeout =>
+                React.render room_2(), document.body
+            , 130
 
         render: ->
             room_key_width = '46%'
