@@ -18,14 +18,18 @@ module.exports = ->
     style_alpha_position = (a) ->
         color: 'white'
 
-
-
-
-
     rr
+        lowerRange: (e) ->
+            if @state.range isnt 0
+                @setState
+                    range: parseInt(@state.range) - 1
+
+        raiseRange: (e) ->
+            if @state.range isnt 100
+                @setState
+                    range: parseInt(@state.range) + 1
 
         rangeChange: (e) ->
-            c 'current target val', e.currentTarget.value
             @setState
                 range: e.currentTarget.value
 
@@ -36,36 +40,53 @@ module.exports = ->
         render: ->
             style = (a) ->
                 position: 'absolute'
-                zIndex: 70000
-                width: 300
-                height: 300
+
+                width: 600
+                height: 400
                 background: 'lightgrey'
                 border: '3px solid white'
-                borderRadius: 300
-                top: 200
-                left: 300
+
+                top: 20
+                left: 20
 
             div # conttainer
                 style: style()
                 ,
-                div
-                    style: #abs_pos
-                        position: 'absolute'
-                        top: 10
-                        left: 10
-
-                    ,
-                    'yes'
                 input
                     type: 'range'
                     onChange: @rangeChange
-                    defaultValue: 100
-                    min: 1
+                    value: @state.range
                     step: 1
                     style:
                         position: 'absolute'
-                        left: 300
+                        left: 700
+                        width: 200
                     ,
+                div
+                    onClick: @lowerRange
+                    style:
+                        zIndex: 700000
+                        cursor: 'pointer'
+                        position: 'absolute'
+                        background: 'lightgrey'
+                        border: '1px solid white'
+                        padding: 4
+                        borderRadius: 10
+                        left: 680
+                    ,
+                    "<-"
+                div
+                    onClick: @raiseRange
+                    style:
+                        cursor: 'pointer'
+                        position: 'absolute'
+                        background: 'lightgrey'
+                        border: '1px solid white'
+                        padding: 4
+                        borderRadius: 10
+                        left: 930
+                    ,
+                    "->"
                 div
                     style:
                         position: 'absolute'
@@ -74,34 +95,59 @@ module.exports = ->
                         fontSize: 23
                         color: 'white'
                     ,
-                    "" + (@state.range)
+                    @state.range + "%"
                 svg
-                    width: 400
-                    height: 400
-
+                    width: 800
+                    height: 500
+                    style:
+                        position: 'absolute'
                     ,
                     defs
                         clipPath
                             id: 'myClip'
                             ,
                             rect
-                                x: 0
-                                y: 100
-                                width: 4 * (@state.range or 100)
+                                x: 48
+                                y: 200
+                                width: 6 * @state.range
                                 height: 400
-
                     rect
-                        x: 50
-                        y: 100
+                        x: 100
+                        y: 200
                         width: 400
                         height: 100
+                        style:
+                            fill: 'black'
+                    circle
+                        cx: 100
+                        cy: 250
+                        r: 50
+                        fill: 'black'
+                    circle
+                        cx: 500
+                        cy: 250
+                        r: 50
+                        fill: 'black'
+                    rect
+                        x: 100
+                        y: 200
+                        width: 402
+                        height: 102
                         clipPath: 'url(#myClip)'
                         style:
-                            fill: 'darkgrey'
+                            fill: @state.color_a or 'darkgrey'
                     circle
-                        cx: 50
-                        cy: 150
-                        r: 50
+                        cx: 100
+                        cy: 250
+                        r: 52
                         clipPath: 'url(#myClip)'
                         fill: @state.color_a or 'darkgrey'
+                    circle
+                        cx: 500
+                        cy: 250
+                        r: 52
+                        clipPath: 'url(#myClip)'
+                        fill: @state.color_a
+
+
 
