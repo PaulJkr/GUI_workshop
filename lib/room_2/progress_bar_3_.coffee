@@ -176,25 +176,13 @@ module.exports = ->
                                 y: 0
                                 width: (width + padX) - (((width + padX)/ 100) * @state.range)
                                 height: height + padY # fix this
-                    rect
-                        x: (height / 2) + (padX / 2)
-                        y: padY / 2
-                        width: width - height
-                        height: height
-                        clipPath: "url(##{clipId2})"
-                        style:
-                            fill: @props.backFill or 'red'
-                    circle #left circle bound ; could make an ellipse for other styles
-                        cx: (height / 2) + (padX / 2)
-                        cy: (height / 2) + (padY / 2)
-                        r: (height / 2)
-                        fill: @props.backFill or 'black'
-                        clipPath: "url(##{clipId2})"
-                    circle # right circle bound
-                        cx: width - (height / 2) + (padX / 2)
-                        cy: (height / 2) + (padY / 2)
-                        r: height / 2
-                        fill: @props.backFill or 'black'
+                    path
+                        d: "M#{height / 2} 0
+                            A #{height / 2} #{height / 2}, 0, 0, 0, #{height / 2} #{height}
+                            H #{width - (height / 2)}
+                            A #{height / 2} #{height / 2}, 0, 0, 0, #{width - (height / 2)} 0
+                            "
+                        fill: 'black'
                         clipPath: "url(##{clipId2})"
                     path
                         d: "M#{height / 2} 0
