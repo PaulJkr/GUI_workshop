@@ -29,5 +29,6 @@ module.exports = ->
                         left: 300
                     ,
                     progress_bar
+                        auto_showoff: off
                         width: 400
                         height: 100

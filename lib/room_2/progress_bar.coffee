@@ -1,6 +1,7 @@
 module.exports = ->
     c = -> console.log.apply console, arguments
     React = require("react")
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin
     {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
     shortid = require('shortid')
@@ -20,6 +21,28 @@ module.exports = ->
         color: 'white'
 
     rr
+        #mixins: [PureRenderMixin]
+        componentDidMount: ->
+            if @props.auto_showoff is on
+                dir_up = on
+                inc = 2
+                setInterval =>
+                    if dir_up is on and @state.range < 100
+                        @setState
+                            range: @state.range += inc
+                    else if @state.range >= 100
+                        dir_up = off
+                        @setState
+                            range: 100 - inc
+                    else if dir_up is off and @state.range > 0
+                        @setState
+                            range: @state.range -= inc
+                    else if @state.range <= 0
+                        dir_up = on
+                        @setState
+                            range: inc
+                , 300
+
         lowerRange: (e) ->
             if @state.range isnt 0
                 @setState
@@ -52,7 +75,6 @@ module.exports = ->
                 #left: 20
             height = @props.height
             width = @props.width
-            c 'height and width', height, width
             if (width / 100) >= 2 then padX = (width / 100) else padX = 2
             if (height / 100) >= 2 then padY = (height / 100) else padY = 2
 
