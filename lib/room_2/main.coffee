@@ -19,9 +19,11 @@ module.exports = ->
         height: 600
         background: 'lightblue'
 
+    range_b = shortid.generate()
     rr
         getInitialState: ->
             range_0: 40
+            "#{range_b}": 60
         # autoShowoff: -> # need to rewrite this for here in parent's container func
         #     dir_up = on
         #     inc = 4
@@ -84,11 +86,11 @@ module.exports = ->
                         top: 200
                     ,
                         range_dial_2
-                            #key: range_b
-                            range: @state.range_0
-                            rangeChange: @rangeChange.bind @, "range_0"
-                            raiseRange: @raiseRange.bind @, "range_0"
-                            lowerRange: @lowerRange.bind @, "range_0" 
+                            key: range_b
+                            range: @state["#{range_b}"]
+                            rangeChange: @rangeChange.bind @, "#{range_b}"
+                            raiseRange: @raiseRange.bind @, "#{range_b}"
+                            lowerRange: @lowerRange.bind @, "#{range_b}" 
                     div
                         style:
                             position: 'absolute'
@@ -96,7 +98,7 @@ module.exports = ->
                             left: 100
                         ,
                         progress_bar_4
-                            range: @state.range_0
+                            range: @state["#{range_b}"]
                             width: 300
                             height: 30
 
