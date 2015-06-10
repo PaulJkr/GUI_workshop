@@ -15,7 +15,7 @@ module.exports = ->
     internal_nav_dash = require('./internal_nav_dash.coffee')()
 
     rr
-        componentWillMount: ->
+        componentDidMount: ->
             setTimeout =>
                 React.render room_2(), document.body
             , 130

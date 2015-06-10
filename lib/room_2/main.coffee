@@ -20,5 +20,14 @@ module.exports = ->
                 style: style()
                 ,
                 progress_bar
-                    width: 400
-                    height: 100
+                    width: 200
+                    height: 40
+                div
+                    style:
+                        position: 'absolute'
+                        top: 300
+                        left: 300
+                    ,
+                    progress_bar
+                        width: 400
+                        height: 100

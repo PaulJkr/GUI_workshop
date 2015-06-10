@@ -13,6 +13,7 @@ rr = -> React.createFactory(React.createClass.apply(React, arguments))
 #React.render old_room_0()(), document.body
 # this works ^
 c document.body
+
 void_main = rr
     render: ->
         div
@@ -40,7 +41,11 @@ imp = void_main
     x: 'some variable'
     y: 'some variable'
 
-React.render imp, document.body
+#React.render imp, document.body
+
+room_2 = require('./lib/room_2/main.coffee')()
+
+React.render room_2(), document.body
 
 
 

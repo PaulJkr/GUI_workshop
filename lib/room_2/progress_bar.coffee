@@ -3,6 +3,7 @@ module.exports = ->
     React = require("react")
     {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
+    shortid = require('shortid')
 
     abs_pos = (a) ->
         position: 'absolute'
@@ -38,6 +39,7 @@ module.exports = ->
             color_a: 'lightgreen'
             range: 100
         render: ->
+            clipId = shortid.generate()
             style = (a) ->
                 position: 'absolute'
 
@@ -51,72 +53,79 @@ module.exports = ->
             height = @props.height
             width = @props.width
             c 'height and width', height, width
-            padX = 8
-            padY = 8
+            if (width / 100) >= 2 then padX = (width / 100) else padX = 2
+            if (height / 100) >= 2 then padY = (height / 100) else padY = 2
 
             div # container
                 style: style()
                 ,
-                input
-                    type: 'range'
-                    onChange: @rangeChange
-                    value: @state.range
-                    step: 1
+                div
                     style:
                         position: 'absolute'
-                        left: @props.width + 300
-
-                        width: 200
+                        left: width + 10
+                        top: 0
+                        background: 'red'
                     ,
-                    div
+                    span
                         onClick: @lowerRange
                         style:
                             zIndex: 700000
                             cursor: 'pointer'
-                            position: 'absolute'
+                            #position: 'absolute'
                             background: 'lightgrey'
                             border: '1px solid white'
                             padding: 4
                             borderRadius: 10
-                            left: 680
+                            #left: 680
                         ,
                         "<-"
-                    div
+                    input
+                        type: 'range'
+                        onChange: @rangeChange
+                        value: @state.range
+                        step: 1
+                        style:
+                            #position: 'absolute'
+                            #left: @props.width + 300
+
+                            width: 200
+                        ,
+                    span
                         onClick: @raiseRange
                         style:
                             cursor: 'pointer'
-                            position: 'absolute'
+                            #position: 'absolute'
                             background: 'lightgrey'
                             border: '1px solid white'
                             padding: 4
                             borderRadius: 10
-                            left: 930
+                            #left: 930
                         ,
                         "->"
-                div
-                    style:
-                        position: 'absolute'
-                        left: 600
-                        top: 100
-                        fontSize: 23
-                        color: 'white'
-                    ,
-                    @state.range + "%"
+                    span
+                        style:
+                            #position: 'absolute'
+                            #left: 600
+                            #top: 100
+                            fontSize: 23
+                            color: 'white'
+                        ,
+                        @state.range + "%"
                 svg
-                    width: 600
-                    height: 500
+                    width: @props.width + padX
+                    height: @props.height + padY
                     style:
                         background: 'lightgrey'
                         position: 'absolute'
                     ,
                     defs
                         clipPath
-                            id: 'myClip'
+                            id: clipId
                             ,
                             rect
                                 x: 0
                                 y: 0
-                                width: ((width / 100) + padX) * @state.range
+                                width: ((width / 100) * @state.range) + padX
                                 height: height + 10 # fix this
                     rect
                         x: (height / 2) + padX
@@ -140,20 +149,20 @@ module.exports = ->
                         y: 0
                         width: width - height
                         height: height + padY
-                        clipPath: 'url(#myClip)'
+                        clipPath: "url(##{clipId})"
                         style:
                             fill: @state.color_a or 'darkgrey'
                     circle
                         cx: (height / 2) + (padX / 2)
                         cy: (height / 2) + (padY / 2)
                         r: (height / 2) + (padY / 2)
-                        clipPath: 'url(#myClip)'
+                        clipPath: "url(##{clipId})"
                         fill: @state.color_a or 'darkgrey'
                     circle
                         cx: width - (height / 2) + (padX)
                         cy: (height / 2) + (padY / 2)
                         r: (height / 2) + (padY / 2)
-                        clipPath: 'url(#myClip)'
+                        clipPath: "url(##{clipId})"
                         fill: @state.color_a
 
 
