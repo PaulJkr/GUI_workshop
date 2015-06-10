@@ -35,15 +35,16 @@ module.exports = ->
                 style: style()
                 ,
                 progress_bar_3
+                    auto_showoff: on
                     width: 400
-                    height: 60
+                    height: 30
                 div
                     style:
                         position: 'absolute'
                         top: 200
                         left: 20
                     ,
-                    progress_bar
+                    progress_bar_3
                         auto_showoff: off
                         width: 400
                         height: 50
