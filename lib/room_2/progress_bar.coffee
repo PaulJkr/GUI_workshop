@@ -41,15 +41,20 @@ module.exports = ->
             style = (a) ->
                 position: 'absolute'
 
-                width: 600
-                height: 400
-                background: 'lightgrey'
-                border: '3px solid white'
+                #width: 600
+                #height: 500
+                #background: 'lightgrey'
+                #border: '3px solid white'
 
-                top: 20
-                left: 20
+                #top: 20
+                #left: 20
+            height = @props.height
+            width = @props.width
+            c 'height and width', height, width
+            padX = 8
+            padY = 8
 
-            div # conttainer
+            div # container
                 style: style()
                 ,
                 input
@@ -59,34 +64,35 @@ module.exports = ->
                     step: 1
                     style:
                         position: 'absolute'
-                        left: 700
+                        left: @props.width + 300
+
                         width: 200
                     ,
-                div
-                    onClick: @lowerRange
-                    style:
-                        zIndex: 700000
-                        cursor: 'pointer'
-                        position: 'absolute'
-                        background: 'lightgrey'
-                        border: '1px solid white'
-                        padding: 4
-                        borderRadius: 10
-                        left: 680
-                    ,
-                    "<-"
-                div
-                    onClick: @raiseRange
-                    style:
-                        cursor: 'pointer'
-                        position: 'absolute'
-                        background: 'lightgrey'
-                        border: '1px solid white'
-                        padding: 4
-                        borderRadius: 10
-                        left: 930
-                    ,
-                    "->"
+                    div
+                        onClick: @lowerRange
+                        style:
+                            zIndex: 700000
+                            cursor: 'pointer'
+                            position: 'absolute'
+                            background: 'lightgrey'
+                            border: '1px solid white'
+                            padding: 4
+                            borderRadius: 10
+                            left: 680
+                        ,
+                        "<-"
+                    div
+                        onClick: @raiseRange
+                        style:
+                            cursor: 'pointer'
+                            position: 'absolute'
+                            background: 'lightgrey'
+                            border: '1px solid white'
+                            padding: 4
+                            borderRadius: 10
+                            left: 930
+                        ,
+                        "->"
                 div
                     style:
                         position: 'absolute'
@@ -97,9 +103,10 @@ module.exports = ->
                     ,
                     @state.range + "%"
                 svg
-                    width: 800
+                    width: 600
                     height: 500
                     style:
+                        background: 'lightgrey'
                         position: 'absolute'
                     ,
                     defs
@@ -107,45 +114,45 @@ module.exports = ->
                             id: 'myClip'
                             ,
                             rect
-                                x: 48
-                                y: 200
-                                width: 6 * @state.range
-                                height: 400
+                                x: 0
+                                y: 0
+                                width: ((width / 100) + padX) * @state.range
+                                height: height + 10 # fix this
                     rect
-                        x: 100
-                        y: 200
-                        width: 400
-                        height: 100
+                        x: (height / 2) + padX
+                        y: padY / 2
+                        width: width - height
+                        height: height
                         style:
-                            fill: 'black'
-                    circle
-                        cx: 100
-                        cy: 250
-                        r: 50
+                            fill: 'red'
+                    circle #left circle bound ; could make an ellipse for other styles
+                        cx: (height / 2) + (padX / 2)
+                        cy: (height / 2) + (padY / 2)
+                        r: (height / 2)
                         fill: 'black'
-                    circle
-                        cx: 500
-                        cy: 250
-                        r: 50
+                    circle # right circle bound
+                        cx: width - (height / 2) + padX
+                        cy: (height / 2) + (padY / 2)
+                        r: height / 2
                         fill: 'black'
                     rect
-                        x: 100
-                        y: 200
-                        width: 402
-                        height: 102
+                        x: (height / 2) + padX
+                        y: 0
+                        width: width - height
+                        height: height + padY
                         clipPath: 'url(#myClip)'
                         style:
                             fill: @state.color_a or 'darkgrey'
                     circle
-                        cx: 100
-                        cy: 250
-                        r: 52
+                        cx: (height / 2) + (padX / 2)
+                        cy: (height / 2) + (padY / 2)
+                        r: (height / 2) + (padY / 2)
                         clipPath: 'url(#myClip)'
                         fill: @state.color_a or 'darkgrey'
                     circle
-                        cx: 500
-                        cy: 250
-                        r: 52
+                        cx: width - (height / 2) + (padX)
+                        cy: (height / 2) + (padY / 2)
+                        r: (height / 2) + (padY / 2)
                         clipPath: 'url(#myClip)'
                         fill: @state.color_a
 

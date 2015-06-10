@@ -19,5 +19,6 @@ module.exports = ->
             div
                 style: style()
                 ,
-                h3 {color: 'red'}, "yes"
-                progress_bar()
+                progress_bar
+                    width: 400
+                    height: 100
