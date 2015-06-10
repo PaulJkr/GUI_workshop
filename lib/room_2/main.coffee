@@ -9,54 +9,91 @@ module.exports = ->
     progress_bar = require('./progress_bar_2_.coffee')()
     progress_bar_3 = require('./progress_bar_3_.coffee')()
     #range_dial = require('./range_dial.coffee')()
+    progress_bar_4 = require('./progress_bar_4_.coffee')()
+    range_dial_2 = require('./range_dial_2_.coffee')()
 
     style = (a) ->
         width: 1000
         height: 600
         background: 'lightblue'
 
+    # abs_pos = (a) ->  # might resurrect this for something
+    #     position: 'absolute'
+    #     width: a.w or 100
+    #     height: a.h or 100
+    #     top: a.t or ''
+    #     left: a.l or ''
+    #     bottom: a.b or ''
+    #     right: a.r or ''
+    #     zIndex: 500
+
     rr
+        getInitialState: ->
+            range_0: 40
+        # autoShowoff: -> # need to rewrite this for here in parent's container func
+        #     dir_up = on
+        #     inc = 4
+        #     setInterval =>
+        #         if dir_up is on and @state.range < 100
+        #             @setState
+        #                 range: @state.range += inc
+        #         else if @state.range >= 100
+        #             dir_up = off
+        #             @setState
+        #                 range: 100 - inc
+        #         else if dir_up is off and @state.range > 0
+        #             @setState
+        #                 range: @state.range -= inc
+        #         else if @state.range <= 0
+        #             dir_up = on
+        #             @setState
+        #                 range: inc
+        #     , 20
+        componentDidMount: ->
+            #@autoShowoff()
+        rangeChange: (range_key, e) ->
+            @setState
+                range_0: e.currentTarget.value
+        raiseRange: (range_key) ->
+            if @state.range isnt 100
+                c 'raising range'
+                #surr_object = =>
+                    #"#{range_key}": parseInt(@state["#{range_key}"]) + 1
+                #@setState surr_object()
+                    #do => "#{range_key}": parseInt(@state.range_)
+                    #range: parseInt(@state.range) + 1
+                @setState do => "#{range_key}": parseInt(@state["#{range_key}"]) + 1
+        lowerRange: (range_key)->
+            if @state.range isnt 0
+                surr_object = =>
+                    "#{range_key}": parseInt(@state.range_0) - 1
+                @setState surr_object()
+                    #range: parseInt(@state.range) - 1
+                    #"#{zzz()}": parseInt(@state.range) - 1
         render: ->
-            svg null,
-                defs
-                    linearGradient
-                        id: "grad1"
-                        x1: "0%"
-                        y1: "0%"
-                        x2: "100%"
-                        y2: "100%"
-                        stop
-                            offset: "0%"
-                            style: "stop-color:rgb(255,255,0);stop-opacity:1"
-                        stop
-                            offset: "100%"
-                            style: "stop-color:rgb(255,0,0);stop-opacity:1"
+
             div
                 style: style()
                 ,
-                progress_bar_3
-                    auto_showoff: on
-                    width: 400
-                    height: 30
                 div
                     style:
                         position: 'absolute'
-                        top: 200
-                        left: 20
+                        top: 50
+                        left: 50
                     ,
-                    progress_bar_3
-                        auto_showoff: off
-                        width: 400
-                        height: 50
-                        backFill: 'black'
-                        #progressFill: #'magenta'
-                # div
-                #     style:
-                #         position: 'absolute'
-                #         top: 400
-                #         left: 200
-                #     ,
-                #     progress_bar
-                #         auto_showoff: on
-                #         width: 180
-                #         height: 20
+                    range_dial_2
+                        range: @state.range_0
+                        rangeChange: @rangeChange.bind @, "range_0"
+                        raiseRange: @raiseRange.bind(@, "range_0")
+                        lowerRange: @lowerRange.bind(@, "range_0")
+                div
+                    style:
+                        position: 'absolute'
+                        top: 100
+                        left: 100
+                    ,
+                    progress_bar_4
+                        range: @state.range_0
+                        width: 300
+                        height: 30
+
