@@ -2,7 +2,7 @@ module.exports = ->
     c = -> console.log.apply console, arguments
     React = require("react")
     PureRenderMixin = require('react/addons').addons.PureRenderMixin
-    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g} = React.DOM
+    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
     shortid = require('shortid')
 
@@ -60,7 +60,7 @@ module.exports = ->
         getInitialState: ->
             whatever: 'yes'
             color_a: 'lightgreen'
-            range: 100
+            range: 40
         render: ->
             clipId = shortid.generate()
             clipId2 = shortid.generate()
@@ -196,28 +196,36 @@ module.exports = ->
                         r: height / 2
                         fill: @props.backFill or 'black'
                         clipPath: "url(##{clipId2})"
-                    g
+                    path
+                        d: "M#{height / 2} 0
+                            A #{height / 2} #{height / 2}, 0, 0, 0, #{height / 2} #{height}
+                            H #{width - (height / 2)}
+                            A #{height / 2} #{height / 2}, 0, 0, 0, #{width - (height / 2)} 0
+                            "
                         fill: 'url(#grad1)'
-                        rect
-                            x: (height / 2) + (padX / 2)
-                            y: padY / 2
-                            width: width - height
-                            height: height
-                            clipPath: "url(##{clipId})"
-                            #style:
-                                #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
-                        circle
-                            cx: (height / 2) + (padX / 2)
-                            cy: (height / 2) + (padY / 2)
-                            r: (height / 2)
-                            clipPath: "url(##{clipId})"
-                            #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
-                        circle
-                            cx: width - (height / 2) + (padX / 2)
-                            cy: (height / 2) + (padY / 2)
-                            r: (height / 2)
-                            clipPath: "url(##{clipId})"
-                            #fill: @props.progressFill or 'lightgreen'
+                        clipPath: "url(##{clipId})"
+                    # g
+                    #     fill: 'url(#grad1)'
+                    #     rect
+                    #         x: (height / 2) + (padX / 2)
+                    #         y: padY / 2
+                    #         width: width - height
+                    #         height: height
+                    #         clipPath: "url(##{clipId})"
+                    #         #style:
+                    #             #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
+                    #     circle
+                    #         cx: (height / 2) + (padX / 2)
+                    #         cy: (height / 2) + (padY / 2)
+                    #         r: (height / 2)
+                    #         clipPath: "url(##{clipId})"
+                    #         #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
+                    #     circle
+                    #         cx: width - (height / 2) + (padX / 2)
+                    #         cy: (height / 2) + (padY / 2)
+                    #         r: (height / 2)
+                    #         clipPath: "url(##{clipId})"
+                    #         #fill: @props.progressFill or 'lightgreen'
 
 
 
