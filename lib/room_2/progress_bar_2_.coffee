@@ -41,7 +41,7 @@ module.exports = ->
                         dir_up = on
                         @setState
                             range: inc
-                , 20
+                , 200
 
         lowerRange: (e) ->
             if @state.range isnt 0
@@ -140,7 +140,7 @@ module.exports = ->
                     width: @props.width + padX
                     height: @props.height + padY
                     style:
-                        #background: 'lightgrey'
+                        background: 'lightgrey'
                         position: 'absolute'
                     ,
                     defs
@@ -151,12 +151,21 @@ module.exports = ->
                                 x: 0
                                 y: 0
                                 width: ((width + padX)/ 100) * @state.range
-                                height: height + 10 # fix this
+                                height: height + padY # fix this
+                        clipPath
+                            id: clipId2
+                            ,
+                            rect
+                                x: (((width + padX) / 100) * @state.range)
+                                y: 0
+                                width: (width + padX) - (((width + padX)/ 100) * @state.range)
+                                height: height + padY # fix this
                     rect
                         x: (height / 2) + (padX / 2)
                         y: padY / 2
                         width: width - height
                         height: height
+                        clipPath: "url(##{clipId2})"
                         style:
                             fill: @props.backFill or 'red'
                     circle #left circle bound ; could make an ellipse for other styles
@@ -164,29 +173,31 @@ module.exports = ->
                         cy: (height / 2) + (padY / 2)
                         r: (height / 2)
                         fill: @props.backFill or 'black'
+                        clipPath: "url(##{clipId2})"
                     circle # right circle bound
                         cx: width - (height / 2) + (padX / 2)
                         cy: (height / 2) + (padY / 2)
                         r: height / 2
                         fill: @props.backFill or 'black'
+                        clipPath: "url(##{clipId2})"
                     rect
-                        x: (height / 2) + padX
-                        y: 0
+                        x: (height / 2) + (padX / 2)
+                        y: padY / 2
                         width: width - height
-                        height: height + padY
+                        height: height
                         clipPath: "url(##{clipId})"
                         style:
                             fill: @props.progressFill or 'lightgreen'
                     circle
                         cx: (height / 2) + (padX / 2)
                         cy: (height / 2) + (padY / 2)
-                        r: (height / 2) + (padY / 2)
+                        r: (height / 2)
                         clipPath: "url(##{clipId})"
                         fill: @props.progressFill or 'lightgreen'
                     circle
                         cx: width - (height / 2) + (padX / 2)
                         cy: (height / 2) + (padY / 2)
-                        r: (height / 2) + (padY / 2)
+                        r: (height / 2)
                         clipPath: "url(##{clipId})"
                         fill: @props.progressFill or 'lightgreen'
 
