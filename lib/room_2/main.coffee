@@ -12,20 +12,12 @@ module.exports = ->
     progress_bar_4 = require('./progress_bar_4_.coffee')()
     range_dial_2 = require('./range_dial_2_.coffee')()
 
+    shortid = require 'shortid'
+
     style = (a) ->
         width: 1000
         height: 600
         background: 'lightblue'
-
-    # abs_pos = (a) ->  # might resurrect this for something
-    #     position: 'absolute'
-    #     width: a.w or 100
-    #     height: a.h or 100
-    #     top: a.t or ''
-    #     left: a.l or ''
-    #     bottom: a.b or ''
-    #     right: a.r or ''
-    #     zIndex: 500
 
     rr
         getInitialState: ->
@@ -52,48 +44,59 @@ module.exports = ->
         componentDidMount: ->
             #@autoShowoff()
         rangeChange: (range_key, e) ->
-            @setState
-                range_0: e.currentTarget.value
+            @setState do => "#{range_key}": e.currentTarget.value
         raiseRange: (range_key) ->
             if @state.range isnt 100
-                c 'raising range'
-                #surr_object = =>
-                    #"#{range_key}": parseInt(@state["#{range_key}"]) + 1
-                #@setState surr_object()
-                    #do => "#{range_key}": parseInt(@state.range_)
-                    #range: parseInt(@state.range) + 1
                 @setState do => "#{range_key}": parseInt(@state["#{range_key}"]) + 1
         lowerRange: (range_key)->
             if @state.range isnt 0
-                surr_object = =>
-                    "#{range_key}": parseInt(@state.range_0) - 1
-                @setState surr_object()
-                    #range: parseInt(@state.range) - 1
-                    #"#{zzz()}": parseInt(@state.range) - 1
+                @setState do => "#{range_key}": parseInt(@state["#{range_key}"]) - 1
         render: ->
-
             div
                 style: style()
                 ,
-                div
+                div null, #range_0
+                    div
+                        style:
+                            position: 'absolute'
+                            top: 50
+                            left: 50
+                        ,
+                        range_dial_2
+                            range: @state.range_0
+                            rangeChange: @rangeChange.bind @, "range_0"
+                            raiseRange: @raiseRange.bind @, "range_0"
+                            lowerRange: @lowerRange.bind @, "range_0" 
+                    div
+                        style:
+                            position: 'absolute'
+                            top: 100
+                            left: 100
+                        ,
+                        progress_bar_4
+                            range: @state.range_0
+                            width: 300
+                            height: 30
+                div #range_1 , ... could use shortid for these instead
                     style:
                         position: 'absolute'
-                        top: 50
-                        left: 50
+                        left: 200
+                        top: 200
                     ,
-                    range_dial_2
-                        range: @state.range_0
-                        rangeChange: @rangeChange.bind @, "range_0"
-                        raiseRange: @raiseRange.bind(@, "range_0")
-                        lowerRange: @lowerRange.bind(@, "range_0")
-                div
-                    style:
-                        position: 'absolute'
-                        top: 100
-                        left: 100
-                    ,
-                    progress_bar_4
-                        range: @state.range_0
-                        width: 300
-                        height: 30
+                        range_dial_2
+                            #key: range_b
+                            range: @state.range_0
+                            rangeChange: @rangeChange.bind @, "range_0"
+                            raiseRange: @raiseRange.bind @, "range_0"
+                            lowerRange: @lowerRange.bind @, "range_0" 
+                    div
+                        style:
+                            position: 'absolute'
+                            top: 100
+                            left: 100
+                        ,
+                        progress_bar_4
+                            range: @state.range_0
+                            width: 300
+                            height: 30
 
