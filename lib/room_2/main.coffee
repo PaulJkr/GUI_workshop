@@ -11,6 +11,7 @@ module.exports = ->
     #range_dial = require('./range_dial.coffee')()
     progress_bar_4 = require('./progress_bar_4_.coffee')()
     range_dial_2 = require('./range_dial_2_.coffee')()
+    range_dial_3 = require('./range_dial_3_.coffee')()
 
     shortid = require 'shortid'
 
@@ -43,6 +44,9 @@ module.exports = ->
         getInitialState: ->
             range_0: 40
             "#{range_b}": 60
+            progress_bar_basket: {} # could add to this and then map out of it.
+            # but this could be a prop instead.  i think it should be state.
+            # i'll think about it later.
 
         componentDidMount: ->
 
@@ -64,6 +68,7 @@ module.exports = ->
                 # div
                 #     style: style_3()
                 #     ,
+                #@progress_bar_basket.map
                 div null, #range_0
                     div
                         style:
@@ -71,11 +76,11 @@ module.exports = ->
                             top: 50
                             left: 50
                         ,
-                        range_dial_2
-                            range: @state.range_0
-                            rangeChange: @rangeChange.bind @, "range_0"
-                            raiseRange: @raiseRange.bind @, "range_0"
-                            lowerRange: @lowerRange.bind @, "range_0" 
+                        range_dial_3()
+                            # range: @state.range_0
+                            # rangeChange: @rangeChange.bind @, "range_0"
+                            # raiseRange: @raiseRange.bind @, "range_0"
+                            # lowerRange: @lowerRange.bind @, "range_0" 
                     div
                         style:
                             position: 'absolute'
@@ -92,14 +97,14 @@ module.exports = ->
                         left: 200
                         top: 200
                     ,
-                        range_dial_2
-                            key: range_b
-                            range: @state["#{range_b}"]
-                            rangeChange: @rangeChange.bind @, "#{range_b}"
-                            raiseRange: @raiseRange.bind @, "#{range_b}"
-                            lowerRange: @lowerRange.bind @, "#{range_b}" 
-                            style:
-                                position: 'absolute'
+                        range_dial_3()
+                            # key: range_b
+                            # range: @state["#{range_b}"]
+                            # rangeChange: @rangeChange.bind @, "#{range_b}"
+                            # raiseRange: @raiseRange.bind @, "#{range_b}"
+                            # lowerRange: @lowerRange.bind @, "#{range_b}" 
+                            # style:
+                            #     position: 'absolute'
                     div
                         style:
                             position: 'absolute'
