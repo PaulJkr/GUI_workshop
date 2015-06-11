@@ -16,8 +16,27 @@ module.exports = ->
 
     style = (a) ->
         width: 1000
-        height: 600
-        background: 'lightblue'
+        height: 700
+        #background: 'linear-gradient(135deg, rgba(25, 25, 255, 0), rgba(255, 25, 255, 0.8))'
+        #background: 'black'
+
+
+    style_2 = (a) ->
+        width: '100%'
+        height: '100%'
+        background: 'url(../../static_assets/poster_3.png), linear-gradient(135deg, rgba(25, 25, 255, 0), rgba(255, 25, 255, 0.8)), url(../../static_assets/adom.jpg)'
+        #background: 'url(../../static_assets/adom.jpg)'
+        backgroundRepeat: 'no-repeat, no-repeat, no-repeat'
+        backgroundPosition: 'left, right, left'
+        backgroundSize: '200px 300px, 100% 100%, 400px 100px'
+
+
+    style_3 = (a) ->
+        zIndex: 50
+        width: '100%'
+        height: '100%'
+        background: 'url(../../static_assets/poster_3.png)'
+        opacity: 1
 
     range_b = shortid.generate()
     rr
@@ -57,6 +76,12 @@ module.exports = ->
             div
                 style: style()
                 ,
+                div
+                    style: style_2()
+                    ,
+                # div
+                #     style: style_3()
+                #     ,
                 div null, #range_0
                     div
                         style:
@@ -78,7 +103,7 @@ module.exports = ->
                         progress_bar_4
                             range: @state.range_0
                             width: 300
-                            height: 30
+                            height: 20
                 div #range_1 , ... could use shortid for these instead
                     style:
                         position: 'absolute'
@@ -100,5 +125,5 @@ module.exports = ->
                         progress_bar_4
                             range: @state["#{range_b}"]
                             width: 300
-                            height: 30
+                            height: 16
 
