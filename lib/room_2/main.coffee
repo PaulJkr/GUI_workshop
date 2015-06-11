@@ -43,27 +43,9 @@ module.exports = ->
         getInitialState: ->
             range_0: 40
             "#{range_b}": 60
-        # autoShowoff: -> # need to rewrite this for here in parent's container func
-        #     dir_up = on
-        #     inc = 4
-        #     setInterval =>
-        #         if dir_up is on and @state.range < 100
-        #             @setState
-        #                 range: @state.range += inc
-        #         else if @state.range >= 100
-        #             dir_up = off
-        #             @setState
-        #                 range: 100 - inc
-        #         else if dir_up is off and @state.range > 0
-        #             @setState
-        #                 range: @state.range -= inc
-        #         else if @state.range <= 0
-        #             dir_up = on
-        #             @setState
-        #                 range: inc
-        #     , 20
+
         componentDidMount: ->
-            #@autoShowoff()
+
         rangeChange: (range_key, e) ->
             @setState do => "#{range_key}": e.currentTarget.value
         raiseRange: (range_key) ->
@@ -116,6 +98,8 @@ module.exports = ->
                             rangeChange: @rangeChange.bind @, "#{range_b}"
                             raiseRange: @raiseRange.bind @, "#{range_b}"
                             lowerRange: @lowerRange.bind @, "#{range_b}" 
+                            style:
+                                position: 'absolute'
                     div
                         style:
                             position: 'absolute'
