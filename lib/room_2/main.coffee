@@ -59,7 +59,7 @@ module.exports = ->
             if Object.keys(percentage).indexOf('currentTarget') isnt -1
                 @setState do => "#{range_key}": percentage.currentTarget.value
             else
-                @setState do => "#{range_key}": e.currentTarget.value
+                @setState do => "#{range_key}": percentage
         raiseRange: (range_key) ->
             if @state.range isnt 100
                 @setState do => "#{range_key}": parseInt(@state["#{range_key}"]) + 1

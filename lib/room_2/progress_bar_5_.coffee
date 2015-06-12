@@ -13,10 +13,25 @@ module.exports = ->
 # nah it's can't do it in sections because they'll be isolated regions so can't share background.  just detect location of mouse and do it mathy...divide it by 100 or something
 
     rr
-        rangeTouch: (e) => # or maybe ->
+        handleMouseDown: (e) ->
+            c 'handling mousedown; should make this draggable'
+        rangeTouch: (e) -> # or maybe ->
             # call @props.rangeChange with a percentage
             # from in here after interpreting mouse 
             # position over the svg rect
+            c "hey rangeTouch", Object.keys(e)
+            c "e.clientX", e.clientX
+
+            c "Object.keys of rect", e.currentTarget.getBoundingClientRect()
+            cursor= e.clientX
+            pad = e.currentTarget.getBoundingClientRect()
+            zero_tic = pad.x
+            hundred_tic = zero_tic + pad.width
+            percentage = ((cursor - zero_tic) / pad.width) * 100
+            c 'percentage', percentage
+            @props.rangeChange percentage
+
+
         render: ->
             clipId = shortid.generate()
             clipId2 = shortid.generate()
@@ -92,6 +107,7 @@ module.exports = ->
                         clipPath: "url(##{clipId})"
                     rect
                         onClick: @rangeTouch
+                        onMouseDown: @handleMouseDown
                         x: 0
                         y: 0
                         width: width + padX
