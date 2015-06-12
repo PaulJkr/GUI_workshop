@@ -10,6 +10,7 @@ module.exports = ->
     progress_bar_3 = require('./progress_bar_3_.coffee')()
     #range_dial = require('./range_dial.coffee')()
     progress_bar_4 = require('./progress_bar_4_.coffee')()
+    progress_bar_5 = require('./progress_bar_5_.coffee')()
     range_dial_2 = require('./range_dial_2_.coffee')()
     range_dial_3 = require('./range_dial_3_.coffee')()
 
@@ -50,8 +51,15 @@ module.exports = ->
 
         componentDidMount: ->
 
-        rangeChange: (range_key, e) ->
-            @setState do => "#{range_key}": e.currentTarget.value
+        rangeChange: (range_key, percentage) ->
+            # the interface should take a percentage instead of an e event
+            # because we have other ways of changing that don't end up with events
+            # like the touch the bar needs to parse the event differently.
+
+            if Object.keys(percentage).indexOf('currentTarget') isnt -1
+                @setState do => "#{range_key}": percentage.currentTarget.value
+            else
+                @setState do => "#{range_key}": e.currentTarget.value
         raiseRange: (range_key) ->
             if @state.range isnt 100
                 @setState do => "#{range_key}": parseInt(@state["#{range_key}"]) + 1
@@ -87,7 +95,7 @@ module.exports = ->
                             top: 100
                             left: 100
                         ,
-                        progress_bar_4
+                        progress_bar_5
                             range: @state.range_0
                             width: 300
                             height: 20
@@ -97,21 +105,22 @@ module.exports = ->
                         left: 200
                         top: 200
                     ,
-                        range_dial_3()
-                            # key: range_b
-                            # range: @state["#{range_b}"]
-                            # rangeChange: @rangeChange.bind @, "#{range_b}"
-                            # raiseRange: @raiseRange.bind @, "#{range_b}"
-                            # lowerRange: @lowerRange.bind @, "#{range_b}" 
-                            # style:
-                            #     position: 'absolute'
+                        range_dial_2#()
+                            key: range_b
+                            range: @state["#{range_b}"]
+                            rangeChange: @rangeChange.bind @, "#{range_b}"
+                            raiseRange: @raiseRange.bind @, "#{range_b}"
+                            lowerRange: @lowerRange.bind @, "#{range_b}"
+                            style:
+                                position: 'absolute'
                     div
                         style:
                             position: 'absolute'
                             top: 100
                             left: 100
                         ,
-                        progress_bar_4
+                        progress_bar_5
+                            rangeChange: @rangeChange.bind @, "#{range_b}"
                             range: @state["#{range_b}"]
                             width: 300
                             height: 16

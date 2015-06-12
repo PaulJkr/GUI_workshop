@@ -10,7 +10,13 @@ module.exports = ->
 # still do range dial, it will move range dial. 
 # instrumentation and controls.
 
+# nah it's can't do it in sections because they'll be isolated regions so can't share background.  just detect location of mouse and do it mathy...divide it by 100 or something
+
     rr
+        rangeTouch: (e) => # or maybe ->
+            # call @props.rangeChange with a percentage
+            # from in here after interpreting mouse 
+            # position over the svg rect
         render: ->
             clipId = shortid.generate()
             clipId2 = shortid.generate()
@@ -26,6 +32,7 @@ module.exports = ->
                 style: style()
                 ,
                 svg
+
                     width: @props.width + padX
                     height: @props.height + padY
                     style:
@@ -70,6 +77,7 @@ module.exports = ->
                             A #{height / 2} #{height / 2}, 0, 0, 0, #{height / 2} #{height}
                             H #{width - (height / 2)}
                             A #{height / 2} #{height / 2}, 0, 0, 0, #{width - (height / 2)} 0
+                            Z
                             "
                         fill: 'black'
                         clipPath: "url(##{clipId2})"
@@ -78,9 +86,17 @@ module.exports = ->
                             A #{height / 2} #{height / 2}, 0, 0, 0, #{height / 2} #{height}
                             H #{width - (height / 2)}
                             A #{height / 2} #{height / 2}, 0, 0, 0, #{width - (height / 2)} 0
+                            Z
                             "
                         fill: 'url(#grad1)'
                         clipPath: "url(##{clipId})"
+                    rect
+                        onClick: @rangeTouch
+                        x: 0
+                        y: 0
+                        width: width + padX
+                        height: height + padY
+                        opacity: 0
 
 
 
