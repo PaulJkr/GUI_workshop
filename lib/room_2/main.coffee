@@ -86,8 +86,8 @@ main = rr
                     range_dial_3
                         range: @state.range_0
                         rangeChange: @rangeChange.bind @, "range_0"
-                        # raiseRange: @raiseRange.bind @, "range_0"
-                        # lowerRange: @lowerRange.bind @, "range_0" 
+                        raiseRange: @raiseRange.bind @, "range_0"
+                        lowerRange: @lowerRange.bind @, "range_0" 
                 div
                     style:
                         position: 'absolute'
