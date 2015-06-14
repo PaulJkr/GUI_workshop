@@ -2,27 +2,97 @@
 c = -> console.log.apply console, arguments
 React = require("react")
 PureRenderMixin = require('react/addons').addons.PureRenderMixin
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image} = React.DOM
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset} = React.DOM
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 shortid = require('shortid')
+
+c 'image', image
 
 # This dial has a slider control, two buttons. and an instrument dial which tells percentage state.
 # The buttons should be classed eventually, but initially (avoiding premature optimisation) will be separate modules, and maybe approaches.  The buttons and the slider will be custom svg complexes, ~~each go in separate files~~.  This file will just compose them into the whole range dial complex described above..
 
-shuttle_0 = rr #sliders shuttle button thing that rides in the track
+slider_1 = rr # a bunch of components all in an svg
+
+    addDragEvents: ->
+        document.addEventListener 'mousemove', @onMouseMove
+        document.addEventListener 'mouseup', @onMouseUp
+    removeDragEvents: ->
+        document.removeEventListener 'mousemove', @onMouseMove
+        document.removeEventListener 'mouseup', @onMouseUp
+    onMouseUp: (e) ->
+        @removeDragEvents()
+    onMouseDown: (e) ->
+        c 'moussedown'
+        e.stopPropagation()
+        @addDragEvents()
+        pageOffset = e.currentTarget.getBoundingClientRect()
+        @setState
+            originX: e.pageX
+            # originY: e.pageY
+            elementX: pageOffset.left
+            # elementY: pageOffset.top
+    onMouseMove: (e) ->
+        c 'moviing'
+        deltaX = e.pageX - @state.originX
+        # deltaY = e.pageY - @state.originY
+
+        @props.rangeChange @props.range + deltaX
+        # @setState
+        #     position:
+        #         x: @state.elementX + deltaX + document.body.scrollLeft
+        #         y: @state.elementY + deltaY + document.body.scrollTop
+    test: ->
+        c "testing" + Math.random()
     render: ->
         grad_0_z = shortid.generate()
-        div
-            style:
-                position: 'absolute'
-                left: 300
-                top: 0
+        div null
             ,
-            "shuttle_0"
             svg
                 width: 400
                 height: 400
                 viewPort: '0 0 400 400'
+                ,
+                defs
+                    linearGradient
+                        id: grad_0_z
+                        x1: "0%"
+                        y1: "0%"
+                        x2: "100%"
+                        y2: "0%"
+                        ,
+                        stop
+                            offset: "0%"
+                            style:
+                                stopColor:'rgb(0,255,255)'
+                                stopOpacity:0.7
+                        stop
+                            offset: "100%"
+                            style:
+                                stopColor:'rgb(0,255,0)'
+                                stopOpacity:0.6
+                path
+                    d: "M 20 100 H 220"
+                    stroke:'black'
+                    strokeWidth: 3
+                circle
+                    # onClick: @test
+                    onMouseDown: @onMouseDown
+                    cx: 20 + (@props.range * 2)
+                    cy: 100
+                    r: 10
+                    fill: "url(##{grad_0_z})"
+
+
+shuttle_0 = rr #sliders shuttle button thing that rides in the track
+    render: ->
+        grad_0_z = shortid.generate()
+        div null
+            ,
+            svg
+                width: 400
+                height: 200
+                viewPort: '0 200 200 200'
+
                 ,
                 defs
                     linearGradient
@@ -47,26 +117,35 @@ shuttle_0 = rr #sliders shuttle button thing that rides in the track
 
                 polygon
                     points: "60,20 100,40 100,80 60,100 20,80 20,40"
+                    fill: 'lightgreen'
 
                 circle
                     cx: 200
                     cy: 40
-                    r: 30
+                    r: 10
                     #fill: 'url(../../static_assets/adom.jpg)'
-                    color: 'red'
-                    stroke: 'red'
+
                     fill: "url(##{grad_0_z})"
 
 
 
 track_0 = rr # slider's track object
     render: ->
-        div null, "track_0"
+        div null
+            ,
+            svg
+                width: 400
+                height: 200
+                viewPort: '0 0 200 200'
+                ,
+                path
+                    d: "M 20 200 H 200"
+                    stroke:'black'
+                    strokeWidth: 3
 
 slider_0 = rr #control
     render: ->
         div null,
-            "slider_0"
             track_0()
             shuttle_0()
         # 
@@ -86,8 +165,16 @@ button_1 = rr #control surface
 
 range_dial_3 = rr
     render: ->
-        div null,
-            slider_0()
+        div
+            style:
+                width: 300
+                border: '2px solid white'
+                borderRadius: 3
+
+            ,
+            slider_1
+                range: @props.range
+                rangeChange: @props.rangeChange
             button_1()
             button_0()
 
