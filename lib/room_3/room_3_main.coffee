@@ -13,12 +13,40 @@ document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
 
 
-partition_card = 4
-border_width = 2
+# partition_card = 6
+# border_width = 2
 
 
 room_3_main = rr
 
+    lower_partitionCard: (e) ->
+        @setState
+            partition_card: @state.partition_card -= 1
+
+    raise_partitionCard: (e) ->
+        @setState
+            partition_card: @state.partition_card += 1
+
+
+    change_partitionCard: (e) ->
+        c e.currentTarget.value
+        @setState
+            partition_card: e.currentTarget.value
+
+    getInitialState: ->
+        partition_card: 6
+        border_width: 2
+
+    fixed_dial_style: (a) ->
+        # should do an autohide for this but initially
+        position: 'fixed'
+        background: 'black'
+        width: 120
+        height: 60
+        right: 0
+        top: 40
+        border: '3 px solid blue'
+        zIndex: 5000
 
     room_main_div_style : (a) ->
         position: 'absolute'
@@ -49,8 +77,8 @@ room_3_main = rr
         height: '100%'
 
     position_calc: (room_main_div_style, i, j) ->
-        top: (room_main_div_style.height / partition_card) * j
-        left: (room_main_div_style.width / partition_card) * i
+        top: (room_main_div_style.height / @state.partition_card) * j
+        left: (room_main_div_style.width / @state.partition_card) * i
 
     background_calc: (a) ->
         if a is 0 then return 'red'
@@ -60,16 +88,32 @@ room_3_main = rr
 
     render: ->
         room_main_div_style = @room_main_div_style()
+        fixed_dial_style = @fixed_dial_style()
         div
             style: room_main_div_style
             ,
-            for j in [0 .. (partition_card - 1)]
-                for i in [0 .. (partition_card - 1)]
+            div
+                style: fixed_dial_style
+                ,
+                span
+                    style:
+                        background: 'white'
+                    ,
+                    @state.partition_card
+                input
+                    type: 'button'
+                    onClick: @raise_partitionCard
+                input
+                    type: 'button'
+                    onClick: @lower_partitionCard
+
+            for j in [0 .. (@state.partition_card - 1)]
+                for i in [0 .. (@state.partition_card - 1)]
                     position = @position_calc room_main_div_style, i, j
                     cell_style = @cellular_0_style
-                        width: (room_main_div_style.width / partition_card) - (2 * border_width)
-                        height: (room_main_div_style.height / partition_card) - (2 * border_width)
-                        border_width: border_width
+                        width: (room_main_div_style.width / @state.partition_card) - (2 * @state.border_width)
+                        height: (room_main_div_style.height / @state.partition_card) - (2 * @state.border_width)
+                        border_width: @state.border_width
                         border_color: 'black'
                         top: position.top
                         left: position.left
@@ -85,6 +129,7 @@ room_3_main = rr
                             style: background_layer_0_style
                             ,
                         "hello"
+
 
 
 
