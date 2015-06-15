@@ -22,38 +22,11 @@ room_3_main = rr
                 rayy[idx] = 1
         for i in [0 .. (@state.generation_card - 1)]
             rayy = @background_calc_automata_0 rayy
-            c 'rayy', rayy
             for j in [0 .. (@state.partition_card - 1)]
                 if rayy[j] is 1
                     @setState do => "#{i},#{j}": 'black'
-
-    do_automata_rule_30: ->  #horrendous implementation here todo redo
-        rayy = new Array(@state.partition_card) 
-        middle_index = Math.floor ( (@state.partition_card - 1) / 2 )
-        rayy[middle_index] = 1
-        new_background_rayy = @state.background_rayy
-        new_background_rayy[@state.generation_card - 1][middle_index] = 'black'
-        @setState
-            background_rayy: new_background_rayy
-        for i, idx in rayy
-            if idx isnt middle_index
-                rayy[idx] = 0
-        recurse = (rayy_2, generation) =>
-            if generation < (@state.generation_card - 1)
-                imp = @background_calc_automata_0 rayy_2
-                new_rayy_3 = new Array(@state.partition_card)
-                for j, idx in imp
-                    if j is 1
-                        new_rayy_3[idx] = 'black'
-                    else
-                        new_rayy_3[idx] = 'white'
-                new_rayy_4 = @state.background_rayy
-                new_rayy_4[@state.generation_card - generation] = new_rayy_3
-                @setState
-                    background_rayy: new_rayy_4
-                arguments.callee imp, (generation + 1)
-
-        recurse rayy, 2
+                else
+                    @setState do => "#{i},#{j}": 'white'
 
     componentDidMount: ->
         window.addEventListener 'resize', (e) =>
@@ -66,35 +39,36 @@ room_3_main = rr
     lower_partitionCard: (e) ->
         @setState
             partition_card: @state.partition_card -= 1
-        @do_automata_rule_30()
+
 
     raise_partitionCard: (e) ->
         @setState
             partition_card: @state.partition_card += 1
-        @do_automata_rule_30()
+        @set_board()
+        @populate_to_automata_rule_30_1()
+
 
     lower_generationCard: (e) ->
         @setState
             generation_card: @state.generation_card -= 1
-        @do_automata_rule_30()
+
 
     raise_generationCard: (e) ->
         @setState
             generation_card: @state.generation_card += 1
-        @do_automata_rule_30()
+        @set_board()
+        @populate_to_automata_rule_30_1()
+
+
 
     change_partitionCard: (e) ->
         @setState
             partition_card: e.currentTarget.value
 
-    getInitialState: ->
-        # rayy = new Array(20)
-        # for i, idx in rayy
-        #     rayy[idx] = new Array(30)
-        #     for j, idx2 in rayy[idx]
-        #         rayy[idx][idx2] = 'white'
-        partition_card = 30
-        generation_card = 20
+    set_board: ->
+
+        generation_card = @state?.generation_card or 20
+        partition_card = @state?.partition_card or 30
 
         transient_piece = {}
         for i in [0 .. (generation_card - 1)]
@@ -103,16 +77,20 @@ room_3_main = rr
                     transient_piece["#{i},#{j}"] = 'black'
                 else
                     transient_piece["#{i},#{j}"] = 'white'
-        c 'transient_piece', transient_piece
+        return transient_piece
+
+    getInitialState: ->
+        generation_card = 20
+        partition_card = 30
+
+        transient_piece = @set_board()
         final_obj =
             innerWidth: window.innerWidth
             innerHeight: window.innerHeight
             partition_card: partition_card #population
             generation_card: generation_card
             border_width: 1
-
         Object.assign final_obj, transient_piece
-
         return final_obj
 
 
