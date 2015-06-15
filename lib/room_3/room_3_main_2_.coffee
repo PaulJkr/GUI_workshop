@@ -1,6 +1,5 @@
 
 
-
 c = -> console.log.apply console, arguments
 React = require("react")
 #PureRenderMixin = require('react/addons').addons.PureRenderMixin
@@ -12,11 +11,7 @@ document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
 room_3_main = rr
 
-    componentDidMount: ->
-        window.addEventListener 'resize', (e) =>
-            @setState
-                innerWidth: window.innerWidth
-                innerHeight: window.innerHeight
+    do_automata_rule_30: ->  #horrendous implementation here todo redo
         rayy = new Array(@state.partition_card)
         middle_index = Math.floor ( (@state.partition_card - 1) / 2 )
         rayy[middle_index] = 1
@@ -27,14 +22,7 @@ room_3_main = rr
         for i, idx in rayy
             if idx isnt middle_index
                 rayy[idx] = 0
-
-
-        # imp = @background_calc_automata_0 rayy
-        # c 'imp', imp
-        c 'rayy', rayy
         recurse = (rayy_2, generation) =>
-            c generation
-            c 'rayy_2',rayy_2
             if generation < (@state.generation_card - 1)
                 imp = @background_calc_automata_0 rayy_2
                 new_rayy_3 = new Array(@state.partition_card)
@@ -49,67 +37,50 @@ room_3_main = rr
                     background_rayy: new_rayy_4
                 arguments.callee imp, (generation + 1)
 
-
         recurse rayy, 2
 
-        # for x in [2 .. (@state.generation_card - 1)]
-        #     y = x * (-1)
-        #     c y
-        #     new_rayy_2 = new Array(@state.partition_card)
-        #     for j, idx in imp
-        #         if j is 1
-        #             new_rayy_2[idx] = 'black'
-        #         else
-        #             new_rayy_2[idx] = 'white'
-        #     new_rayy_3 = @state.background_rayy
-        #     new_rayy_3[@state.generation_card - 2] = new_rayy_2
-        #     @setState
-        #         background_rayy: new_rayy_3
-
-        # new_rayy_2 = new Array(@state.partition_card)
-        # for j, idx in imp
-        #     if j is 1
-        #         new_rayy_2[idx] = 'black'
-        #     else
-        #         new_rayy_2[idx] = 'white'
-        # new_rayy_3 = @state.background_rayy
-        # new_rayy_3[@state.generation_card - 2] = new_rayy_2
-        # @setState
-        #     background_rayy: new_rayy_3
-
-
+    componentDidMount: ->
+        window.addEventListener 'resize', (e) =>
+            @setState
+                innerWidth: window.innerWidth
+                innerHeight: window.innerHeight
+        @do_automata_rule_30()
 
     lower_partitionCard: (e) ->
         @setState
             partition_card: @state.partition_card -= 1
+        @do_automata_rule_30()
 
     raise_partitionCard: (e) ->
         @setState
             partition_card: @state.partition_card += 1
+        @do_automata_rule_30()
 
     lower_generationCard: (e) ->
         @setState
             generation_card: @state.generation_card -= 1
+        @do_automata_rule_30()
 
     raise_generationCard: (e) ->
         @setState
             generation_card: @state.generation_card += 1
+        @do_automata_rule_30()
 
     change_partitionCard: (e) ->
         @setState
             partition_card: e.currentTarget.value
 
     getInitialState: ->
-        rayy = new Array(16)
+        rayy = new Array(180)
         for i, idx in rayy
-            rayy[idx] = new Array(20)
+            rayy[idx] = new Array(190)
             for j, idx2 in rayy[idx]
                 rayy[idx][idx2] = 'white'
 
         innerWidth: window.innerWidth
         innerHeight: window.innerHeight
-        partition_card: 20 #population
-        generation_card: 16
+        partition_card: 190 #population
+        generation_card: 180
         border_width: 1
         background_rayy: rayy
 
