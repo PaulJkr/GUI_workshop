@@ -45,7 +45,7 @@ imp = void_main
 
 room_2 = require('./lib/room_2/main.coffee')()
 
-room_3 = require('./lib/room_3/room_3_main_1_.coffee')()
+room_3 = require('./lib/room_3/room_3_main_2_.coffee')()
 
 React.render room_3(), document.body
 

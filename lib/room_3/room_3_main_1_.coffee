@@ -10,13 +10,6 @@ shortid = require 'shortid'
 
 document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
-
-
-
-# partition_card = 6
-# border_width = 2
-
-
 room_3_main = rr
 
     componentDidMount: ->
@@ -42,7 +35,7 @@ room_3_main = rr
         innerWidth: window.innerWidth
         innerHeight: window.innerHeight
         partition_card: 6
-        border_width: 2
+        border_width: 1
 
     fixed_dial_style: (a) ->
         # should do an autohide for this but initially
