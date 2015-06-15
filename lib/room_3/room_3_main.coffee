@@ -49,8 +49,8 @@ room_3_main = rr
         height: '100%'
 
     position_calc: (room_main_div_style, i, j) ->
-        top: (room_main_div_style.width / partition_card) * j
-        left: (room_main_div_style.height / partition_card) * i
+        top: (room_main_div_style.height / partition_card) * j
+        left: (room_main_div_style.width / partition_card) * i
 
     background_calc: (a) ->
         if a is 0 then return 'red'
@@ -65,7 +65,6 @@ room_3_main = rr
             ,
             for j in [0 .. (partition_card - 1)]
                 for i in [0 .. (partition_card - 1)]
-                    c 'i', i
                     position = @position_calc room_main_div_style, i, j
                     cell_style = @cellular_0_style
                         width: (room_main_div_style.width / partition_card) - (2 * border_width)
@@ -74,10 +73,10 @@ room_3_main = rr
                         border_color: 'black'
                         top: position.top
                         left: position.left
-                    c cell_style
                     background_layer_0_style = @cell_background_layer_style_0
                         background: @background_calc(i)
                         opacity: 0.7
+                    if j is 1 then c cell_style
                     div
                         key: i
                         style: cell_style
