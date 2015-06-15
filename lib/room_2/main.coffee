@@ -17,8 +17,9 @@ range_dial_3 = require('./range_dial_3_.coffee')()
 shortid = require 'shortid'
 
 style = (a) ->
-    width: 1000
-    height: 700
+    width: 1024
+    height: 768
+    overflow: 'hidden'
     #background: 'linear-gradient(135deg, rgba(25, 25, 255, 0), rgba(255, 25, 255, 0.8))'
     #background: 'black'
 
@@ -30,6 +31,7 @@ style_2 = (a) ->
     backgroundRepeat: 'no-repeat, no-repeat, no-repeat'
     backgroundPosition: 'left, right, left'
     backgroundSize: '200px 300px, 100% 100%, 400px 100px'
+    overflow: 'hidden'
 
 
 style_3 = (a) ->
@@ -76,9 +78,13 @@ main = rr
             #     style: style_3()
             #     ,
             #@progress_bar_basket.map
-            div null, #range_0
+            div
+                style:
+                    overflow: 'hidden'
+                , #range_0
                 div
                     style:
+                        overflow: 'hidden'
                         position: 'absolute'
                         top: 50
                         left: 600

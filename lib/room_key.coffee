@@ -7,7 +7,7 @@ module.exports = ->
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
 
     room_2 = require('./room_2/main.coffee')()
-    c 'room2 here is', room_2
+
     amp3 = room_2
         ref: 'room_2'
         key: 'room_2'
