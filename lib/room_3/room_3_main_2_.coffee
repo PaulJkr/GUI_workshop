@@ -11,8 +11,24 @@ document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
 room_3_main = rr
 
-    do_automata_rule_30: ->  #horrendous implementation here todo redo
+
+
+    populate_to_automata_rule_30_1: () ->
         rayy = new Array(@state.partition_card)
+        for i, idx in rayy
+            if idx is Math.floor(@state.partition_card / 2)
+                rayy[idx] = 0
+            else
+                rayy[idx] = 1
+        for i in [0 .. (@state.generation_card - 1)]
+            rayy = @background_calc_automata_0 rayy
+            c 'rayy', rayy
+            for j in [0 .. (@state.partition_card - 1)]
+                if rayy[j] is 1
+                    @setState do => "#{i},#{j}": 'black'
+
+    do_automata_rule_30: ->  #horrendous implementation here todo redo
+        rayy = new Array(@state.partition_card) 
         middle_index = Math.floor ( (@state.partition_card - 1) / 2 )
         rayy[middle_index] = 1
         new_background_rayy = @state.background_rayy
@@ -44,7 +60,8 @@ room_3_main = rr
             @setState
                 innerWidth: window.innerWidth
                 innerHeight: window.innerHeight
-        @do_automata_rule_30()
+        #@do_automata_rule_30()
+        @populate_to_automata_rule_30_1()
 
     lower_partitionCard: (e) ->
         @setState
@@ -71,18 +88,33 @@ room_3_main = rr
             partition_card: e.currentTarget.value
 
     getInitialState: ->
-        rayy = new Array(180)
-        for i, idx in rayy
-            rayy[idx] = new Array(190)
-            for j, idx2 in rayy[idx]
-                rayy[idx][idx2] = 'white'
+        # rayy = new Array(20)
+        # for i, idx in rayy
+        #     rayy[idx] = new Array(30)
+        #     for j, idx2 in rayy[idx]
+        #         rayy[idx][idx2] = 'white'
+        partition_card = 30
+        generation_card = 20
 
-        innerWidth: window.innerWidth
-        innerHeight: window.innerHeight
-        partition_card: 190 #population
-        generation_card: 180
-        border_width: 1
-        background_rayy: rayy
+        transient_piece = {}
+        for i in [0 .. (generation_card - 1)]
+            for j in [0 .. (partition_card - 1)]
+                if (i is 0) and (j is Math.floor(partition_card / 2))
+                    transient_piece["#{i},#{j}"] = 'black'
+                else
+                    transient_piece["#{i},#{j}"] = 'white'
+        c 'transient_piece', transient_piece
+        final_obj =
+            innerWidth: window.innerWidth
+            innerHeight: window.innerHeight
+            partition_card: partition_card #population
+            generation_card: generation_card
+            border_width: 1
+
+        Object.assign final_obj, transient_piece
+
+        return final_obj
+
 
     fixed_dial_style: (a) ->
         # should do an autohide for this but initially
@@ -128,14 +160,9 @@ room_3_main = rr
         top: (room_main_div_style.height / @state.generation_card) * j
         left: (room_main_div_style.width / @state.partition_card) * i
 
-    background_calc_automata_0: (rayy) ->
-        #c 'rayy', rayy
-        population_card = @state.partition_card
-        generation_card = @state.generation_card
-        # a should be an array of size population card
-        # we can check all cells with at least two neighbors and populate the array for the next
-        # row
-        ampe = for i, idx in rayy
+    # rule_30_calc_next_state_0: (rayy) -> # array of present state
+    background_calc_automata_0: (rayy) -> # array of present state
+        next_state = for i, idx in rayy
             if (idx is 0) or (idx is (rayy.length - 1))
                 0
             else
@@ -161,11 +188,10 @@ room_3_main = rr
                             1
                         else #rayy[idx - 1] is 0
                             0
-
-        #c 'ampe', ampe
-        return ampe
-
-
+        return next_state
+    
+    # would like to do something similar to this which satisfies 
+    # graph coloring constrains in different ways
     background_calc: (a) ->
         if (a % 4) is 0 then return 'red'
         if (a % 4) is 1 then return 'blue'
@@ -232,18 +258,15 @@ room_3_main = rr
                         top: position.top
                         left: position.left
                     background_layer_0_style = @cell_background_layer_style_0
-                        background: @state.background_rayy[j][i]
+                        background: @state["#{j},#{i}"]
                         opacity: 0.7
                     div
-                        ref: "#{j},#{i}"
-                        key: "#{j},#{i}"
+                        #ref: "#{j},#{i}"
+                        key: shortid.generate()
                         style: cell_style
                         ,
                         div
                             style: background_layer_0_style
                             ,
-
-
-
 
 module.exports = -> room_3_main
