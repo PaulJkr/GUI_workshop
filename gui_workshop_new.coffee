@@ -43,15 +43,52 @@ sidebar = require('./lib/nav_sidebar/sidebar_0_.coffee')()
 
 room_2 = require('./lib/room_2/main.coffee')()
 
-room_3 = require('./lib/room_3/room_3_main_3_.coffee')()
+room_3 = require('./lib/room_3/room_3_main_2_.coffee')()
+
+initialContent = rr
+    render: ->
+        div null, ""
+
+screenHint = rr
+    componentDidMount: ->
+        setTimeout =>
+            c "should self destruct now"
+            @props.remove_screenHint()
+        , 2000
+    render: ->
+        div
+            style:
+                width: 300
+                height: 160
+                position: 'fixed'
+                top: window.innerHeight / 3
+                left: window.innerWidth / 3
+                fontSize: 30
+                fontFamily: 'lucinda'
+                color: 'grey'
+                border: '3px solid grey'
+                borderRadius: 4
+                padding: 20
+            ,
+            h3 null, "there is a hidden menu on the side of the screen ===>"
 
 
 main = rr
+    remove_screenHint: ->
+        c 'should try'
+        @setState
+            screenHint: -> c "gone"
+    changeContent: ->
+        @setState
+            content: arguments[0]
+            
+    getInitialState: ->
+        content: initialContent
+        screenHint: screenHint
     render: ->
 
         div
             style:
-                background: 'lightgreen'
                 position: 'absolute'
                 width: window.innerWidth
                 left: 0
@@ -59,8 +96,14 @@ main = rr
                 top: 0
                 bottom: 0
             ,
-            sidebar()
-            #room_3()
+            @state.content()
+            sidebar
+                room_2: @changeContent.bind(@, room_2)
+                rule_30: @changeContent.bind(@, room_3)
+            @state.screenHint
+                remove_screenHint: @remove_screenHint.bind(@)
+            
+            
 
 
 

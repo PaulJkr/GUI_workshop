@@ -28,12 +28,11 @@ sidebar = rr
         opacity: 0
 
     render: ->
-        c 'window.innerHeight', window.innerHeight
-
         div
             onMouseEnter: @mouseEnter
             onMouseLeave: @mouseOut
             style:
+                zIndex: 5000
                 position: 'fixed'
                 width: 200
                 height: window.innerHeight
@@ -45,9 +44,9 @@ sidebar = rr
                 style:
                     position: 'absolute'
                     width: 80
-                    height: 600
+                    height: 300
                     right: 0
-                    top: 40
+                    top: 100
                 ,
                 div
                     style:
@@ -66,10 +65,14 @@ sidebar = rr
                         height: '100%'
                     ,
                     input
-                        onClick: @render_rule_30
+                        onClick: @props.room_2#@render_rule_30
+                        type: 'button'
+                        value: "room 2"
+                    input
+                        onClick: @props.rule_30
                         type: 'button'
                         value: "rule 30"
-                        ,
+
 
 
 

@@ -61,8 +61,8 @@ room_3_main = rr
         @populate_to_automata_rule_30_1()
 
     set_board: ->
-        generation_card = @state?.generation_card or 40
-        partition_card = @state?.partition_card or 50
+        generation_card = @state?.generation_card or 20
+        partition_card = @state?.partition_card or 30
 
         transient_piece = {}
         for i in [0 .. (generation_card - 1)]
@@ -74,8 +74,8 @@ room_3_main = rr
         return transient_piece
 
     getInitialState: ->
-        generation_card = 40
-        partition_card = 50
+        generation_card = 20
+        partition_card = 30
 
         transient_piece = @set_board()
         final_obj =
@@ -100,6 +100,7 @@ room_3_main = rr
         zIndex: 5000
 
     room_main_div_style : (a) ->
+        #zIndex: -50
         position: 'absolute'
         background: 'white'
         width: @state.innerWidth
