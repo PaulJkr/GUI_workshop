@@ -11,8 +11,6 @@ document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
 room_3_main = rr
 
-
-
     populate_to_automata_rule_30_1: () ->
         rayy = new Array(@state.partition_card)
         for i, idx in rayy

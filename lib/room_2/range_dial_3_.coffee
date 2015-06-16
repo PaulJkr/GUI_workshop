@@ -20,17 +20,14 @@ slider_1 = rr # a bunch of components all in an svg
         document.addEventListener 'mousemove', @onMouseMove
         document.addEventListener 'mouseup', @onMouseUp
     removeDragEvents: ->
-        c 'removing'
         document.removeEventListener 'mousemove', @onMouseMove
         document.removeEventListener 'mouseup', @onMouseUp
     onMouseUp: (e) ->
         @removeDragEvents()
         imp = React.findDOMNode(@refs.shuttle)
-        c 'where we are', imp
-        c imp.cx.animVal.value
+
         ticket = (imp.cx.animVal.value - 20) / 2
-        c 'ticket', ticket
-        #@props.rangeChange ticket
+
     onMouseDown: (e) ->
 
         e.preventDefault()
@@ -59,7 +56,6 @@ slider_1 = rr # a bunch of components all in an svg
         imp = React.findDOMNode(@refs.shuttle)
 
         ticket = (imp.cx.animVal.value - 20) / 2
-        c 'ticket', ticket
         if ticket > 100
             ticket = 100
 
@@ -114,8 +110,6 @@ slider_1 = rr # a bunch of components all in an svg
                     cy: 100
                     r: 10
                     fill: "url(##{grad_0_z})"
-
-
 
 shuttle_0 = rr #sliders shuttle button thing that rides in the track
     render: ->

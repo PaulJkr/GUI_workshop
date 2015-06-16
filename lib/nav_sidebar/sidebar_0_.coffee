@@ -11,10 +11,15 @@ document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
 room_3_2 = require('../room_3/room_3_main_2_.coffee')()
 
+room_2 = require('../room_2/main.coffee')()
+
 sidebar = rr
 
-    render_rule_30: ->
-        React.render room_3_2(), document.body
+    # render_room_2: ->
+    #     @props.room_2 room_2
+
+    # render_rule_30: ->
+    #     React.render room_3_2(), document.body
 
     mouseOut: ->
         @setState
@@ -34,7 +39,7 @@ sidebar = rr
             style:
                 zIndex: 5000
                 position: 'fixed'
-                width: 200
+                width: 20
                 height: window.innerHeight
                 top: 0
                 right: 0
@@ -43,7 +48,7 @@ sidebar = rr
             div
                 style:
                     position: 'absolute'
-                    width: 80
+                    width: 60
                     height: 300
                     right: 0
                     top: 100
@@ -65,17 +70,17 @@ sidebar = rr
                         height: '100%'
                     ,
                     input
-                        onClick: @props.room_2#@render_rule_30
+                        onClick: @props.room_2
+                        #onClick: @render_room_2      #@props.room_2        #@render_rule_30
                         type: 'button'
                         value: "room 2"
                     input
                         onClick: @props.rule_30
                         type: 'button'
                         value: "rule 30"
-
-
-
-
-
+                    input
+                        onClick: @props.room_3_1
+                        type: 'button'
+                        value: "room_3_1"
 
 module.exports = -> sidebar
