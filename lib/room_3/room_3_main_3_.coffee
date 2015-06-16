@@ -11,8 +11,6 @@ document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
 room_3_main = rr
 
-
-
     populate_to_automata_rule_30_1: () ->
         rayy = new Array(@state.partition_card)
         for i, idx in rayy
@@ -33,8 +31,6 @@ room_3_main = rr
             @setState
                 innerWidth: window.innerWidth
                 innerHeight: window.innerHeight
-
-        @populate_to_automata_rule_30_1()
 
     lower_partitionCard: (e) ->
         @setState
@@ -61,8 +57,8 @@ room_3_main = rr
         @populate_to_automata_rule_30_1()
 
     set_board: ->
-        generation_card = @state?.generation_card or 40
-        partition_card = @state?.partition_card or 50
+        generation_card = @state?.generation_card or 100
+        partition_card = @state?.partition_card or 130
 
         transient_piece = {}
         for i in [0 .. (generation_card - 1)]
@@ -74,32 +70,23 @@ room_3_main = rr
         return transient_piece
 
     getInitialState: ->
-        generation_card = 40
-        partition_card = 50
+        generation_card = 100
+        partition_card = 130
 
-        transient_piece = @set_board()
+        #transient_piece = @set_board()
         final_obj =
             innerWidth: window.innerWidth
             innerHeight: window.innerHeight
             partition_card: partition_card #population
             generation_card: generation_card
             border_width: 0
-        Object.assign final_obj, transient_piece
+        #Object.assign final_obj, transient_piece
         return final_obj
 
-    fixed_dial_style: (a) ->
-        # should do an autohide for this but initially
-        position: 'fixed'
-        #background: 'black'
-        width: 80
-        height: 60
-        right: 0
-        top: 40
-        border: '3px solid blue'
-        borderRadius: 6
-        zIndex: 5000
+
 
     room_main_div_style : (a) ->
+        zIndex: 300
         position: 'absolute'
         background: 'white'
         width: @state.innerWidth
@@ -131,8 +118,7 @@ room_3_main = rr
         top: (room_main_div_style.height / @state.generation_card) * j
         left: (room_main_div_style.width / @state.partition_card) * i
 
-    # rule_30_calc_next_state_0: (rayy) -> # array of present state
-    background_calc_automata_0: (rayy) -> # array of present state
+    rule_30_calc_next_state_0: (rayy) -> # array of present state
         next_state = for i, idx in rayy
             if (idx is 0) or (idx is (rayy.length - 1))
                 0
@@ -161,82 +147,42 @@ room_3_main = rr
                             0
         return next_state
     
-    # would like to do something similar to this which satisfies 
-    # graph coloring constrains in different ways
-    background_calc: (a) ->
-        if (a % 4) is 0 then return 'red'
-        if (a % 4) is 1 then return 'blue'
-        if (a % 4) is 2 then return 'white'
-        if (a % 4) is 3 then return 'purple'
+
 
     render: ->
         room_main_div_style = @room_main_div_style()
-        fixed_dial_style = @fixed_dial_style()
         div
             style: room_main_div_style
             ,
-            div
-                style: fixed_dial_style
+            # div #dedicated background container
+            #     style:
+            #         zIndex: 500
+            #         position: 'absolute'
+            #         width: '100%'
+            #         height: '100%'
+            #         background: 'linear-gradient(145deg, purple, red)'
+            #         opacity: .21
+            #     ,
+            svg
+                style:
+                    zIndex: 10000
+                    top: 0
+                width: '100%'
+                height: '100%'
                 ,
-                div
-                    style:
-                        position: 'absolute'
-                        width: '100%'
-                        height: '100%'
-                        background: 'black'
-                        opacity: 0.7
-                    ,
-                div
-                    style:
-                        position: 'absolute'
-                    ,
-                    span
-                        style:
-                            background: 'white'
-                        ,
-                        @state.partition_card
-                    input
-                        type: 'button'
-                        onClick: @raise_partitionCard
-                    input
-                        type: 'button'
-                        onClick: @lower_partitionCard
-                div
-                    style:
-                        position: 'absolute' 
-                        top: '50%'
-                    ,
-                    span
-                        style:
-                            background: 'white'
-                        ,
-                        @state.generation_card
-                    input
-                        type: 'button'
-                        onClick: @raise_generationCard
-                    input
-                        type: 'button'
-                        onClick: @lower_generationCard
+                # polygon
+                #     style:
+                #         zIndex: 300000
+                #     fill: 'black'
+                #     points: "10,10 100,10 110,110, 10,110"
+                polygon
+                    fill: 'black'
+                    points: "0,0 #{@state.innerWidth / 2},0 #{@state.innerWidth / 2},#{@state.innerHeight / 2} 0,#{@state.innerHeight / 2}"
+                circle
+                    cx: 10
+                    cy: 10
+                    r: 30
+                    fill: 'black'
 
-            for j in [0 .. (@state.generation_card - 1)]
-                for i in [0 .. (@state.partition_card - 1)]
-                    position = @position_calc room_main_div_style, i, j
-                    cell_style = @cellular_0_style
-                        width: (room_main_div_style.width / @state.partition_card) - (2 * @state.border_width)
-                        height: (room_main_div_style.height / @state.generation_card) - (2 * @state.border_width)
-                        border_width: @state.border_width
-                        border_color: 'black'
-                        top: position.top
-                        left: position.left
-                    background_layer_0_style = @cell_background_layer_style_0
-                        background: @state["#{j},#{i}"]
-                        opacity: 0.7
-                    div
-                        key: shortid.generate()
-                        style: cell_style
-                        ,
-                        div
-                            style: background_layer_0_style
-                            ,
 
 module.exports = -> room_3_main
