@@ -6,8 +6,6 @@ PureRenderMixin = require('react/addons').addons.PureRenderMixin
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 shortid = require('shortid')
 
-c 'image', image
-
 # This dial has a slider control, two buttons. and an instrument dial which tells percentage state.
 # The buttons should be classed eventually, but initially (avoiding premature optimisation) will be separate modules, and maybe approaches.  The buttons and the slider will be custom svg complexes, ~~each go in separate files~~.  This file will just compose them into the whole range dial complex described above..
 

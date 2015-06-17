@@ -10,13 +10,6 @@ shortid = require 'shortid'
 
 document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
-
-
-
-# partition_card = 6
-# border_width = 2
-
-
 room_3_main = rr
 
     lower_partitionCard: (e) ->
@@ -120,7 +113,6 @@ room_3_main = rr
                     background_layer_0_style = @cell_background_layer_style_0
                         background: @background_calc(i)
                         opacity: 0.7
-                    if j is 1 then c cell_style
                     div
                         key: i
                         style: cell_style

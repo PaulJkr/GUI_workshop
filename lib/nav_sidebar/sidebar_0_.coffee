@@ -1,5 +1,5 @@
 
-
+# TODO implement categories/submenus; submenus float up when pick some category
 c = -> console.log.apply console, arguments
 React = require("react")
 #PureRenderMixin = require('react/addons').addons.PureRenderMixin
@@ -14,18 +14,21 @@ room_3_2 = require('../room_3/room_3_main_2_.coffee')()
 room_2 = require('../room_2/main.coffee')()
 
 sidebar = rr
-
-    # render_room_2: ->
-    #     @props.room_2 room_2
-
-    # render_rule_30: ->
-    #     React.render room_3_2(), document.body
+    dim_sidebar: ->
+        @interval = setInterval =>
+            if @state.opacity <= 0
+                clearInterval @interval
+            else
+                @setState
+                    opacity: @state.opacity - .03
+        , 10
 
     mouseOut: ->
-        @setState
-            opacity: 0
+        @dim_sidebar()
 
     mouseEnter: ->
+        if @interval
+            clearInterval @interval
         @setState
             opacity: 1
 
@@ -48,8 +51,8 @@ sidebar = rr
             div
                 style:
                     position: 'absolute'
-                    width: 60
-                    height: 300
+                    width: 100
+                    height: 500
                     right: 0
                     top: 100
                 ,
@@ -71,7 +74,6 @@ sidebar = rr
                     ,
                     input
                         onClick: @props.room_2
-                        #onClick: @render_room_2      #@props.room_2        #@render_rule_30
                         type: 'button'
                         value: "room 2"
                     input
@@ -82,5 +84,10 @@ sidebar = rr
                         onClick: @props.room_3_1
                         type: 'button'
                         value: "room_3_1"
+                    input
+                        onClick: @props.buttons__grid
+                        type: 'button'
+                        value: "buttons"
 
 module.exports = -> sidebar
+

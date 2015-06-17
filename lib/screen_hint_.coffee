@@ -16,7 +16,7 @@ screenHint = rr
                     clearInterval interval_0
                 else
                     @setState
-                        opacity: @state.opacity -= .010
+                        opacity: @state.opacity - .010
             , 20
         , 1000
 

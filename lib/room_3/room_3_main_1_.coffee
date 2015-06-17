@@ -49,7 +49,6 @@ room_3_main = rr
         zIndex: 5000
 
     room_main_div_style : (a) ->
-        c 'window.innerheigh', window.innerHeight, window.innerWidth
         position: 'absolute'
         background: 'white'
         width: @state.innerWidth
@@ -99,15 +98,23 @@ room_3_main = rr
                 span
                     style:
                         background: 'white'
+                        fontSize: 20
+                        padding: 6
+                        margin: 8
                     ,
                     @state.partition_card
                 input
                     type: 'button'
                     onClick: @raise_partitionCard
+                    value: "+"
+                    style:
+                        fontSize: 20
                 input
                     type: 'button'
                     onClick: @lower_partitionCard
-
+                    value: "-"
+                    style:
+                        fontSize: 20
             for j in [0 .. (@state.partition_card - 1)]
                 for i in [0 .. (@state.partition_card - 1)]
                     position = @position_calc room_main_div_style, i, j
@@ -121,7 +128,7 @@ room_3_main = rr
                     background_layer_0_style = @cell_background_layer_style_0
                         background: @background_calc(i)
                         opacity: 0.7
-                    if j is 1 then c cell_style
+
                     div
                         key: i
                         style: cell_style
@@ -129,7 +136,7 @@ room_3_main = rr
                         div
                             style: background_layer_0_style
                             ,
-                        "hello"
+
 
 
 
