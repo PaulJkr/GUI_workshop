@@ -20,6 +20,9 @@ button_001 = require('./button_001_.coffee')()
 
 c 'image', image
 c 'feOffset', feOffset
+c 'polygon', polygon
+c 'feBlend', feBlend
+c 'filter', filter
 
 buttons__grid = rr
 
@@ -92,7 +95,7 @@ buttons__grid = rr
                                     ,
                             if (j % 2) is 0 and (i % 5) is 0 and (j isnt 0) and (i isnt 0)
                                 div null, 'hi'
-                            if (j is 5) and (i is 0)
+                            if (j is 0) and (i is 2)
                                 div
                                     style:
                                         position: 'absolute'
@@ -104,10 +107,24 @@ buttons__grid = rr
                                         width: 100
                                         height: 100
                                         ,
-                                        circle
-                                            cx: 50
-                                            cy: 50
-                                            r: 30
+                                        defs
+                                            filter
+                                                id: 'f1'
+                                                x: 0
+                                                y: 0
+                                                width: "150%"
+                                                height: "150%"
+                                                ,
+
+                                                feBlend
+                                                    in: "SourceGraphic"
+                                                    in2: "blurOut"
+                                                    mode: "normal"
+                                        rect
+                                            width: 50
+                                            height: 50
+                                            fill: "yellow"
+                                            filter: "url(#f1)"
                             if (j is 5) and (i is 1)
                                 div
                                     style:
@@ -124,7 +141,7 @@ buttons__grid = rr
                                         width: '100%'
                                     ,
                                     button_001()
-                            if (j is 5) and (i is 3)
+                            if (j is 0) and (i is 1)
                                 div
                                     style:
                                         position: 'absolute'
@@ -135,6 +152,29 @@ buttons__grid = rr
                                         width: '100%'
                                         height: '100%'
                                         ,
+                                        defs
+                                            filter
+                                                id: 'f1'
+                                                x: 0
+                                                y: 0
+                                                width: "150%"
+                                                height: "150%"
+                                                ,
+                                                feOffset
+                                                    result: "offOut"
+                                                    in: "SourceGraphic"
+                                                    dx: 20
+                                                    dy: 20
+                                                feBlend
+                                                    in: "SourceGraphic"
+                                                    in2: "offOut"
+                                                    mode: "normal"
+                                        image
+                                            width: '100%'
+                                            height: '100%'
+                                            xlinkHref: "../../static_assets/adom.jpg"
+                                            filter: "url(#f1)"
+                                            ,
 
 
 module.exports = -> buttons__grid
