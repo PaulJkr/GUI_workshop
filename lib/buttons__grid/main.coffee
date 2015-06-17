@@ -1,3 +1,10 @@
+#----------------------------------------------
+# monkey patch from
+# https://gist.github.com/akre54/80eaa63762ea499029f0
+#--------...... didn't work maybe another 
+# doesn't work maybe some env change needed -- it's a different 
+# developmental context it's used in.
+
 
 c = -> console.log.apply console, arguments
 #React = require("react")
@@ -8,6 +15,8 @@ shortid = require('shortid')
 
 button_000 = require('./button_000_.coffee')()
 button_001 = require('./button_001_.coffee')()
+
+c 'image', image
 
 buttons__grid = rr
 
@@ -122,10 +131,7 @@ buttons__grid = rr
                                     svg
                                         width: '100%'
                                         height: '100%'
-                                        circle
-                                            cx: 50
-                                            cy: 50
-                                            r: 30
+                                        ,
 
 
 module.exports = -> buttons__grid
