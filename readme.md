@@ -12,3 +12,8 @@ Right now it's pretty chaotic with no navigation--just it goes to whatever I'm w
 `$ webpack-dev-server --hot`, localhost:8080/gui_workshop.html
 
 Only tested in Firefox, and I know one part at least that uses feature (`Object.assign()`) from ES-6 which as of now (June 15, 2015) Chromium doesn't support.
+
+
+###### **note**
+
+I removed **react** and **react-hot-loader** from package.json file in order to have clones to the active repos.  they are still dependencies.

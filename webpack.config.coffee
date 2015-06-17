@@ -6,6 +6,8 @@ c = -> console.log.apply console, arguments
 path = require 'path'
 
 module.exports = config =
+    node:
+        fs: "empty"
     context: __dirname
     cache: true
     debug: true

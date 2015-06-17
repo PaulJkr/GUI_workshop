@@ -2,7 +2,7 @@
 c = -> console.log.apply console, arguments
 require('./lib/main.styl')
 
-React= require 'react'
+#React= require 'react'
 #PureRenderMixin = require('react/addons').addons.PureRenderMixin
 update = require('react/addons').addons.update
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM

@@ -1,6 +1,6 @@
 module.exports = ->
     c = -> console.log.apply console, arguments
-    React = require("react")
+    #React = require("react")
     PureRenderMixin = require('react/addons').addons.PureRenderMixin
     {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))

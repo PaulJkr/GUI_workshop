@@ -5,7 +5,7 @@
 
 module.exports = ->
     c = -> console.log.apply console, arguments
-    React = require("react")
+    #React = require("react")
     {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a, input} = React.DOM
     rr = -> React.createFactory(React.createClass.apply(React, arguments))
 

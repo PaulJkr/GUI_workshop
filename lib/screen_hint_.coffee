@@ -1,6 +1,6 @@
 
 c = -> console.log.apply console, arguments
-React= require 'react'
+#React= require 'react'
 update = require('react/addons').addons.update
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
 rr = -> React.createFactory(React.createClass.apply(React, arguments))

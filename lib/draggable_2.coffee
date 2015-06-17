@@ -1,7 +1,7 @@
 
 
 
-React = require 'react'
+#React = require 'react'
 
 c = -> console.log.apply console, arguments
 

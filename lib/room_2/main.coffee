@@ -2,7 +2,7 @@
 
 
 c = -> console.log.apply console, arguments
-React = require("react")
+#React = require("react")
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, defs, linearGradient, circle, stop, ul, li, ol, code, a, input} = React.DOM
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 

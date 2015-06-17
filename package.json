@@ -1,17 +1,16 @@
 {
   "dependencies": {
+    "babel-loader": "latest",
     "shortid": "latest",
     "source-map-loader": "latest",
     "immutable":"latest",
     "webpack-dev-middleware": "latest",
-    "react": "latest",
     "extract-text-webpack-plugin": "latest",
     "file-loader": "latest",
     "style-loader": "latest",
     "css-loader": "latest",
     "stylus-loader": "latest",
     "webpack-dev-server": "latest",
-    "react-hot-loader": "latest",
     "coffee-loader": "latest",
     "webpack": "latest"
   }
