@@ -36,31 +36,31 @@ room_3_main = rr
 
     lower_partitionCard: (e) ->
         @setState
-            partition_card: @state.partition_card -= 1
+            partition_card: @state.partition_card - 1
         @set_board()
         @populate_to_automata_rule_30_1()
 
     raise_partitionCard: (e) ->
         @setState
-            partition_card: @state.partition_card += 1
+            partition_card: @state.partition_card + 1
         @set_board()
         @populate_to_automata_rule_30_1()
 
     lower_generationCard: (e) ->
         @setState
-            generation_card: @state.generation_card -= 1
+            generation_card: @state.generation_card - 1
         @set_board()
         @populate_to_automata_rule_30_1()
 
     raise_generationCard: (e) ->
         @setState
-            generation_card: @state.generation_card += 1
+            generation_card: @state.generation_card + 1
         @set_board()
         @populate_to_automata_rule_30_1()
 
     set_board: ->
-        generation_card = @state?.generation_card or 20
-        partition_card = @state?.partition_card or 30
+        generation_card = @state?.generation_card or 100
+        partition_card = @state?.partition_card or 90
 
         transient_piece = {}
         for i in [0 .. (generation_card - 1)]
@@ -72,8 +72,8 @@ room_3_main = rr
         return transient_piece
 
     getInitialState: ->
-        generation_card = 20
-        partition_card = 30
+        generation_card = 100
+        partition_card = 90
 
         transient_piece = @set_board()
         final_obj =
