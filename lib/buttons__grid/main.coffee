@@ -8,8 +8,10 @@
 
 c = -> console.log.apply console, arguments
 #React = require("react")
+c 'React', React.version
 PureRenderMixin = require('react/addons').addons.PureRenderMixin
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
+
 rr = -> React.createFactory(React.createClass.apply(React, arguments))
 shortid = require('shortid')
 
@@ -17,6 +19,7 @@ button_000 = require('./button_000_.coffee')()
 button_001 = require('./button_001_.coffee')()
 
 c 'image', image
+c 'feOffset', feOffset
 
 buttons__grid = rr
 
