@@ -40,15 +40,17 @@ buttons__grid = rr
         remainder_H = (@state.iH / @state.grid_cell_size.y) - grid_height
         remainder_W = (@state.iW / @state.grid_cell_size.x) - grid_width
         c remainder_H
+        c remainder_W
 
         div
             style:
                 position: 'absolute'
-                width: @state.iW
-                height: @state.iH
+                width: @state.iW - (@state.padding / 2)
+                height: @state.iH - (@state.padding / 2)
                 top: @state.padding
                 left: @state.padding
                 border: '2px solid grey'
+                borderRadius: 7
 
             ,
             div
@@ -58,6 +60,8 @@ buttons__grid = rr
                     height: '100%'
                     top: (remainder_H / 2) * @state.grid_cell_size.y
                     left: (remainder_W / 2) * @state.grid_cell_size.x
+                    right: (remainder_W / 2) * @state.grid_cell_size.x
+                    bottom: (remainder_H / 2) * @state.grid_cell_size.y
                 ,
                 for j in [0 .. (grid_height - 1)]
                     for i in [0 .. (grid_width - 1)]
