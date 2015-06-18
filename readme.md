@@ -36,7 +36,7 @@ I removed **react** from package.json file in order to have clones to the active
 #### todo:
 _not ordered by priority.first priority is the svg all the things, hence the fork&clone...then comes content, which will be 98% svg and 2% absolutely positioned divs._
 
-- get all 
+- get all svg tags and attributes working.
 
 - make a 'safe' branch for quick evaluation publishing of like portfolio
 
