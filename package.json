@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "coffee-script": "latest",
+    "react": "git://github.com/facebook/react.git#016021207c45a1f1834ee1d1d6a9740af4dcb637",
+    "react-hot-loader": "latest",
     "babel-loader": "latest",
     "shortid": "latest",
     "source-map-loader": "latest",

@@ -1,16 +1,10 @@
 
-c = -> console.log.apply console, arguments
+
 require('./lib/main.styl')
 
-#React= require 'react'
-#PureRenderMixin = require('react/addons').addons.PureRenderMixin
-update = require('react/addons').addons.update
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
-shortid = require('shortid')
+{c, React, rr, shortid, assign, update, __react__root__} = require('./lib/__boiler__plate__.coffee')()
 
-#old_room_0 = require('./lib/old_room_0.coffee')
-{abs_position_wrapper, draggable} = require('./lib/position_and_draggable_wrappers.coffee')()
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
 
 sidebar = require('./lib/nav_sidebar/sidebar_0_.coffee')()
 room_2 = require('./lib/room_2/main.coffee')()
@@ -41,6 +35,7 @@ main = rr
             style:
                 position: 'absolute'
                 width: window.innerWidth
+                height: window.innerHeight
                 left: 0
                 right: 0
                 top: 0
@@ -55,4 +50,4 @@ main = rr
             @state.screenHint
                 remove_screenHint: @remove_screenHint#.bind(@)
 
-React.render main(), document.body
+React.render main(), __react__root__
