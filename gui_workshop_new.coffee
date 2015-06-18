@@ -1,3 +1,24 @@
+ReactDOM = require 'react/build/modules/ReactDOM'
+ReactElement = require 'react/build/modules/ReactElement'
+ReactElementValidator = require 'react/build/modules/ReactElementValidator'
+SVGDOMPropertyConfig = require 'react/build/modules/SVGDOMPropertyConfig'
+DOMProperty = require 'react/build/modules/DOMProperty'
+MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE
+
+
+createFactory = if __DEV__?
+    ReactElementValidator.createFactory
+  else
+    ReactElement.createFactory
+
+SVGDOMPropertyConfig.Properties.mask = MUST_USE_ATTRIBUTE
+SVGDOMPropertyConfig.Properties.filter = MUST_USE_ATTRIBUTE
+SVGDOMPropertyConfig.Properties.stdDeviation = MUST_USE_ATTRIBUTE
+    
+ReactDOM.filter = createFactory 'filter'
+ReactDOM.feGaussianBlur = createFactory 'feGaussianBlur'
+ReactDOM.feBlend = createFactory 'feBlend'
+ReactDOM.feOffset = createFactory 'feOffset'
 
 
 require('./lib/main.styl')

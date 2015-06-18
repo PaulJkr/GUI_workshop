@@ -17,16 +17,17 @@
 
 {c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur} = React.DOM
 
 button_000 = require('./button_000_.coffee')()
 button_001 = require('./button_001_.coffee')()
 
 c 'image', image
-#c 'feOffset', feOffset
-c 'polygon', polygon
+c 'feOffset', feOffset
+c 'polygon', polygon, Object.keys(polygon)
 c 'feBlend', feBlend
-c 'filter', filter
+c 'filter', filter, Object.keys(filter)
+c 'image', Object.keys(image)
 
 buttons__grid = rr
 
@@ -108,27 +109,48 @@ buttons__grid = rr
                                     ,
                                     #button_000()
                                     svg
-                                        width: 100
-                                        height: 100
+                                        width: "100%"
+                                        height: "100%"
                                         ,
-                                        # defs
-                                        #     filter
-                                        #         id: 'f1'
-                                        #         x: 0
-                                        #         y: 0
-                                        #         width: "150%"
-                                        #         height: "150%"
-                                        #         ,
+                                        defs
+                                            linearGradient
+                                                id: 'myGradient'
+                                                ,
+                                                stop
+                                                    offset: "5%"
+                                                    stopColor: "green"
+                                                stop
+                                                    offset: "95%"
+                                                    stopColor: "gold"
 
-                                        #         feBlend
-                                        #             in: "SourceGraphic"
-                                        #             in2: "blurOut"
-                                        #             mode: "normal"
+                                            filter
+                                                id: 'myFilter'
+                                                x: "0"
+                                                y: "0"
+                                                ,
+                                                feGaussianBlur
+                                                    in: "SourceGraphic"
+                                                    stdDeviation: "15"
+                                            filter
+                                                id: 'f1'
+                                                x: "0"
+                                                y: "0"
+                                                width: "100%"
+                                                height: "100%"
+                                                ,
+                                                feBlend
+                                                    in: "SourceGraphic"
+                                                    in2: "blurOut"
+                                                    mode: "normal"
+                                        ,
                                         rect
                                             width: 50
                                             height: 50
-                                            fill: "yellow"
-                                            filter: "url(#f1)"
+                                            x: 10
+                                            y: 20
+                                            fill: "url(#myGradient)"
+                                            filter: "url(#myFilter)"
+                                            ,
                             if (j is 5) and (i is 1)
                                 div
                                     style:
@@ -156,23 +178,23 @@ buttons__grid = rr
                                         width: '100%'
                                         height: '100%'
                                         ,
-                                        # defs
-                                        #     filter
-                                        #         id: 'f1'
-                                        #         x: 0
-                                        #         y: 0
-                                        #         width: "150%"
-                                        #         height: "150%"
-                                        #         ,
-                                        #         feOffset
-                                        #             result: "offOut"
-                                        #             in: "SourceGraphic"
-                                        #             dx: 20
-                                        #             dy: 20
-                                        #         feBlend
-                                        #             in: "SourceGraphic"
-                                        #             in2: "offOut"
-                                        #             mode: "normal"
+                                        defs
+                                            filter
+                                                id: 'f1'
+                                                x: 0
+                                                y: 0
+                                                width: "150%"
+                                                height: "150%"
+                                                ,
+                                                feOffset
+                                                    result: "offOut"
+                                                    in: "SourceGraphic"
+                                                    dx: 20
+                                                    dy: 20
+                                                feBlend
+                                                    in: "SourceGraphic"
+                                                    in2: "offOut"
+                                                    mode: "normal"
                                         image
                                             width: '100%'
                                             height: '100%'
