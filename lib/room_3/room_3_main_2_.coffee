@@ -1,11 +1,13 @@
+#TODO : do the calc in webworkers and when get the callback
+# async call the render function for that.  until then show a "it's computing"
+# message.
+# also do, use immutable data structures and try addon performance monitoring tool
+# interesting exercise to find the source of the heavy cpu load.  is it all the array traversals ?
 
-
-c = -> console.log.apply console, arguments
-#React = require("react")
-#PureRenderMixin = require('react/addons').addons.PureRenderMixin
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
-shortid = require 'shortid'
+{React, c, rr, shortid} = require('./boilerplate.coffee')()
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol,
+code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon,
+image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
 
 document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 
@@ -59,8 +61,8 @@ room_3_main = rr
         @populate_to_automata_rule_30_1()
 
     set_board: ->
-        generation_card = @state?.generation_card or 100
-        partition_card = @state?.partition_card or 90
+        generation_card = @state?.generation_card or 200
+        partition_card = @state?.partition_card or 200
 
         transient_piece = {}
         for i in [0 .. (generation_card - 1)]
@@ -72,8 +74,8 @@ room_3_main = rr
         return transient_piece
 
     getInitialState: ->
-        generation_card = 100
-        partition_card = 90
+        generation_card = 200
+        partition_card = 200
 
         transient_piece = @set_board()
         final_obj =

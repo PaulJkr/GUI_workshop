@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "coffee-script": "latest",
     "babel-loader": "latest",
     "shortid": "latest",
     "source-map-loader": "latest",
