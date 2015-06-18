@@ -6,6 +6,9 @@ require('./lib/main.styl')
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
 
+document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+document.getElementById('__react__root__').style.overflow = 'hidden'
+
 sidebar = require('./lib/nav_sidebar/sidebar_0_.coffee')()
 room_2 = require('./lib/room_2/main.coffee')()
 rule_30_0 = require('./lib/room_3/room_3_main_2_.coffee')()

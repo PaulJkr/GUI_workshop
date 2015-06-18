@@ -1,10 +1,5 @@
-
-c = -> console.log.apply console, arguments
-#React = require("react")
-PureRenderMixin = require('react/addons').addons.PureRenderMixin
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
-shortid = require('shortid')
 
 # This dial has a slider control, two buttons. and an instrument dial which tells percentage state.
 # The buttons should be classed eventually, but initially (avoiding premature optimisation) will be separate modules, and maybe approaches.  The buttons and the slider will be custom svg complexes, ~~each go in separate files~~.  This file will just compose them into the whole range dial complex described above..

@@ -1,16 +1,11 @@
 
-# TODO implement categories/submenus; submenus float up when pick some category
-c = -> console.log.apply console, arguments
-#React = require("react")
-#PureRenderMixin = require('react/addons').addons.PureRenderMixin
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
-shortid = require 'shortid'
 
-document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
+
+# TODO implement categories/submenus; submenus float up when pick some category
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
 
 room_3_2 = require('../room_3/room_3_main_2_.coffee')()
-
 room_2 = require('../room_2/main.coffee')()
 
 sidebar = rr

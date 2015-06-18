@@ -6,20 +6,24 @@
 # developmental context it's used in.
 
 
-c = -> console.log.apply console, arguments
-#React = require("react")
-c 'React', React.version
-PureRenderMixin = require('react/addons').addons.PureRenderMixin
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
+# c = -> console.log.apply console, arguments
+# #React = require("react")
+# c 'React', React.version
+# PureRenderMixin = require('react/addons').addons.PureRenderMixin
 
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
-shortid = require('shortid')
+
+# rr = -> React.createFactory(React.createClass.apply(React, arguments))
+# shortid = require('shortid')
+
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
+
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline} = React.DOM
 
 button_000 = require('./button_000_.coffee')()
 button_001 = require('./button_001_.coffee')()
 
 c 'image', image
-c 'feOffset', feOffset
+#c 'feOffset', feOffset
 c 'polygon', polygon
 c 'feBlend', feBlend
 c 'filter', filter
@@ -107,19 +111,19 @@ buttons__grid = rr
                                         width: 100
                                         height: 100
                                         ,
-                                        defs
-                                            filter
-                                                id: 'f1'
-                                                x: 0
-                                                y: 0
-                                                width: "150%"
-                                                height: "150%"
-                                                ,
+                                        # defs
+                                        #     filter
+                                        #         id: 'f1'
+                                        #         x: 0
+                                        #         y: 0
+                                        #         width: "150%"
+                                        #         height: "150%"
+                                        #         ,
 
-                                                feBlend
-                                                    in: "SourceGraphic"
-                                                    in2: "blurOut"
-                                                    mode: "normal"
+                                        #         feBlend
+                                        #             in: "SourceGraphic"
+                                        #             in2: "blurOut"
+                                        #             mode: "normal"
                                         rect
                                             width: 50
                                             height: 50
@@ -152,23 +156,23 @@ buttons__grid = rr
                                         width: '100%'
                                         height: '100%'
                                         ,
-                                        defs
-                                            filter
-                                                id: 'f1'
-                                                x: 0
-                                                y: 0
-                                                width: "150%"
-                                                height: "150%"
-                                                ,
-                                                feOffset
-                                                    result: "offOut"
-                                                    in: "SourceGraphic"
-                                                    dx: 20
-                                                    dy: 20
-                                                feBlend
-                                                    in: "SourceGraphic"
-                                                    in2: "offOut"
-                                                    mode: "normal"
+                                        # defs
+                                        #     filter
+                                        #         id: 'f1'
+                                        #         x: 0
+                                        #         y: 0
+                                        #         width: "150%"
+                                        #         height: "150%"
+                                        #         ,
+                                        #         feOffset
+                                        #             result: "offOut"
+                                        #             in: "SourceGraphic"
+                                        #             dx: 20
+                                        #             dy: 20
+                                        #         feBlend
+                                        #             in: "SourceGraphic"
+                                        #             in2: "offOut"
+                                        #             mode: "normal"
                                         image
                                             width: '100%'
                                             height: '100%'

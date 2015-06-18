@@ -1,10 +1,9 @@
 
 
 
-c = -> console.log.apply console, arguments
-#React = require("react")
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, defs, linearGradient, circle, stop, ul, li, ol, code, a, input} = React.DOM
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
+
 
 progress_bar = require('./progress_bar_2_.coffee')()
 progress_bar_3 = require('./progress_bar_3_.coffee')()
