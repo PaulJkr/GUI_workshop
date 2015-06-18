@@ -4,7 +4,7 @@
 # also do, use immutable data structures and try addon performance monitoring tool
 # interesting exercise to find the source of the heavy cpu load.  is it all the array traversals ?
 
-{React, c, rr, shortid} = require('./boilerplate.coffee')()
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol,
 code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon,
 image, pattern, filter, feBlend, feOffset, polyline} = React.DOM

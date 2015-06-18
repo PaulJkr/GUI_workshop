@@ -31,3 +31,12 @@ Only tested in Firefox, and I know one part at least that uses feature (`Object.
 ###### **note**
 
 I removed **react** from package.json file in order to have clones to the active repos for active development.  Still a dependency but needs to be manually added as explained above.
+
+
+#### todo:
+
+- make a 'safe' branch for quick evaluation publishing of like portfolio
+
+- add a simple server for production portfolio publishing, and push to a free heroku app
+
+- do content

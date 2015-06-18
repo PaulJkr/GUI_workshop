@@ -1,15 +1,15 @@
+
+
+
 module.exports = ->
+    React = require("react")
+
     c : -> console.log.apply console, arguments
-
-    React: require("react")
-    #PureRenderMixin : require('react/addons').addons.PureRenderMixin
-
+    React: React
     rr : -> React.createFactory(React.createClass.apply(React, arguments))
     shortid : require 'shortid'
-
     assign: -> Object.assign.apply(Object, arguments)
     update : require('react/addons').addons.update
-
     __react__root__ : document.getElementById "__react__root__"
 
 

@@ -1,11 +1,8 @@
 
 
-c = -> console.log.apply console, arguments
-#React = require("react")
-PureRenderMixin = require('react/addons').addons.PureRenderMixin
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d} = React.DOM
-rr = -> React.createFactory(React.createClass.apply(React, arguments))
-shortid = require('shortid')
+
 
 progress_bar = rr
     handleMouseDown: (e) ->

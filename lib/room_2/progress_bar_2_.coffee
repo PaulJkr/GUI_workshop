@@ -1,223 +1,217 @@
-module.exports = ->
-    c = -> console.log.apply console, arguments
-    #React = require("react")
-    PureRenderMixin = require('react/addons').addons.PureRenderMixin
-    {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g} = React.DOM
-    rr = -> React.createFactory(React.createClass.apply(React, arguments))
-    shortid = require('shortid')
 
-    abs_pos = (a) ->
-        position: 'absolute'
-        width: a.w or 100
-        height: a.h or 100
-        top: a.t or ''
-        left: a.l or ''
-        bottom: a.b or ''
-        right: a.r or ''
-        zIndex: 500
+{c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g} = React.DOM
 
+abs_pos = (a) ->
+    position: 'absolute'
+    width: a.w or 100
+    height: a.h or 100
+    top: a.t or ''
+    left: a.l or ''
+    bottom: a.b or ''
+    right: a.r or ''
+    zIndex: 500
 
-    style_alpha_position = (a) ->
-        color: 'white'
+style_alpha_position = (a) ->
+    color: 'white'
 
-    rr
-        #mixins: [PureRenderMixin]
-        componentDidMount: ->
-            if @props.auto_showoff is on
-                dir_up = on
-                inc = 4
-                setInterval =>
-                    if dir_up is on and @state.range < 100
-                        @setState
-                            range: @state.range += inc
-                    else if @state.range >= 100
-                        dir_up = off
-                        @setState
-                            range: 100 - inc
-                    else if dir_up is off and @state.range > 0
-                        @setState
-                            range: @state.range -= inc
-                    else if @state.range <= 0
-                        dir_up = on
-                        @setState
-                            range: inc
-                , 20
+progress_bar_2 = rr
+    #mixins: [PureRenderMixin]
+    componentDidMount: ->
+        if @props.auto_showoff is on
+            dir_up = on
+            inc = 4
+            setInterval =>
+                if dir_up is on and @state.range < 100
+                    @setState
+                        range: @state.range += inc
+                else if @state.range >= 100
+                    dir_up = off
+                    @setState
+                        range: 100 - inc
+                else if dir_up is off and @state.range > 0
+                    @setState
+                        range: @state.range -= inc
+                else if @state.range <= 0
+                    dir_up = on
+                    @setState
+                        range: inc
+            , 20
 
-        lowerRange: (e) ->
-            if @state.range isnt 0
-                @setState
-                    range: parseInt(@state.range) - 1
-
-        raiseRange: (e) ->
-            if @state.range isnt 100
-                @setState
-                    range: parseInt(@state.range) + 1
-
-        rangeChange: (e) ->
+    lowerRange: (e) ->
+        if @state.range isnt 0
             @setState
-                range: e.currentTarget.value
+                range: parseInt(@state.range) - 1
 
-        getInitialState: ->
-            whatever: 'yes'
-            color_a: 'lightgreen'
-            range: 100
-        render: ->
-            clipId = shortid.generate()
-            clipId2 = shortid.generate()
-            style = (a) ->
-                position: 'absolute'
+    raiseRange: (e) ->
+        if @state.range isnt 100
+            @setState
+                range: parseInt(@state.range) + 1
 
-                #width: 600
-                #height: 500
-                #background: 'lightgrey'
-                #border: '3px solid white'
+    rangeChange: (e) ->
+        @setState
+            range: e.currentTarget.value
 
-                #top: 20
-                #left: 20
-            height = @props.height
-            width = @props.width
-            if (width / 100) >= 2 then padX = (width / 100) else padX = 2
-            if (height / 100) >= 2 then padY = (height / 100) else padY = 2
+    getInitialState: ->
+        whatever: 'yes'
+        color_a: 'lightgreen'
+        range: 100
+    render: ->
+        clipId = shortid.generate()
+        clipId2 = shortid.generate()
+        style = (a) ->
+            position: 'absolute'
 
-            div # container
-                style: style()
+            #width: 600
+            #height: 500
+            #background: 'lightgrey'
+            #border: '3px solid white'
+
+            #top: 20
+            #left: 20
+        height = @props.height
+        width = @props.width
+        if (width / 100) >= 2 then padX = (width / 100) else padX = 2
+        if (height / 100) >= 2 then padY = (height / 100) else padY = 2
+
+        div # container
+            style: style()
+            ,
+            div
+                style:
+                    position: 'absolute'
+                    left: width + 10
+                    top: 0
+                    background: 'lightgrey'
+                    border: '1px solid white'
+                    borderRadius: 4
                 ,
-                div
+                span
+                    onClick: @lowerRange
                     style:
-                        position: 'absolute'
-                        left: width + 10
-                        top: 0
+                        zIndex: 700000
+                        cursor: 'pointer'
+                        #position: 'absolute'
                         background: 'lightgrey'
                         border: '1px solid white'
-                        borderRadius: 4
+                        padding: 4
+                        borderRadius: 10
+                        #left: 680
                     ,
-                    span
-                        onClick: @lowerRange
-                        style:
-                            zIndex: 700000
-                            cursor: 'pointer'
-                            #position: 'absolute'
-                            background: 'lightgrey'
-                            border: '1px solid white'
-                            padding: 4
-                            borderRadius: 10
-                            #left: 680
-                        ,
-                        "<-"
-                    input
-                        type: 'range'
-                        onChange: @rangeChange
-                        value: @state.range
-                        step: 1
-                        style:
-                            #position: 'absolute'
-                            #left: @props.width + 300
-
-                            width: 200
-                        ,
-                    span
-                        onClick: @raiseRange
-                        style:
-                            cursor: 'pointer'
-                            #position: 'absolute'
-                            background: 'lightgrey'
-                            border: '1px solid white'
-                            padding: 4
-                            borderRadius: 10
-                            #left: 930
-                        ,
-                        "->"
-                    span
-                        style:
-                            #position: 'absolute'
-                            #left: 600
-                            #top: 100
-                            fontSize: 23
-                            color: 'white'
-                        ,
-                        @state.range + "%"
-                svg
-                    width: @props.width + padX
-                    height: @props.height + padY
+                    "<-"
+                input
+                    type: 'range'
+                    onChange: @rangeChange
+                    value: @state.range
+                    step: 1
                     style:
-                        #background: 'lightgrey'
-                        position: 'absolute'
+                        #position: 'absolute'
+                        #left: @props.width + 300
+
+                        width: 200
                     ,
-                    defs
-                        linearGradient
-                            id: "grad1"
-                            x1: "0%"
-                            y1: "0%"
-                            x2: "100%"
-                            y2: "100%"
-                            stop
-                                offset: "0%"
-                                style: 
-                                    stopColor:"rgb(255,255,0)"
-                                    stopOpacity: 1
-                            stop
-                                offset: "100%"
-                                style:
-                                    stopColor: "rgb(255,0,0)"
-                                    stopOpacity: 1
-                        clipPath
-                            id: clipId
-                            ,
-                            rect
-                                x: 0
-                                y: 0
-                                width: ((width + padX)/ 100) * @state.range
-                                height: height + padY # fix this
-                        clipPath
-                            id: clipId2
-                            ,
-                            rect
-                                x: (((width + padX) / 100) * @state.range)
-                                y: 0
-                                width: (width + padX) - (((width + padX)/ 100) * @state.range)
-                                height: height + padY # fix this
+                span
+                    onClick: @raiseRange
+                    style:
+                        cursor: 'pointer'
+                        #position: 'absolute'
+                        background: 'lightgrey'
+                        border: '1px solid white'
+                        padding: 4
+                        borderRadius: 10
+                        #left: 930
+                    ,
+                    "->"
+                span
+                    style:
+                        #position: 'absolute'
+                        #left: 600
+                        #top: 100
+                        fontSize: 23
+                        color: 'white'
+                    ,
+                    @state.range + "%"
+            svg
+                width: @props.width + padX
+                height: @props.height + padY
+                style:
+                    #background: 'lightgrey'
+                    position: 'absolute'
+                ,
+                defs
+                    linearGradient
+                        id: "grad1"
+                        x1: "0%"
+                        y1: "0%"
+                        x2: "100%"
+                        y2: "100%"
+                        stop
+                            offset: "0%"
+                            style: 
+                                stopColor:"rgb(255,255,0)"
+                                stopOpacity: 1
+                        stop
+                            offset: "100%"
+                            style:
+                                stopColor: "rgb(255,0,0)"
+                                stopOpacity: 1
+                    clipPath
+                        id: clipId
+                        ,
+                        rect
+                            x: 0
+                            y: 0
+                            width: ((width + padX)/ 100) * @state.range
+                            height: height + padY # fix this
+                    clipPath
+                        id: clipId2
+                        ,
+                        rect
+                            x: (((width + padX) / 100) * @state.range)
+                            y: 0
+                            width: (width + padX) - (((width + padX)/ 100) * @state.range)
+                            height: height + padY # fix this
+                rect
+                    x: (height / 2) + (padX / 2)
+                    y: padY / 2
+                    width: width - height
+                    height: height
+                    clipPath: "url(##{clipId2})"
+                    style:
+                        fill: @props.backFill or 'red'
+                circle #left circle bound ; could make an ellipse for other styles
+                    cx: (height / 2) + (padX / 2)
+                    cy: (height / 2) + (padY / 2)
+                    r: (height / 2)
+                    fill: @props.backFill or 'black'
+                    clipPath: "url(##{clipId2})"
+                circle # right circle bound
+                    cx: width - (height / 2) + (padX / 2)
+                    cy: (height / 2) + (padY / 2)
+                    r: height / 2
+                    fill: @props.backFill or 'black'
+                    clipPath: "url(##{clipId2})"
+                g
+                    fill: 'url(#grad1)'
                     rect
                         x: (height / 2) + (padX / 2)
                         y: padY / 2
                         width: width - height
                         height: height
-                        clipPath: "url(##{clipId2})"
-                        style:
-                            fill: @props.backFill or 'red'
-                    circle #left circle bound ; could make an ellipse for other styles
+                        clipPath: "url(##{clipId})"
+                        #style:
+                            #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
+                    circle
                         cx: (height / 2) + (padX / 2)
                         cy: (height / 2) + (padY / 2)
                         r: (height / 2)
-                        fill: @props.backFill or 'black'
-                        clipPath: "url(##{clipId2})"
-                    circle # right circle bound
+                        clipPath: "url(##{clipId})"
+                        #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
+                    circle
                         cx: width - (height / 2) + (padX / 2)
                         cy: (height / 2) + (padY / 2)
-                        r: height / 2
-                        fill: @props.backFill or 'black'
-                        clipPath: "url(##{clipId2})"
-                    g
-                        fill: 'url(#grad1)'
-                        rect
-                            x: (height / 2) + (padX / 2)
-                            y: padY / 2
-                            width: width - height
-                            height: height
-                            clipPath: "url(##{clipId})"
-                            #style:
-                                #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
-                        circle
-                            cx: (height / 2) + (padX / 2)
-                            cy: (height / 2) + (padY / 2)
-                            r: (height / 2)
-                            clipPath: "url(##{clipId})"
-                            #fill: 'url(#grad1)'#@props.progressFill or 'lightgreen'
-                        circle
-                            cx: width - (height / 2) + (padX / 2)
-                            cy: (height / 2) + (padY / 2)
-                            r: (height / 2)
-                            clipPath: "url(##{clipId})"
-                            #fill: @props.progressFill or 'lightgreen'
+                        r: (height / 2)
+                        clipPath: "url(##{clipId})"
+                        #fill: @props.progressFill or 'lightgreen'
 
-
-
+module.exports = -> progress_bar_2
