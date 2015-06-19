@@ -17,10 +17,14 @@
 
 {c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur} = React.DOM
+
+
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
 
 button_000 = require('./button_000_.coffee')()
 button_001 = require('./button_001_.coffee')()
+
+button_002 = require('./button_002_.coffee')()
 
 c 'image', image
 c 'feOffset', feOffset
@@ -28,6 +32,11 @@ c 'polygon', polygon, Object.keys(polygon)
 c 'feBlend', feBlend
 c 'filter', filter, Object.keys(filter)
 c 'image', Object.keys(image)
+c 'radialGradient', radialGradient
+
+
+c filter
+    id: "hiFilter"
 
 buttons__grid = rr
 
@@ -52,6 +61,24 @@ buttons__grid = rr
         iW: window.innerWidth - (2 * padding)
         iH: window.innerHeight - (2 * padding)
         grid_cell_size: {x: grid_cell_size_x, y: grid_cell_size_y}
+        __00:
+            x: 30
+            y: 30
+            r: 20
+
+    handle_click_0: (e) ->
+        @setState
+            __00:
+                x: 36
+                y: 36
+                r: 40
+        setTimeout =>
+            @setState
+                __00:
+                    x: 30
+                    y: 30
+                    r: 20
+        , 1000
 
     render: ->
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
@@ -122,35 +149,48 @@ buttons__grid = rr
                                                 stop
                                                     offset: "95%"
                                                     stopColor: "gold"
-
                                             filter
                                                 id: 'myFilter'
-                                                x: "0"
-                                                y: "0"
-                                                ,
-                                                feGaussianBlur
-                                                    in: "SourceGraphic"
-                                                    stdDeviation: "15"
-                                            filter
-                                                id: 'f1'
-                                                x: "0"
-                                                y: "0"
+                                                x: "10"
+                                                y: "10"
                                                 width: "100%"
                                                 height: "100%"
                                                 ,
-                                                feBlend
+                                                feGaussianBlur
                                                     in: "SourceGraphic"
-                                                    in2: "blurOut"
-                                                    mode: "normal"
+                                                    in2: "FillPaint"
+                                                    stdDeviation: "15"
+                                                # feOffset
+                                                #     dx: "2"
+                                                #     dy: "4"
+                                                # feMerge
+                                                #     feMergeNode
+                                                #     feMergeNode
+                                                #         in: "FillPaint"
+                                            # filter
+                                            #     id: 'myFilter2'
+                                            #     x: "10"
+                                            #     y: "10"
+                                            #     width: "100%"
+                                            #     height: "100%"
+                                            #     ,
+                                            #     feBlend
+                                            #         in: "FillPaint"
+                                            #         #in2: "blurOut"
+                                            #         mode: "normal"
                                         ,
-                                        rect
-                                            width: 50
-                                            height: 50
-                                            x: 10
-                                            y: 20
+                                        circle
+                                            onClick: @handle_click_0
+                                            cx: @state.__00.x
+                                            cy: @state.__00.y
+                                            r: @state.__00.r
+
                                             fill: "url(#myGradient)"
-                                            filter: "url(#myFilter)"
+                                            opacity: 0.8
+                                            #fill: "blue"
+                                            filter: 'url(#myFilter)'
                                             ,
+
                             if (j is 5) and (i is 1)
                                 div
                                     style:
@@ -181,26 +221,30 @@ buttons__grid = rr
                                         defs
                                             filter
                                                 id: 'f1'
-                                                x: 0
-                                                y: 0
+                                                x: 5
+                                                y: 5
                                                 width: "150%"
                                                 height: "150%"
                                                 ,
                                                 feOffset
-                                                    result: "offOut"
+                                                    result: "inOut"
                                                     in: "SourceGraphic"
-                                                    dx: 20
-                                                    dy: 20
+                                                    dx: 2
+                                                    dy: 2
                                                 feBlend
-                                                    in: "SourceGraphic"
-                                                    in2: "offOut"
+                                                    in: "FillPaint"
+                                                    #in2: "offOut"
                                                     mode: "normal"
                                         image
-                                            width: '100%'
-                                            height: '100%'
+                                            x: 10
+                                            y: 10
+                                            width: '50%'
+                                            height: '80%'
                                             xlinkHref: "../../static_assets/adom.jpg"
                                             filter: "url(#f1)"
                                             ,
+                            if (j is 1) and (i is 1)
+                                button_002()
 
 
 module.exports = -> buttons__grid
