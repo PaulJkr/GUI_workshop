@@ -1,12 +1,18 @@
 {c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, text} = React.DOM
+
+c 'text', text
 
 button_002 = rr
     colors: ['gold', 'green', 'silver', 'grey']
 
     rad_to_deg: (rad) ->
         57.2957795 * rad
+
+    random_luminal: ->
+
+    random_saturation: ->
 
     random_hue: ->
         pi = Math.PI
@@ -65,6 +71,16 @@ button_002 = rr
                 fill: 'url(#radial__000)'
                 #fill: "hsl(2222,90%,70%)"
                 filter: 'url(#wald__000)'
+            text
+                x: 10
+                y: 20
+                style:
+                    fontFamily: 'Verdana'
+                    fontSize: 10
+                    #stroke: 'green'
+                    #fill: 'blue'
+                ,
+                "Hello there"
 
 
 module.exports = -> button_002
