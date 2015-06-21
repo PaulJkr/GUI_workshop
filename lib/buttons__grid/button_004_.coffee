@@ -2,7 +2,7 @@
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, text} = React.DOM
 
-button_003 = rr
+button_004 = rr
 
     __specification__:
         readme: "this is button_3, it's going to be 2 dimensional and not try to pretend to be a 3d 
@@ -157,6 +157,15 @@ button_003 = rr
             ,
             defs
                 radialGradient
+                    id: 'radial__005'
+                    ,
+                    stop
+                        offset: "10%"
+                        stopColor: @state[@state.current_state].grad.stop_0
+                    stop
+                        offset: "83%"
+                        stopColor: @state[@state.current_state].grad.stop_1
+                radialGradient
                     id: 'radial__003'
                     ,
                     stop
@@ -172,5 +181,14 @@ button_003 = rr
                 cy: @state[@state.current_state].position.y
                 r: @state[@state.current_state].position.r
                 fill: 'url(#radial__003)'
+            circle
+                onClick: @handle_click
+                cx: 100 - (@state[@state.current_state].position.x) 
+                cy: @state[@state.current_state].position.y
+                r: @state[@state.current_state].position.r
+                fill: 'url(#radial__005)'
 
-module.exports = -> button_003
+
+
+
+module.exports = -> button_004

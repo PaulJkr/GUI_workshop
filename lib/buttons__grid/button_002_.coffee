@@ -5,7 +5,7 @@
 c 'text', text
 
 button_002 = rr
-    colors: ['gold', 'green', 'silver', 'grey']
+    colors: ['gold', 'blue', 'silver', 'grey']
 
     rad_to_deg: (rad) ->
         57.2957795 * rad
@@ -44,14 +44,11 @@ button_002 = rr
                     id: 'radial__000'
                     ,
                     stop
-                        offset: "50%"
+                        offset: "15%"
                         stopColor: @state.c_0
                     stop
-                        offset: "95%"
+                        offset: "73%"
                         stopColor: @state.c_1
-                    # stop
-                    #     offset: "80%"
-                    #     stopColor: @state.c_2
                 filter
                     id: 'wald__000'
                     x: "10"
@@ -71,16 +68,7 @@ button_002 = rr
                 fill: 'url(#radial__000)'
                 #fill: "hsl(2222,90%,70%)"
                 filter: 'url(#wald__000)'
-            text
-                x: 10
-                y: 20
-                style:
-                    fontFamily: 'Verdana'
-                    fontSize: 10
-                    #stroke: 'green'
-                    #fill: 'blue'
-                ,
-                "Hello there"
+
 
 
 module.exports = -> button_002

@@ -26,6 +26,8 @@ button_001 = require('./button_001_.coffee')()
 
 button_002 = require('./button_002_.coffee')()
 button_003 = require('./button_003_.coffee')()
+button_004 = require('./button_004_.coffee')()
+button_005 = require('./button_005_.coffee')()
 
 c 'image', image
 c 'feOffset', feOffset
@@ -248,6 +250,10 @@ buttons__grid = rr
                                 button_002()
                             if (j is 1) and (i is 2)
                                 button_003()
+                            if (j is 1) and (i is 3)
+                                button_004()
+                            if (j is 2) and (i is 0)
+                                button_005()
 
 
 module.exports = -> buttons__grid
