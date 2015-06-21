@@ -47,7 +47,10 @@ room_3_1 = require('./lib/room_3/room_3_main_1_.coffee')()
 room_3_3 = require('./lib/room_3/room_3_main_3_.coffee')()
 screenHint = require('./lib/screen_hint_.coffee')()
 
+
 buttons__grid = require('./lib/buttons__grid/main.coffee')()
+button_005 = require('./lib/buttons__grid/button_005_.coffee')()
+text_input_001 = require('./lib/buttons__grid/text_input_001_.coffee')()
 
 main = rr
 
@@ -60,7 +63,9 @@ main = rr
             content: arguments[0]
 
     getInitialState: ->
-        content: -> buttons__grid()#room_3_1()
+        #content: -> buttons__grid()#room_3_1()
+        #content: -> button_005()
+        content: -> text_input_001()
         screenHint: screenHint
 
     render: ->
@@ -80,7 +85,7 @@ main = rr
                 rule_30: @changeContent.bind(@, rule_30_0)
                 room_3_1: @changeContent.bind @, room_3_1
                 buttons__grid: @changeContent.bind @, buttons__grid
-            @state.screenHint
-                remove_screenHint: @remove_screenHint#.bind(@)
+            # @state.screenHint
+            #     remove_screenHint: @remove_screenHint#.bind(@)
 
 React.render main(), __react__root__

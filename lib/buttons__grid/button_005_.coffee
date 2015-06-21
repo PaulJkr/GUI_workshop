@@ -63,7 +63,8 @@ button_005 = rr
         setInterval =>
             object_x = 
                 position:
-                    x: Math.floor(Math.random() * 80) + 10
+                    #x: Math.floor(Math.random() * 80) + 10
+                    x: "#{Math.random() * 100}%"
                     y: Math.floor(Math.random() * 80) + 10
                     r: Math.floor(Math.random() * 24) + 10
                 grad :
@@ -74,22 +75,36 @@ button_005 = rr
         , 50
 
     ordered_dance_000: ->
-        # here we can use date to get milliseconds
-        # or interval
-        # state and time
-        #
-        # interval for animation but new Date to get timing ?
         start = new Date().getTime()
 
         setInterval =>
             now = new Date().getTime()
             delta = now - start
-            delta /= 10
+            delta /= 30
             object_x =
                 position:
-                    x: delta % 100
-                    y: delta % 100
-                    r: 20#(delta % 20) + 10
+                    x: "#{delta % 100}%"
+                    y: "#{delta % 100}%"
+                    r: "30%"#20#(delta % 20) + 10
+                grad :
+                    stop_0: "hsl(#{@random_hue()},60%,70%)"
+                    stop_1: "hsl(#{@random_hue()},90%,80%)"
+            @setState
+                happy: assign @state.happy, object_x
+        , 1
+
+    ordered_dance_001: ->
+        start = new Date().getTime()
+
+        setInterval =>
+            now = new Date().getTime()
+            delta = now - start
+            delta /= 30
+            object_x =
+                position:
+                    x: "#{100 - (delta % 100)}%"
+                    y: "#{100 - (delta % 100)}%"
+                    r: "10%"#20#(delta % 20) + 10
                 grad :
                     stop_0: "hsl(#{@random_hue()},60%,70%)"
                     stop_1: "hsl(#{@random_hue()},90%,80%)"
@@ -99,7 +114,7 @@ button_005 = rr
 
     componentDidMount: ->
         #@random_dance_000()
-        @ordered_dance_000()
+        @ordered_dance_001()
 
     getInitialState: ->
 
@@ -180,12 +195,12 @@ button_005 = rr
                 cy: @state[@state.current_state].position.y
                 r: @state[@state.current_state].position.r
                 fill: 'url(#radial__003)'
-            circle
-                onClick: @handle_click
-                cx: @state[@state.current_state].position.x
-                cy: 100 - @state[@state.current_state].position.y
-                r: @state[@state.current_state].position.r
-                fill: 'url(#radial__005)'
+            # circle
+            #     onClick: @handle_click
+            #     cx: @state[@state.current_state].position.x
+            #     cy: 100 - @state[@state.current_state].position.y
+            #     r: @state[@state.current_state].position.r
+            #     fill: 'url(#radial__005)'
 
 
 module.exports = -> button_005
