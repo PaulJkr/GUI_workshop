@@ -7,16 +7,20 @@
 ph_glyph_000 = rr
 
     changeMode: (e) ->
-        interval = 100
-        start = new Date().getTime() * interval
-        setInterval =>
-            now = new Date().getTime() * interval
-            delta = now - start
+        interval = 1
+        start = new Date().getTime() #* interval
+        interval_0 = setInterval =>
+            now = new Date().getTime() #* interval
+            delta = (now - start) / 5 #* interval
             # if delta % 1000 is 0
             #     c Math.random()
-            @setState
-                mode: delta % 360
-
+            if delta < 500
+                @setState
+                    mode: (delta % 360 )
+            else
+                clearInterval interval_0
+                @setState
+                    mode: 0
         , interval
 
 
