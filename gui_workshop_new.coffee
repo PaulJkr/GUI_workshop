@@ -51,8 +51,12 @@ screenHint = require('./lib/screen_hint_.coffee')()
 buttons__grid = require('./lib/buttons__grid/main.coffee')()
 button_005 = require('./lib/buttons__grid/button_005_.coffee')()
 text_input_001 = require('./lib/buttons__grid/text_input_001_.coffee')()
-
+text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
 main = rr
+
+    componentDidMount: ->
+        window.addEventListener "resize", =>
+            @forceUpdate()
 
     remove_screenHint: ->
         @setState
@@ -65,7 +69,7 @@ main = rr
     getInitialState: ->
         #content: -> buttons__grid()#room_3_1()
         #content: -> button_005()
-        content: -> text_input_001()
+        content: -> text_input_002()
         screenHint: screenHint
 
     render: ->

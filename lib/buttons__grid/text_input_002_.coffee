@@ -92,21 +92,21 @@ text_input_001 = rr
                     border: 'none'
                     outline: 'none'
                     opacity: 0
-            # input
-            #     value: @state.message
-            #     maxLength: 20
-            #     onChange: @handleChange
-            #     ref: 'input_0099'
-            #     style:
-            #         fontSize: 23
-            #         position: 'absolute'
-            #         top: "50%"
-            #         left: "50%"
-            #         background: 'transparent'
-            #         #visibility: 'hidden'
-            #         border: 'none'
-            #         outline: 'none'
-            #         opacity: 1
+            input
+                value: @state.message
+                maxLength: 20
+                onChange: @handleChange
+                ref: 'input_0099'
+                style:
+                    fontSize: 23
+                    position: 'absolute'
+                    top: "50%"
+                    left: "50%"
+                    background: 'transparent'
+                    #visibility: 'hidden'
+                    border: 'none'
+                    outline: 'none'
+                    opacity: 1
             svg
                 width: '100%'
                 height: '100%'
