@@ -93,6 +93,7 @@ text_input_001 = rr
                     outline: 'none'
                     opacity: 0
             input
+                onClick: @handle_click
                 value: @state.message
                 maxLength: 20
                 onChange: @handleChange
@@ -101,7 +102,7 @@ text_input_001 = rr
                     fontSize: 23
                     position: 'absolute'
                     top: "50%"
-                    left: "50%"
+                    left: "#{50 - @state.message.length / 2}%"
                     background: 'transparent'
                     #visibility: 'hidden'
                     border: 'none'
@@ -133,23 +134,25 @@ text_input_001 = rr
                     onClick: @handle_click
                     cx: @state.position.x
                     cy: @state.position.y
-                    rx: @state.position.r
-                    ry: "28%"
+                    rx: "40%" #@state.position.r
+                    ry: "7%"
                     fill: 'url(#radial__005)'
                     ,
                 text
                     onClick: @handle_click
-                    x: "30%"
-                    y: "50%"
+                    x: "#{ 50 - (@state.message.length / 2) }%"
+                    y: "10%"
 
                     fontSize: @state.font_size
                     ,
                     @state.message
                 text
                     onClick: @handle_click
-                    x: "30%"
-                    y: "70%"
 
+                    #x: "30%"
+                    x: "#{ 50 - @state.message.length * 0.8}%"
+                    y: "70%"
+                    fontFamily: 'sans-serif'
                     fontSize: @state.font_size
                     ,
                     @state.message

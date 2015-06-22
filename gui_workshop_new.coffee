@@ -1,4 +1,9 @@
-
+#----------------------------------------------
+# monkey patch from
+# https://gist.github.com/akre54/80eaa63762ea499029f0
+#--------...... didn't work maybe another 
+# doesn't work maybe some env change needed -- it's a different 
+# developmental context it's used in.
 
 ReactDOM = require 'react/build/modules/ReactDOM'
 ReactElement = require 'react/build/modules/ReactElement'
@@ -52,6 +57,9 @@ buttons__grid = require('./lib/buttons__grid/main.coffee')()
 button_005 = require('./lib/buttons__grid/button_005_.coffee')()
 text_input_001 = require('./lib/buttons__grid/text_input_001_.coffee')()
 text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
+ph_glyph_000 = require('./lib/buttons__grid/photo_derived_glyph_000_.coffee')()
+
+
 main = rr
 
     componentDidMount: ->
@@ -67,9 +75,11 @@ main = rr
             content: arguments[0]
 
     getInitialState: ->
-        #content: -> buttons__grid()#room_3_1()
+        #ncontent: -> buttons__grid()
         #content: -> button_005()
-        content: -> text_input_002()
+        #content: -> text_input_002()
+        content: -> ph_glyph_000()
+        #content: -> room_3_1()
         screenHint: screenHint
 
     render: ->

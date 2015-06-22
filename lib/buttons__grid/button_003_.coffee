@@ -83,7 +83,6 @@ button_003 = rr
 
         setInterval =>
             now = new Date().getTime()
-            c 'now', now
             delta = now - start
             delta /= 10
             object_x =
