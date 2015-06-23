@@ -22,7 +22,6 @@ arrow = rr
 
     componentDidMount: ->
         rect = React.findDOMNode(@).getBoundingClientRect()
-        c 'rect', rect
         @setState
             rect_width: rect.width
             rect_height: rect.height

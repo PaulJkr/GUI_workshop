@@ -8,6 +8,13 @@ require_dyn = require.context('./lib', true, /.coffee$/)
 basket = for i in require_dyn.keys()
     require_dyn(i)()()
 
+basket_2 = require_dyn.keys().reduce (acc, i) ->
+    acc[i] = require_dyn(i)()
+    acc
+, {}
+
+c 'basket_2', basket_2
+
 # c 'image', image
 # c 'feOffset', feOffset
 # c 'polygon', polygon, Object.keys(polygon)
@@ -17,6 +24,12 @@ basket = for i in require_dyn.keys()
 # c 'radialGradient', radialGradient
 
 arrows = rr
+
+    # change_gig: ->
+    #     c 'change_gig'
+    #     c arguments[0], arguments[1], arguments[2]
+    #     ciph = arguments[0]
+
 
     position_calculate: (i, j) ->
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
@@ -59,6 +72,8 @@ arrows = rr
         , 1000
 
     render: ->
+        keys__ = Object.keys basket_2
+        c 'keys__', keys__
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
         grid_height = Math.floor @state.iH / @state.grid_cell_size.y
 
@@ -88,6 +103,8 @@ arrows = rr
                 ,
                 for j in [0 .. (grid_height - 1)]
                     for i in [0 .. (grid_width - 1)]
+                        cursor = keys__.pop()
+                        elk = basket_2[cursor]
                         div
                             style:
                                 position: 'absolute'
@@ -97,7 +114,14 @@ arrows = rr
                                 left: @position_calculate(i, j).left
                                 border: '1px solid black'
                             ,
-                            basket.pop()
+
+                            #basket.pop()
+                            if typeof elk is 'function'
+                                elk
+                                    cursor: cursor
+                                    change_gig: @props.change_gig
+
+                            
 
 
 module.exports = -> arrows

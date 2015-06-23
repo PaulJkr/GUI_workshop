@@ -61,12 +61,28 @@ text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
 ph_glyph_000 = require('./lib/buttons__grid/photo_derived_glyph_000_.coffee')()
 ph_glyph_001 = require('./lib/buttons__grid/photo_derived_glyph_001_.coffee')()
 
+#---------------------new paradigm-------------------------------------------
+# -------------------------------  now can require once the main section file
+# --------and then require the entire collection of units at a go
+# ---------and should be able to focus gui on any one of those celled units
+# as per the 'change_gig' function pattern below.
 arrows = require('./lib/arrows_grid/main_000_.coffee')()
+require_arrows = require.context('./lib/arrows_grid/lib', true, /.coffee$/)
+arrows_basket = require_arrows.keys().reduce (acc, i) ->
+    acc[i] = require_arrows(i)()
+    acc
+, {}
+#---------------------------------------------------------
 
 
 
 
 main = rr
+    # so rename this and change the process, can stardardise it to organise by library section.
+    # this section is arrows, but will have other catalogs..
+    change_gig: (a) ->
+        @setState
+            content: -> arrows_basket[a]
 
     componentDidMount: ->
         window.addEventListener "resize", =>
@@ -83,7 +99,7 @@ main = rr
     getInitialState: ->
         #ncontent: -> buttons__grid()
         #content: -> buttons__grid_001()
-        content: -> arrows()
+        content: -> arrows
         #content: -> button_005()
         #content: -> text_input_002()
         #content: -> ph_glyph_001()
@@ -101,12 +117,14 @@ main = rr
                 top: 0
                 bottom: 0
             ,
-            @state.content?()
+            if @state.content?
+                @state.content()
+                    change_gig: @change_gig # didn't need to be bound
             sidebar
                 room_2: @changeContent.bind(@, room_2)
                 rule_30: @changeContent.bind(@, rule_30_0)
                 room_3_1: @changeContent.bind @, room_3_1
-                buttons__grid: @changeContent.bind @, buttons__grid
+                buttons__grid: @changeContent.bind @, buttons__grid_001
             # @state.screenHint
             #     remove_screenHint: @remove_screenHint#.bind(@)
 

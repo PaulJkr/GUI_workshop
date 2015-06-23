@@ -5,6 +5,9 @@
 
 arrow = rr
 
+    componentWillUnmount: ->
+        clearInterval @interval_000
+
     getInitialState: ->
         arrow_stroke: 'red'
         fill_stroke: 'blue'
@@ -35,6 +38,8 @@ arrow = rr
         svg
             width: '100%'
             height: '100%'
+            onMouseOver: => c @props.cursor
+            #onMouseLeave:
             ,
             g
                 #translate(#{rect.width / 3})

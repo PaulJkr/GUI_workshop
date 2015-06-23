@@ -4,28 +4,8 @@
 
 button_005 = rr
 
-    __specification__:
-        readme: "this is button_3, it's going to be 2 dimensional and not try to pretend to be a 3d 
-        model button.  not gooing to try to mimic that.  working with different sense. lots of state
-        there is lot's of state
-        so for example
-
-
-        they can push it for it to go into a state.  and when they ignore it it starts
-        doing other behaviours like flashing on and off.
-
-        we have state 
-        but also we have time
-        time
-        so with time we have setInterval and setTimeout, but we can also do new Date()
-        and respond to times of day.  so if it's just turning 6am local time ? have to access geolocation metadata or something then you ask what they are having for healthy breakfast.  or whatever is more contextually appropriate.
-         "
-
-
-# i need to redesign state. on paper.  # TODO :: REFACTOR THIS opening gambit.
-
-# perf addon & change data structures
-# immutables should componentUpdate
+    # componentWillUnmount: ->
+    #     clearInterval @interval_001
 
     rad_to_deg: (rad) ->
         57.2957795 * rad
@@ -39,12 +19,10 @@ button_005 = rr
         @rad_to_deg(Math.random() * 2 * pi)
 
     handle_click: (e) ->
-        c "handdling"
         stub__00 =
             grad:
                 stop_0: "hsl(0, 90%, 80% )"  #@colors[3]
                 stop_1: "hsl(0, 90%, 80%)"  #@colors[2]
-        c stub__00
         @setState
 
 
