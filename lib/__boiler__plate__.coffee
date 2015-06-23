@@ -1,6 +1,9 @@
 
 
 
+# todo :: make some factory functions for some things.
+
+
 module.exports = ->
     React = require("react")
 

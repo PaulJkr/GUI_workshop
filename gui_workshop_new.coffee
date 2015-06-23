@@ -58,6 +58,9 @@ button_005 = require('./lib/buttons__grid/button_005_.coffee')()
 text_input_001 = require('./lib/buttons__grid/text_input_001_.coffee')()
 text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
 ph_glyph_000 = require('./lib/buttons__grid/photo_derived_glyph_000_.coffee')()
+ph_glyph_001 = require('./lib/buttons__grid/photo_derived_glyph_001_.coffee')()
+
+
 
 
 main = rr
@@ -78,7 +81,7 @@ main = rr
         #ncontent: -> buttons__grid()
         #content: -> button_005()
         #content: -> text_input_002()
-        content: -> ph_glyph_000()
+        content: -> ph_glyph_001()
         #content: -> room_3_1()
         screenHint: screenHint
 

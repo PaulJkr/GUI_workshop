@@ -131,9 +131,9 @@ ph_glyph_000 = rr
                     cx: "50%"
                     cy: "50%"
                     r: "17%"
-                    #fill: "hsl(#{@state.mode + 270}, 99%, 70%)"
+                    fill: "hsl(#{@state.mode + 270}, 99%, 70%)"
                     #fill: "url(#radial__005)"
-                    fill: "url(#radial__005)"
+                    #fill: "url(#radial__005)"
                     filter: "url(#wald)"
                     ,
                 circle

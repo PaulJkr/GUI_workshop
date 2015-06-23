@@ -43,3 +43,14 @@ _not ordered by priority.first priority is the svg all the things, hence the for
 - add a simple server for production portfolio publishing, and push to a free heroku app
 
 - do content
+
+
+
+
+
+### things to do
+
+
+another thing we need to do is right script which will use fs, if its available (which it should be server side) to check a folders contents and then just require everything there and add it to a collection.  this collection could be enumerated over and pigeonholed, instead of manually adding a require line for every component, which gets tedious
+
+____________________________
