@@ -61,6 +61,8 @@ text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
 ph_glyph_000 = require('./lib/buttons__grid/photo_derived_glyph_000_.coffee')()
 ph_glyph_001 = require('./lib/buttons__grid/photo_derived_glyph_001_.coffee')()
 
+arrows = require('./lib/arrows_grid/main_000_.coffee')()
+
 
 
 
@@ -80,7 +82,8 @@ main = rr
 
     getInitialState: ->
         #ncontent: -> buttons__grid()
-        content: -> buttons__grid_001()
+        #content: -> buttons__grid_001()
+        content: -> arrows()
         #content: -> button_005()
         #content: -> text_input_002()
         #content: -> ph_glyph_001()

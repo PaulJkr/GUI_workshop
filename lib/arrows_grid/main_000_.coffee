@@ -3,11 +3,10 @@
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
 
-requireTest = require.context('./', true, /.coffee$/)
+require_dyn = require.context('./lib', true, /.coffee$/)
 
-basket = for i in requireTest.keys()
-    if (i isnt "./main_001.coffee") and (i isnt "./main.coffee")
-        requireTest(i)()()
+basket = for i in require_dyn.keys()
+    require_dyn(i)()()
 
 # c 'image', image
 # c 'feOffset', feOffset
@@ -17,7 +16,7 @@ basket = for i in requireTest.keys()
 # c 'image', Object.keys(image)
 # c 'radialGradient', radialGradient
 
-buttons__grid = rr
+arrows = rr
 
     position_calculate: (i, j) ->
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
@@ -60,7 +59,6 @@ buttons__grid = rr
         , 1000
 
     render: ->
-        c 'button_5'
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
         grid_height = Math.floor @state.iH / @state.grid_cell_size.y
 
@@ -102,4 +100,4 @@ buttons__grid = rr
                             basket.pop()
 
 
-module.exports = -> buttons__grid
+module.exports = -> arrows
