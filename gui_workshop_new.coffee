@@ -54,6 +54,7 @@ screenHint = require('./lib/screen_hint_.coffee')()
 
 
 buttons__grid = require('./lib/buttons__grid/main.coffee')()
+buttons__grid_001 = require('./lib/buttons__grid/main_001.coffee')()
 button_005 = require('./lib/buttons__grid/button_005_.coffee')()
 text_input_001 = require('./lib/buttons__grid/text_input_001_.coffee')()
 text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
@@ -79,9 +80,10 @@ main = rr
 
     getInitialState: ->
         #ncontent: -> buttons__grid()
+        content: -> buttons__grid_001()
         #content: -> button_005()
         #content: -> text_input_002()
-        content: -> ph_glyph_001()
+        #content: -> ph_glyph_001()
         #content: -> room_3_1()
         screenHint: screenHint
 
