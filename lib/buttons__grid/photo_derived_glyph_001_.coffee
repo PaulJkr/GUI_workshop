@@ -6,10 +6,13 @@
 
 ph_glyph_000 = rr
 
+    componentWillUnmount: ->
+        clearInterval @interval_001
+
     mood_excited: ->
         interval = 1
         start = new Date().getTime() #* interval
-        interval_001 = setInterval =>
+        @interval_001 = setInterval =>
             now = new Date().getTime() #* interval
             delta = (now - start) / 5 #* interval
             @setState
