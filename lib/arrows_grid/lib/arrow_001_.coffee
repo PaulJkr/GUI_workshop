@@ -5,13 +5,16 @@
 
 arrow = rr
 
+
+    componentWillUnmount: ->
+        clearInterval @interval_000
     getInitialState: ->
         arrow_stroke: 'red'
 
 
     shuffle_stroke: ->
         start = new Date().getTime()
-        interval_000 = setInterval =>
+        @interval_000 = setInterval =>
             now = new Date().getTime()
             scaling_factor = .10
             delta = start - now

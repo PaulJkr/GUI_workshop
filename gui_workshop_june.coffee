@@ -105,6 +105,10 @@ main = rr
             section: section
             cell: cell
 
+    # change_gig: (a) -> #deprecate to delete
+    #     @setState
+    #         content: -> arrows_basket[a]
+
     componentDidMount: ->
         window.addEventListener "resize", =>
             @forceUpdate()

@@ -6,6 +6,7 @@
 arrow = rr
 
     componentWillUnmount: ->
+        c @interval_000
         clearInterval @interval_000
 
     getInitialState: ->
@@ -15,7 +16,7 @@ arrow = rr
 
     shuffle_stroke: ->
         start = new Date().getTime()
-        interval_000 = setInterval =>
+        @interval_000 = setInterval =>
             now = new Date().getTime()
             scaling_factor = .10
             delta = start - now
