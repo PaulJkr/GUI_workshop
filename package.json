@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "worker-loader": "latest",
     "redis": "latest",
     "react-hot-loader": "latest",
     "babel-loader": "latest",

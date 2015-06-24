@@ -6,6 +6,10 @@ c = -> console.log.apply console, arguments
 path = require 'path'
 
 module.exports = config =
+    worker:
+        output:
+            filename: "hash.worker.js"
+            chunkFilename: "[id].hash.worker.js"
     node:
         fs: "empty"
     context: __dirname

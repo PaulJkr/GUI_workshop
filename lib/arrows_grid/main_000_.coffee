@@ -13,7 +13,16 @@ basket_2 = require_dyn.keys().reduce (acc, i) ->
     acc
 , {}
 
-c 'basket_2', basket_2
+Wworker = require("worker!./alpha_worker.coffee")
+alpha_worker = new Wworker()
+#alpha_worker.port.start()
+# alpha_worker.addEventListener "message", ->
+#     c "hey it got a message"
+alpha_worker.onmessage = ->
+    c "hey it got this message"
+alpha_worker.postMessage({a: "hello"})
+
+
 
 # c 'image', image
 # c 'feOffset', feOffset
@@ -39,6 +48,13 @@ arrows = rr
         left: (@state.grid_cell_size.x ) * i
 
     componentDidMount: ->
+        setTimeout =>
+            c 'grok'
+            alpha_worker.postMessage({a: "hello"})
+            alpha_worker.postMessage({a: "helleasuntuo"})
+            c(alpha_worker.postMessage('sntaehu'))
+            c Object.keys(alpha_worker)
+        , 7000
         window.addEventListener 'resize', (e) =>
             @setState
                 iW: window.innerWidth - @state.padding

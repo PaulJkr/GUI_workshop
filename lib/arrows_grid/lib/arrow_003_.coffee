@@ -6,7 +6,6 @@
 arrow = rr
 
     componentWillUnmount: ->
-        c '@interval_000', @interval_000
         clearInterval @interval_000
 
     shuffle_stroke: ->
@@ -35,16 +34,15 @@ arrow = rr
             rect_height: boundingRect.height
         @shuffle_stroke()
 
+        c 'localStorage', localStorage
+
     render: ->
-        if @state?
+        if @state?.rect_width?
             svg
-                cursor: 'pointer'
-                onMouseOver: => c @props.cursor ; @setState({info: on})
+                onMouseOver: => @setState({info: on})
                 onMouseLeave: => @setState({info: off})
                 width: '100%'
                 height: '100%'
-                # style:
-                #     cursor: 'pointer'
                 ,
                 g
                     #translate(#{rect.width / 3})
@@ -59,15 +57,7 @@ arrow = rr
                     g
                         opacity: 0.5
                         fill: 'green'
-
                         ,
-                        # rect
-                        #     x: "10%"
-                        #     y: "10%"
-                        #     width: "80%"
-                        #     height: "20%"
-                        #     #fill: 'white'
-                        #     stroke: 'black'
                         text
                             x: "20%"
                             y: "15%"
@@ -82,8 +72,7 @@ arrow = rr
             svg
                 width: '100%'
                 height: '100%'
-                style:
-                    cursor: 'pointer'
+
 
 
 module.exports = -> arrow
