@@ -13,7 +13,6 @@ arrow = rr
         fill_stroke: 'blue'
         rotate: 0
 
-
     shuffle_stroke: ->
         start = new Date().getTime()
         interval_000 = setInterval =>

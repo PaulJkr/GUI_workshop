@@ -15,22 +15,11 @@ basket_2 = require_dyn.keys().reduce (acc, i) ->
 
 Wworker = require("worker!./alpha_worker.coffee")
 alpha_worker = new Wworker()
-#alpha_worker.port.start()
-# alpha_worker.addEventListener "message", ->
-#     c "hey it got a message"
+alpha_worker.addEventListener "message", ->
+    c "hey it got a message, addEventListener style"
 alpha_worker.onmessage = ->
     c "hey it got this message"
 alpha_worker.postMessage({a: "hello"})
-
-
-
-# c 'image', image
-# c 'feOffset', feOffset
-# c 'polygon', polygon, Object.keys(polygon)
-# c 'feBlend', feBlend
-# c 'filter', filter, Object.keys(filter)
-# c 'image', Object.keys(image)
-# c 'radialGradient', radialGradient
 
 arrows = rr
 
@@ -48,18 +37,10 @@ arrows = rr
         left: (@state.grid_cell_size.x ) * i
 
     componentDidMount: ->
-        setTimeout =>
-            c 'grok'
-            alpha_worker.postMessage({a: "hello"})
-            alpha_worker.postMessage({a: "helleasuntuo"})
-            c(alpha_worker.postMessage('sntaehu'))
-            c Object.keys(alpha_worker)
-        , 7000
         window.addEventListener 'resize', (e) =>
             @setState
                 iW: window.innerWidth - @state.padding
                 iH: window.innerHeight - @state.padding
-                
 
     getInitialState: ->
         grid_cell_size_x = 200
@@ -90,7 +71,6 @@ arrows = rr
 
     render: ->
         keys__ = Object.keys basket_2
-        c 'keys__', keys__
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
         grid_height = Math.floor @state.iH / @state.grid_cell_size.y
 
@@ -131,16 +111,11 @@ arrows = rr
                                 left: @position_calculate(i, j).left
                                 border: '1px solid black'
                             ,
-
-                            #basket.pop()
                             if typeof elk is 'function'
                                 elk
                                     section: @props.section
                                     cursor: cursor
                                     change_gig: @props.change_gig
                                     focus_cell_selection: @props.focus_cell_selection
-
-                            
-
 
 module.exports = -> arrows

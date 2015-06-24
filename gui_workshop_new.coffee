@@ -88,15 +88,25 @@ main = rr
     focus_cell_selection: (section, cell) ->
         # section could be 'arrows'
         # cell could be './arrow_001_.coffee'
+
+        # we should get this from state here at root
+        # in order to avoid propagating redundant information
+        # so, when initial state is set, 
+        # content could be a computed value of 
+        # some vector like (section, cell)
+        # but for now avoid nesting it.  
+        # before we hook it up we can and should
+        # wire up the second nav system, which will 
+        # implement the same protocol
         c 'section', section, 'cell,', cell
 
         @setState
             content: -> sections_basket[section][cell]
             section: sections_basket[section].name
 
-    change_gig: (a) ->
-        @setState
-            content: -> arrows_basket[a]
+    # change_gig: (a) -> #deprecate to delete
+    #     @setState
+    #         content: -> arrows_basket[a]
 
     componentDidMount: ->
         window.addEventListener "resize", =>
@@ -115,6 +125,7 @@ main = rr
         #content: -> buttons__grid_001()
         content: -> arrows
         section: 'arrows'
+        cell: './arrow_004.coffee'
         #content: -> button_005()
         #content: -> text_input_002()
         #content: -> ph_glyph_001()
@@ -138,6 +149,18 @@ main = rr
                     focus_cell_selection: @focus_cell_selection
                     change_gig: @change_gig # didn't need to be bound
                     section: @state.section
+            div
+                style:
+                    position: 'fixed'
+                    height: '5%'
+                    width: '5%'
+                    background: 'lightblue'
+                    top: 0
+                    left: 0
+                ,
+                div null, @state.section
+                div null, @state.cell
+
             sidebar
                 room_2: @changeContent.bind(@, room_2)
                 rule_30: @changeContent.bind(@, rule_30_0)

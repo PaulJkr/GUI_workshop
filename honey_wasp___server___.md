@@ -16,8 +16,24 @@ ____________________________
 _______________
 _june 24_
 
+
+websocket server.
 it runs a redis client,
 it has license to create and edit files for components that want to be exported.  to 'hard code', the saved redis selections iow.
+
+
+there are sets or sections , and each one has cells.
+right now we are just rectangles for cells, and as long as the cells
+are divs this will remain the case.  so we need to see if we 
+can nest svgs as react components without intervening divs.  i think we can.  then we can make aperiodic tilings for the cells. 
+
+the next step is state data design.
+
+the content fed to the root render should be calculated from the content vector.  
+
+right now i think the content vector is [section, cell], those coordinates index dictionaries section to `sections_basket` and cell to section. we could make `section_view` a legitimate cell coordinate, which would allow calculating to show the overall section view for that section.  
+
+for now can put current nav-state to localStorage and query this on reload.  can still have a hard-coded override switch standing by ready to be unncommented.
 
 
 
