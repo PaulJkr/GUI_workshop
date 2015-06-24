@@ -15,11 +15,11 @@ basket_2 = require_dyn.keys().reduce (acc, i) ->
 
 Wworker = require("worker!./alpha_worker.coffee")
 alpha_worker = new Wworker()
-alpha_worker.addEventListener "message", ->
-    c "hey it got a message, addEventListener style"
-alpha_worker.onmessage = ->
-    c "hey it got this message"
-alpha_worker.postMessage({a: "hello"})
+# alpha_worker.addEventListener "message", ->
+#     c "hey it got a message, addEventListener style"
+# alpha_worker.onmessage = ->
+#     c "hey it got this message"
+# alpha_worker.postMessage({a: "hello"})
 
 arrows = rr
 

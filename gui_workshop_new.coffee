@@ -1,89 +1,19 @@
-#----------------------------------------------
-# monkey patch from
-# https://gist.github.com/akre54/80eaa63762ea499029f0
-#--------...... didn't work maybe another 
-# doesn't work maybe some env change needed -- it's a different 
-# developmental context it's used in.
-
-ReactDOM = require 'react/build/modules/ReactDOM'
-ReactElement = require 'react/build/modules/ReactElement'
-ReactElementValidator = require 'react/build/modules/ReactElementValidator'
-SVGDOMPropertyConfig = require 'react/build/modules/SVGDOMPropertyConfig'
-DOMProperty = require 'react/build/modules/DOMProperty'
-MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE
 
 
-# createFactory = if __DEV__?
-#     ReactElementValidator.createFactory
-#   else
-#     ReactElement.createFactory
+document.getElementsByTagName('body')[0].style.overflow = 'hidden'
+document.getElementById('__react__root__').style.overflow = 'hidden'
 
-createFactory = ReactElementValidator.createFactory
-
-SVGDOMPropertyConfig.Properties.mask = MUST_USE_ATTRIBUTE
-SVGDOMPropertyConfig.Properties.filter = MUST_USE_ATTRIBUTE
-SVGDOMPropertyConfig.Properties.stdDeviation = MUST_USE_ATTRIBUTE
-SVGDOMPropertyConfig.Properties.result = MUST_USE_ATTRIBUTE
-SVGDOMPropertyConfig.Properties.mode = MUST_USE_ATTRIBUTE
-SVGDOMPropertyConfig.Properties.in = MUST_USE_ATTRIBUTE
-    
-ReactDOM.filter = createFactory 'filter'
-ReactDOM.feGaussianBlur = createFactory 'feGaussianBlur'
-ReactDOM.feBlend = createFactory 'feBlend'
-ReactDOM.feOffset = createFactory 'feOffset'
-ReactDOM.feMerge = createFactory 'feMerge'
-ReactDOM.feMergeNode = createFactory 'feMergeNode'
-
-
-require('./lib/main.styl')
+require('./__monkey_patch_failure__.coffee') # doesn't work, keeping it to try again in new way
+#require('./lib/main.styl') # nothing in it
 
 {c, React, rr, shortid, assign, update, __react__root__} = require('./lib/__boiler__plate__.coffee')()
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
 
-document.getElementsByTagName('body')[0].style.overflow = 'hidden'
-document.getElementById('__react__root__').style.overflow = 'hidden'
-
-sidebar = require('./lib/nav_sidebar/sidebar_0_.coffee')
-room_2 = require('./lib/room_2/main.coffee')
-rule_30_0 = require('./lib/room_3/room_3_main_2_.coffee')()
-room_3_0 = require('./lib/room_3/room_3_main_0_.coffee')()
-room_3_1 = require('./lib/room_3/room_3_main_1_.coffee')()
-room_3_3 = require('./lib/room_3/room_3_main_3_.coffee')()
-screenHint = require('./lib/screen_hint_.coffee')()
-
-
-buttons__grid = require('./lib/buttons__grid/main.coffee')()
-buttons__grid_001 = require('./lib/buttons__grid/main_001.coffee')()
-button_005 = require('./lib/buttons__grid/button_005_.coffee')()
-text_input_001 = require('./lib/buttons__grid/text_input_001_.coffee')()
-text_input_002 = require('./lib/buttons__grid/text_input_002_.coffee')()
-ph_glyph_000 = require('./lib/buttons__grid/photo_derived_glyph_000_.coffee')()
-ph_glyph_001 = require('./lib/buttons__grid/photo_derived_glyph_001_.coffee')()
-
-#---------------------new paradigm-------------------------------------------
-# -------------------------------  now can require once the main section file
-# --------and then require the entire collection of units at a go
-# ---------and should be able to focus gui on any one of those celled units
-# as per the 'change_gig' function pattern below.
-arrows = require('./lib/arrows_grid/main_000_.coffee')()
-require_arrows = require.context('./lib/arrows_grid/lib', true, /.coffee$/)
-arrows_basket = require_arrows.keys().reduce (acc, i) ->
-    acc[i] = require_arrows(i)()
-    acc
-, {name: 'arrows'}
-#---------------------------------------------------------
-sections_basket = {}
-sections_basket['arrows'] = arrows_basket
-
-
-
-
+{ charta, require_arrows, arrows, arrows_basket, sections_basket } = require('./__payload__outlay__.coffee')()
 
 
 main = rr
-    # so rename this and change the process, can stardardise it to organise by library section.
-    # this section is arrows, but will have other catalogs..
 
     focus_cell_selection: (section, cell) ->
         # section could be 'arrows'
@@ -117,17 +47,84 @@ main = rr
         @setState
             content: arguments[0]
 
+    calc_content: (section, cell) ->
+
+
+        if @state.cell is 'section_root'
+            c 'got root'
+            charta[@state.section]
+        else
+            sections_basket[@state.section][@state.cell]
+
+        #arrows_basket[Object.keys(arrows_basket)[3]]
+
+    set_content_vector: (section, cell) ->
+        c 'cell', cell
+        payload_000=
+            section: section
+            cell: cell
+        payload_000s= JSON.stringify(payload_000)
+        localStorage.setItem 'gui_workshop_nav_state',
+            payload_000s
+        @setState
+            section: section
+            cell: cell
+            content: @calc_content
+
     getInitialState: ->
-        #ncontent: -> buttons__grid()
-        #content: -> buttons__grid_001()
-        content: -> arrows
-        section: 'arrows'
-        cell: 'section_root'
-        #content: -> button_005()
-        #content: -> text_input_002()
-        #content: -> ph_glyph_001()
-        #content: -> room_3_1()
-        screenHint: screenHint
+        section= 'arrows'
+        #cell= './arrow_004_.coffee'
+        cell= 'section_root'
+
+        initial=
+             content: @calc_content.bind section, cell
+             section: section
+             cell: cell
+
+        payload_001 =
+            section: 'arrows'
+            cell: 'section_root'
+        payload_001s = JSON.stringify payload_001
+        localStorage.setItem 'gui_workshop_nav_state', payload_001s
+
+        # imp = localStorage.getItem 'gui_workshop_nav_state'
+        # if imp?
+        #     c 'have imp'
+        #     imp2 = JSON.parse imp
+        #     c imp2
+        #     initial2 =
+        #         content: @calc_content.bind imp2.section, imp2.cell
+        #         section: imp2.section
+        #         cell: imp2.cell
+        #     return initial2
+
+
+
+
+        # if Math.random() < .5
+        #     payload_000=
+        #         section: 'arrows'
+        #         cell: 'section_root'
+        #     payload_000s= JSON.stringify(payload_000)
+        #     localStorage.setItem 'gui_workshop_nav_state',
+        #         payload_000s
+        # else
+        #     c 'tSTNHEUistn'
+        #     localStorage.removeItem 'gui_workshop_nav_state'
+
+
+        # imp = localStorage.getItem('gui_workshop_nav_state')
+        # # amp0= JSON.parse(localStorage.getItem('gui_workshop_nav_state'))
+        # if imp isnt null
+        #     imp2 = JSON.parse imp
+        #     imp3=
+        #         content: @calc_content.bind imp2.section, imp2.cell
+        #         section: imp2.section
+        #         cell: imp2.cell
+            #initial = imp3
+        return initial
+
+
 
 
     render: ->
@@ -143,9 +140,10 @@ main = rr
             ,
             if @state.content?
                 @state.content()
-                    focus_cell_selection: @focus_cell_selection
-                    change_gig: @change_gig # didn't need to be bound
+                    #focus_cell_selection: @focus_cell_selection
+                    focus_cell_selection: @set_content_vector
                     section: @state.section
+                    cell: @state.cell
             div
                 style:
                     position: 'fixed'
@@ -158,12 +156,6 @@ main = rr
                 div null, @state.section
                 div null, @state.cell
 
-            sidebar()
-                room_2: @changeContent.bind(@, room_2)
-                rule_30: @changeContent.bind(@, rule_30_0)
-                room_3_1: @changeContent.bind @, room_3_1
-                buttons__grid: @changeContent.bind @, buttons__grid_001
-            # @state.screenHintc 'section', @props.section
-            #     remove_screenHint: @remove_screenHint#.bind(@)
+
 
 React.render main(), __react__root__
