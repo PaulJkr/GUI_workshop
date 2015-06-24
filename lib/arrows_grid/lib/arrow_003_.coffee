@@ -23,6 +23,12 @@ arrow = rr
         , 1
 
     componentDidMount: ->
+        window.addEventListener 'resize', (e) =>
+            boundingRect = React.findDOMNode(@).getBoundingClientRect()
+            @setState
+                rect_width: boundingRect.width
+                rect_height: boundingRect.height
+            @shuffle_stroke()
         boundingRect = React.findDOMNode(@).getBoundingClientRect()
         @setState
             rect_width: boundingRect.width
@@ -30,7 +36,6 @@ arrow = rr
         @shuffle_stroke()
 
     render: ->
-
         if @state?
             svg
                 cursor: 'pointer'
@@ -67,7 +72,8 @@ arrow = rr
                             x: "20%"
                             y: "15%"
                             stroke: 'black'
-                            onClick: => @props.change_gig(@props.cursor)
+                            #onClick: => @props.change_gig(@props.cursor)
+                            onClick: => @props.focus_cell_selection(@props.section, @props.cursor)
                             style:
                                 cursor: 'pointer'
                             ,

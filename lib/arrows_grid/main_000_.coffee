@@ -43,6 +43,7 @@ arrows = rr
             @setState
                 iW: window.innerWidth - @state.padding
                 iH: window.innerHeight - @state.padding
+                
 
     getInitialState: ->
         grid_cell_size_x = 200
@@ -118,8 +119,10 @@ arrows = rr
                             #basket.pop()
                             if typeof elk is 'function'
                                 elk
+                                    section: @props.section
                                     cursor: cursor
                                     change_gig: @props.change_gig
+                                    focus_cell_selection: @props.focus_cell_selection
 
                             
 

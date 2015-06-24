@@ -71,8 +71,12 @@ require_arrows = require.context('./lib/arrows_grid/lib', true, /.coffee$/)
 arrows_basket = require_arrows.keys().reduce (acc, i) ->
     acc[i] = require_arrows(i)()
     acc
-, {}
+, {name: 'arrows'}
 #---------------------------------------------------------
+sections_basket = {}
+sections_basket['arrows'] = arrows_basket
+
+
 
 
 
@@ -80,6 +84,16 @@ arrows_basket = require_arrows.keys().reduce (acc, i) ->
 main = rr
     # so rename this and change the process, can stardardise it to organise by library section.
     # this section is arrows, but will have other catalogs..
+
+    focus_cell_selection: (section, cell) ->
+        # section could be 'arrows'
+        # cell could be './arrow_001_.coffee'
+        c 'section', section, 'cell,', cell
+
+        @setState
+            content: -> sections_basket[section][cell]
+            section: sections_basket[section].name
+
     change_gig: (a) ->
         @setState
             content: -> arrows_basket[a]
@@ -100,11 +114,13 @@ main = rr
         #ncontent: -> buttons__grid()
         #content: -> buttons__grid_001()
         content: -> arrows
+        section: 'arrows'
         #content: -> button_005()
         #content: -> text_input_002()
         #content: -> ph_glyph_001()
         #content: -> room_3_1()
         screenHint: screenHint
+
 
     render: ->
         div
@@ -119,13 +135,15 @@ main = rr
             ,
             if @state.content?
                 @state.content()
+                    focus_cell_selection: @focus_cell_selection
                     change_gig: @change_gig # didn't need to be bound
+                    section: @state.section
             sidebar
                 room_2: @changeContent.bind(@, room_2)
                 rule_30: @changeContent.bind(@, rule_30_0)
                 room_3_1: @changeContent.bind @, room_3_1
                 buttons__grid: @changeContent.bind @, buttons__grid_001
-            # @state.screenHint
+            # @state.screenHintc 'section', @props.section
             #     remove_screenHint: @remove_screenHint#.bind(@)
 
 React.render main(), __react__root__
