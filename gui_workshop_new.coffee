@@ -10,7 +10,27 @@ require('./__monkey_patch_failure__.coffee') # doesn't work, keeping it to try a
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
 
-{ charta, require_arrows, arrows, arrows_basket, sections_basket } = require('./__payload__outlay__.coffee')()
+{ section_views, components_baskets_indexed_by_section } = require('./__payload__outlay__.coffee')()
+
+
+test = rr
+    render: ->
+        div null, 'heading'
+
+
+adhoc_section_link = rr
+    render: ->
+        div
+            style:
+                position: 'absolute'
+                top: @props.top
+                left: '10%'
+                cursor: 'pointer'
+                color: @props.color
+            onClick: (e) => @props.vector_set(@props.name, 'section_root')
+            ,
+            @props.name
+
 
 
 main = rr
@@ -29,11 +49,12 @@ main = rr
 
     calc_content: (section, cell) ->
         if @state.cell is 'section_root'
-            charta[@state.section]
+            section_views[@state.section]
         else
-            sections_basket[@state.section][@state.cell]
+            components_baskets_indexed_by_section[@state.section][@state.cell]
 
     set_content_vector: (section, cell) ->
+        c "setting with", section, cell
         payload_000=
             section: section
             cell: cell
@@ -53,14 +74,20 @@ main = rr
         #      content: @calc_content.bind section, cell
         #      section: section
         #      cell: cell
-        # payload_001 =
-        #     section: 'arrows'
-        #     cell: 'section_root'
-        # payload_001s = JSON.stringify payload_001
-        # localStorage.setItem 'gui_workshop_nav_state', payload_001s
+
+
+        payload_001 =
+            section: 'arrows'
+            cell: 'section_root'
+        payload_001s = JSON.stringify payload_001
+        localStorage.setItem 'gui_workshop_nav_state', payload_001s
+
+
         imp = localStorage.getItem 'gui_workshop_nav_state'
         if imp?
+
             imp2 = JSON.parse imp
+            c 'imp2', imp2
             initial2 =
                 content: @calc_content.bind imp2.section, imp2.cell
                 section: imp2.section
@@ -88,8 +115,8 @@ main = rr
             div
                 style:
                     position: 'fixed'
-                    height: '10%'
-                    width: '6%'
+                    height: '20%'
+                    width: '10%'
                     top: 0
                     left: 0
                 ,
@@ -99,17 +126,19 @@ main = rr
                         width: '100%'
                         height: '100%'
                         background: 'grey'
-                        opacity: 0.8
+                        opacity: 0.7
                     ,
-                div
-                    style:
-                        position: 'absolute'
-                        top: '10%'
-                        left: '10%'
-                        cursor: 'pointer'
-                    onClick: (e) => @set_content_vector(@state.section, 'section_root')
-                    ,
-                    @state.section
+
+                # div
+                #     style:
+
+                for key, idx in Object.keys(section_views)
+                    c 'key', key
+                    adhoc_section_link
+                        vector_set: @set_content_vector
+                        name: key
+                        top: "#{(idx * 20) + 10}%"
+                        color: if key is @state.section then 'orange' else 'green'
                 div
                     style:
                         position: 'absolute'

@@ -1,19 +1,38 @@
-arrows = require('./lib/arrows_grid/main_000_.coffee')()
-require_arrows = require.context('./lib/arrows_grid/lib', true, /.coffee$/)
-arrows_basket = require_arrows.keys().reduce (acc, i) ->
-    acc[i] = require_arrows(i)()
+section_views = {}
+components_baskets_indexed_by_section = {}
+
+
+# this whole pattern is being refactored with the javelins thing
+
+javelins_root_view = require('./lib/javelins_space/main_000_.coffee')()
+
+required__javelins = require.context('./lib/javelins_space/lib', true, /.coffee$/)
+
+javelins_basket = required__javelins.keys().reduce (acc, i) ->
+    acc[i] = required__javelins(i)()
+    acc
+, {name: 'javelins'}
+
+components_baskets_indexed_by_section['javelins'] = javelins_basket
+section_views['javelins'] = javelins_root_view
+
+
+
+#--------------------------------------------------
+
+arrows_root_view = require('./lib/arrows_grid/main_000_.coffee')()
+required_arrows = require.context('./lib/arrows_grid/lib', true, /.coffee$/)
+arrows_basket = required_arrows.keys().reduce (acc, i) ->
+    acc[i] = required_arrows(i)()
     acc
 , {name: 'arrows'}
 
-sections_basket = {}
-sections_basket['arrows'] = arrows_basket
 
-charta = {}
-charta['arrows'] = arrows
+components_baskets_indexed_by_section['arrows'] = arrows_basket
+section_views['arrows'] = arrows_root_view
+
+#------------------------------------
 
 module.exports = ->
-    require_arrows: require_arrows
-    arrows: arrows
-    arrows_basket: arrows_basket
-    sections_basket: sections_basket
-    charta: charta
+    section_views: section_views
+    components_baskets_indexed_by_section: components_baskets_indexed_by_section
