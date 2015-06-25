@@ -1,0 +1,1 @@
+module.exports = -> "javelin_000"
