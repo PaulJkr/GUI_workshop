@@ -31,8 +31,6 @@ adhoc_section_link = rr
             ,
             @props.name
 
-
-
 main = rr
 
     componentDidMount: ->
@@ -55,12 +53,15 @@ main = rr
 
     set_content_vector: (section, cell) ->
         c "setting with", section, cell
-        payload_000=
+        payload_000 =
             section: section
             cell: cell
         payload_000s= JSON.stringify(payload_000)
         localStorage.setItem 'gui_workshop_nav_state',
             payload_000s
+        c "verify with:"
+        c JSON.parse payload_000s
+
         @setState
             section: section
             cell: cell
@@ -93,6 +94,13 @@ main = rr
                 section: imp2.section
                 cell: imp2.cell
             return initial2
+
+        # imp = localStorage.getItem 'gui_workshop_nav_state'
+        # if imp?
+        #     c 'imp', JSON.parse(imp)
+
+        section = 'arrows'
+        cell = 'section_root'
         initial =
             content: @calc_content.bind section, cell
             section: section
@@ -113,12 +121,7 @@ main = rr
                 focus_cell_selection: @set_content_vector
                 section: @state.section
                 cell: @state.cell
-            #if @state.content?
-                #@state.content()
-                    #focus_cell_selection: @focus_cell_selection
-                    # focus_cell_selection: @set_content_vector
-                    # section: @state.section
-                    # cell: @state.cell
+                cursor: @state.cell #todo collapse redundancy
             div
                 style:
                     position: 'fixed'
@@ -135,12 +138,7 @@ main = rr
                         background: 'grey'
                         opacity: 0.7
                     ,
-
-                # div
-                #     style:
-
                 for key, idx in Object.keys(section_views)
-                    c 'key', key
                     adhoc_section_link
                         vector_set: @set_content_vector
                         name: key

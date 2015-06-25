@@ -35,6 +35,7 @@ arrow = rr
         @shuffle_stroke()
 
     render: ->
+        #c '@props in arrow_006', @props
         if @state?.rect_width?
             svg
                 width: '100%'

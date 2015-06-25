@@ -5,10 +5,7 @@
 
 require_dyn = require.context('./lib', true, /.coffee$/)
 
-basket = for i in require_dyn.keys()
-    require_dyn(i)()()
-
-basket_2 = require_dyn.keys().reduce (acc, i) ->
+basket_arrows = require_dyn.keys().reduce (acc, i) ->
     acc[i] = require_dyn(i)()
     acc
 , {}
@@ -70,7 +67,7 @@ arrows = rr
         , 1000
 
     render: ->
-        keys__ = Object.keys basket_2
+        keys__ = Object.keys basket_arrows
         grid_width = Math.floor @state.iW / @state.grid_cell_size.x
         grid_height = Math.floor @state.iH / @state.grid_cell_size.y
 
@@ -101,7 +98,8 @@ arrows = rr
                 for j in [0 .. (grid_height - 1)]
                     for i in [0 .. (grid_width - 1)]
                         cursor = keys__.pop()
-                        elk = basket_2[cursor]
+                        c 'cursor', cursor
+                        elk = basket_arrows[cursor]
                         div
                             style:
                                 position: 'absolute'
@@ -115,7 +113,6 @@ arrows = rr
                                 elk
                                     section: @props.section
                                     cursor: cursor
-                                    change_gig: @props.change_gig
                                     focus_cell_selection: @props.focus_cell_selection
 
 module.exports = -> arrows
