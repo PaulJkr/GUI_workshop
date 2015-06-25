@@ -47,6 +47,10 @@ arrow = rr
                     #translate(#{rect.width / 3})
                     transform: "rotate(#{@state.rotate}, #{rect.width * .5}, #{rect.height * .5})"
                     ,
+                    circle
+                        cx: '30%'
+                        cy: '20%'
+                        r: '10%'
                     path
                         stroke: @state.arrow_stroke
                         fill: @state.fill_stroke
