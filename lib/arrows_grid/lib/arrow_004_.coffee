@@ -41,6 +41,7 @@ arrow = rr
                 height: '100%'
                 onMouseOver: => @setState({info: on})
                 onMouseLeave: => @setState({info: off})
+                onClick: => @props.focus_cell_selection(@props.section, @props.cursor)
                 ,
                 g
                     #translate(#{rect.width / 3})

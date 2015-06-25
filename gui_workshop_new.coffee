@@ -15,26 +15,6 @@ require('./__monkey_patch_failure__.coffee') # doesn't work, keeping it to try a
 
 main = rr
 
-    focus_cell_selection: (section, cell) ->
-        # section could be 'arrows'
-        # cell could be './arrow_001_.coffee'
-
-        # we should get this from state here at root
-        # in order to avoid propagating redundant information
-        # so, when initial state is set, 
-        # content could be a computed value of 
-        # some vector like (section, cell)
-        # but for now avoid nesting it.  
-        # before we hook it up we can and should
-        # wire up the second nav system, which will 
-        # implement the same protocol
-        c 'section', section, 'cell,', cell
-
-        @setState
-            content: -> sections_basket[section][cell]
-            section: section
-            cell: cell
-
     componentDidMount: ->
         window.addEventListener "resize", =>
             @forceUpdate()
@@ -48,18 +28,12 @@ main = rr
             content: arguments[0]
 
     calc_content: (section, cell) ->
-
-
         if @state.cell is 'section_root'
-            c 'got root'
             charta[@state.section]
         else
             sections_basket[@state.section][@state.cell]
 
-        #arrows_basket[Object.keys(arrows_basket)[3]]
-
     set_content_vector: (section, cell) ->
-        c 'cell', cell
         payload_000=
             section: section
             cell: cell
@@ -72,60 +46,27 @@ main = rr
             content: @calc_content
 
     getInitialState: ->
-        section= 'arrows'
-        #cell= './arrow_004_.coffee'
-        cell= 'section_root'
-
-        initial=
-             content: @calc_content.bind section, cell
-             section: section
-             cell: cell
-
-        payload_001 =
-            section: 'arrows'
-            cell: 'section_root'
-        payload_001s = JSON.stringify payload_001
-        localStorage.setItem 'gui_workshop_nav_state', payload_001s
-
-        # imp = localStorage.getItem 'gui_workshop_nav_state'
-        # if imp?
-        #     c 'have imp'
-        #     imp2 = JSON.parse imp
-        #     c imp2
-        #     initial2 =
-        #         content: @calc_content.bind imp2.section, imp2.cell
-        #         section: imp2.section
-        #         cell: imp2.cell
-        #     return initial2
-
-
-
-
-        # if Math.random() < .5
-        #     payload_000=
-        #         section: 'arrows'
-        #         cell: 'section_root'
-        #     payload_000s= JSON.stringify(payload_000)
-        #     localStorage.setItem 'gui_workshop_nav_state',
-        #         payload_000s
-        # else
-        #     c 'tSTNHEUistn'
-        #     localStorage.removeItem 'gui_workshop_nav_state'
-
-
-        # imp = localStorage.getItem('gui_workshop_nav_state')
-        # # amp0= JSON.parse(localStorage.getItem('gui_workshop_nav_state'))
-        # if imp isnt null
-        #     imp2 = JSON.parse imp
-        #     imp3=
-        #         content: @calc_content.bind imp2.section, imp2.cell
-        #         section: imp2.section
-        #         cell: imp2.cell
-            #initial = imp3
+        # section= 'arrows'
+        # #cell= './arrow_004_.coffee'
+        # cell= 'section_root'
+        # initial=
+        #      content: @calc_content.bind section, cell
+        #      section: section
+        #      cell: cell
+        # payload_001 =
+        #     section: 'arrows'
+        #     cell: 'section_root'
+        # payload_001s = JSON.stringify payload_001
+        # localStorage.setItem 'gui_workshop_nav_state', payload_001s
+        imp = localStorage.getItem 'gui_workshop_nav_state'
+        if imp?
+            imp2 = JSON.parse imp
+            initial2 =
+                content: @calc_content.bind imp2.section, imp2.cell
+                section: imp2.section
+                cell: imp2.cell
+            return initial2
         return initial
-
-
-
 
     render: ->
         div
@@ -147,14 +88,36 @@ main = rr
             div
                 style:
                     position: 'fixed'
-                    height: '5%'
-                    width: '5%'
-                    background: 'lightblue'
+                    height: '10%'
+                    width: '6%'
                     top: 0
                     left: 0
                 ,
-                div null, @state.section
-                div null, @state.cell
+                div
+                    style:
+                        position: 'absolute'
+                        width: '100%'
+                        height: '100%'
+                        background: 'grey'
+                        opacity: 0.8
+                    ,
+                div
+                    style:
+                        position: 'absolute'
+                        top: '10%'
+                        left: '10%'
+                        cursor: 'pointer'
+                    onClick: (e) => @set_content_vector(@state.section, 'section_root')
+                    ,
+                    @state.section
+                div
+                    style:
+                        position: 'absolute'
+                        top: '50%'
+                        left: '10%'
+                    ,
+                    if @state.cell isnt 'section_root'
+                        @state.cell
 
 
 
