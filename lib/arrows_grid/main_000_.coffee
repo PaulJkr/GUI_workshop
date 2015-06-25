@@ -98,7 +98,6 @@ arrows = rr
                 for j in [0 .. (grid_height - 1)]
                     for i in [0 .. (grid_width - 1)]
                         cursor = keys__.pop()
-                        c 'cursor', cursor
                         elk = basket_arrows[cursor]
                         div
                             style:

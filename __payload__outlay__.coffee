@@ -1,8 +1,15 @@
+
+
+
+
 section_views = {}
 components_baskets_indexed_by_section = {}
 
 
-# this whole pattern is being refactored with the javelins thing
+
+
+
+#________________________________________________
 
 javelins_root_view = require('./lib/javelins_space/main_000_.coffee')()
 
@@ -17,7 +24,7 @@ components_baskets_indexed_by_section['javelins'] = javelins_basket
 section_views['javelins'] = javelins_root_view
 
 
-
+#_____________________________________________
 #--------------------------------------------------
 
 arrows_root_view = require('./lib/arrows_grid/main_000_.coffee')()
@@ -31,7 +38,12 @@ arrows_basket = required_arrows.keys().reduce (acc, i) ->
 components_baskets_indexed_by_section['arrows'] = arrows_basket
 section_views['arrows'] = arrows_root_view
 
-#------------------------------------
+
+
+
+
+#-------------------------------------______________
+#--------------------_______________________----------------
 
 module.exports = ->
     section_views: section_views

@@ -118,7 +118,8 @@ main = rr
                 bottom: 0
             ,
             @state.content?()
-                focus_cell_selection: @set_content_vector
+                set_content_vector: @set_content_vector
+                focus_cell_selection: @set_content_vector #deprecate
                 section: @state.section
                 cell: @state.cell
                 cursor: @state.cell #todo collapse redundancy
