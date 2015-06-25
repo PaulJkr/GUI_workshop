@@ -3,7 +3,7 @@
 document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 document.getElementById('__react__root__').style.overflow = 'hidden'
 
-require('./__monkey_patch_failure__.coffee') # doesn't work, keeping it to try again in new way
+require('./__monkey_patch_succeeds__.coffee') # doesn't work, keeping it to try again in new way
 #require('./lib/main.styl') # nothing in it
 
 {c, React, rr, shortid, assign, update, __react__root__} = require('./lib/__boiler__plate__.coffee')()

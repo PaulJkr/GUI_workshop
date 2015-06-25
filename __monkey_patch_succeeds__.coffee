@@ -18,7 +18,7 @@ MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE
 #   else
 #     ReactElement.createFactory
 
-createFactory = ReactElementValidator.createFactory
+createFactory = ReactElement.createFactory
 
 SVGDOMPropertyConfig.Properties.mask = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.filter = MUST_USE_ATTRIBUTE
@@ -26,6 +26,7 @@ SVGDOMPropertyConfig.Properties.stdDeviation = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.result = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.mode = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.in = MUST_USE_ATTRIBUTE
+SVGDOMPropertyConfig.Properties.in2 = MUST_USE_ATTRIBUTE
     
 ReactDOM.filter = createFactory 'filter'
 ReactDOM.feGaussianBlur = createFactory 'feGaussianBlur'
