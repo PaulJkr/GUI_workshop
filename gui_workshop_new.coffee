@@ -76,11 +76,11 @@ main = rr
         #      cell: cell
 
 
-        payload_001 =
-            section: 'arrows'
-            cell: 'section_root'
-        payload_001s = JSON.stringify payload_001
-        localStorage.setItem 'gui_workshop_nav_state', payload_001s
+        # payload_001 =
+        #     section: 'arrows'
+        #     cell: 'section_root'
+        # payload_001s = JSON.stringify payload_001
+        # localStorage.setItem 'gui_workshop_nav_state', payload_001s
 
 
         imp = localStorage.getItem 'gui_workshop_nav_state'
@@ -93,7 +93,10 @@ main = rr
                 section: imp2.section
                 cell: imp2.cell
             return initial2
-        return initial
+        initial =
+            content: @calc_content.bind section, cell
+            section: section
+            cell: cell
 
     render: ->
         div
@@ -106,12 +109,16 @@ main = rr
                 top: 0
                 bottom: 0
             ,
-            if @state.content?
-                @state.content()
+            @state.content?()
+                focus_cell_selection: @set_content_vector
+                section: @state.section
+                cell: @state.cell
+            #if @state.content?
+                #@state.content()
                     #focus_cell_selection: @focus_cell_selection
-                    focus_cell_selection: @set_content_vector
-                    section: @state.section
-                    cell: @state.cell
+                    # focus_cell_selection: @set_content_vector
+                    # section: @state.section
+                    # cell: @state.cell
             div
                 style:
                     position: 'fixed'
