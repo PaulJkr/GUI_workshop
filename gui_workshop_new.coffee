@@ -13,10 +13,6 @@ require('./__monkey_patch_succeeds__.coffee') # doesn't work, keeping it to try 
 { section_views, components_baskets_indexed_by_section } = require('./__payload__outlay__.coffee')()
 
 
-test = rr
-    render: ->
-        div null, 'heading'
-
 
 adhoc_section_link = rr
     render: ->
@@ -34,7 +30,18 @@ adhoc_section_link = rr
 main = rr
 
     componentDidMount: ->
+        bounding_rect = React.findDOMNode(@).getBoundingClientRect()
+        c 'bounding_rect', bounding_rect
+        @setState
+            view_width: bounding_rect.width
+            view_height: bounding_rect.height
         window.addEventListener "resize", =>
+            bounding_rect = React.findDOMNode(@).getBoundingClientRect()
+            c 'bounding_rect', bounding_rect
+            #if @isMounted()
+            @setState
+                view_width: bounding_rect.width
+                view_height: bounding_rect.height
             @forceUpdate()
 
     remove_screenHint: ->
@@ -107,52 +114,67 @@ main = rr
             cell: cell
 
     render: ->
-        div
-            style:
-                position: 'absolute'
-                width: window.innerWidth
-                height: window.innerHeight
-                left: 0
-                right: 0
-                top: 0
-                bottom: 0
-            ,
-            @state.content?()
-                set_content_vector: @set_content_vector
-                focus_cell_selection: @set_content_vector #deprecate
-                section: @state.section
-                cell: @state.cell
-                cursor: @state.cell #todo collapse redundancy
+        if not @state.view_width
             div
                 style:
-                    position: 'fixed'
-                    height: '20%'
-                    width: '10%'
-                    top: 0
+                    position: 'absolute'
+                    width: window.innerWidth
+                    height: window.innerHeight
                     left: 0
+                    right: 0
+                    top: 0
+                    bottom: 0
                 ,
+        else
+            div
+                style:
+                    position: 'absolute'
+                    width: window.innerWidth
+                    height: window.innerHeight
+                    left: 0
+                    right: 0
+                    top: 0
+                    bottom: 0
+                ,
+                @state.content?()
+                    set_content_vector: @set_content_vector
+                    focus_cell_selection: @set_content_vector #deprecate
+                    section: @state.section
+                    cell: @state.cell
+                    cursor: @state.cell #todo collapse redundancy
+
+                    view_width: @state.view_width
+                    view_height: @state.view_height
                 div
                     style:
-                        position: 'absolute'
-                        width: '100%'
-                        height: '100%'
-                        background: 'grey'
-                        opacity: 0.7
+                        position: 'fixed'
+                        height: '20%'
+                        width: '10%'
+                        top: 0
+                        left: 0
                     ,
-                for key, idx in Object.keys(section_views)
-                    adhoc_section_link
-                        vector_set: @set_content_vector
-                        name: key
-                        top: "#{(idx * 20) + 10}%"
-                        color: if key is @state.section then 'orange' else 'green'
-                div
-                    style:
-                        position: 'absolute'
-                        top: '50%'
-                        left: '10%'
-                    ,
-                    if @state.cell isnt 'section_root'
-                        @state.cell
+                    div
+                        style:
+                            position: 'absolute'
+                            width: '100%'
+                            height: '100%'
+                            background: 'grey'
+                            opacity: 0.7
+                        ,
+                    for key, idx in Object.keys(section_views)
+                        adhoc_section_link
+                            vector_set: @set_content_vector
+                            name: key
+                            top: "#{(idx * 20) + 10}%"
+                            color: if key is @state.section then 'orange' else 'green'
+                    div
+                        style:
+                            position: 'absolute'
+                            top: '50%'
+                            left: '10%'
+                        ,
+                        if @state.cell isnt 'section_root'
+                            @state.cell
 
 
 

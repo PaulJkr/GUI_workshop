@@ -33,6 +33,17 @@ arrow = rr
             rect_width: rect.width
             rect_height: rect.height
         @shuffle_stroke()
+        window.addEventListener 'resize', (e) =>
+
+            if @isMounted()
+                rect = React.findDOMNode(@).getBoundingClientRect()
+                @setState
+                    rect_width: rect.width
+                    rect_height: rect.height
+                    # # iW: @props.innerWidth
+                    # # iH: @props.innerHeight
+                    # iW: window.innerWidth - @state.padding
+                    # iH: window.innerHeight - @state.padding
 
     render: ->
         #c '@props in arrow_006', @props

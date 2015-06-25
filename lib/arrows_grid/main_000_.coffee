@@ -35,17 +35,24 @@ arrows = rr
 
     componentDidMount: ->
         window.addEventListener 'resize', (e) =>
-            @setState
-                iW: window.innerWidth - @state.padding
-                iH: window.innerHeight - @state.padding
+
+            if @isMounted()
+                @setState
+                    # iW: @props.innerWidth
+                    # iH: @props.innerHeight
+                    iW: window.innerWidth - @state.padding
+                    iH: window.innerHeight - @state.padding
+
 
     getInitialState: ->
         grid_cell_size_x = 200
         grid_cell_size_y = 200
         padding = 10
         padding: padding
-        iW: window.innerWidth - (2 * padding)
-        iH: window.innerHeight - (2 * padding)
+        iW: @props.view_width
+        iH: @props.view_height
+        # iW: window.innerWidth - (2 * padding)
+        # iH: window.innerHeight - (2 * padding)
         grid_cell_size: {x: grid_cell_size_x, y: grid_cell_size_y}
         __00:
             x: 30
