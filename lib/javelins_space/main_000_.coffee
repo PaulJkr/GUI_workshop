@@ -86,7 +86,7 @@ javelins_space = rr
             scalar_000: e.currentTarget.value
     getInitialState: ->
         hello : 'hi'
-        scalar_000: 1
+        scalar_000: 4
 
     aperiodic_tiling: ->
 
