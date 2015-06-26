@@ -4,6 +4,8 @@
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
 
+# { here import some components , for doing like adhoc controllers, stuff like custom sliders , that stuff could be in lib root or something.}
+
 require_dyn = require.context('./lib', true, /.coffee$/)
 
 # basket = for i in require_dyn.keys()
