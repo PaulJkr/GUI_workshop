@@ -17,7 +17,8 @@ require_dyn = require.context('./lib', true, /.coffee$/)
 
 
 hexagon_cell = rr
-
+    getInitialState: ->
+        scalar_000: @props.scalar_000
     render: ->
         polygon
             onClick: -> c "yeah " + Math.random()
@@ -28,39 +29,11 @@ hexagon_cell = rr
             stroke: 'black'
             fill: @props.color
             transform: "translate(#{@props.x}, #{@props.y})"
-            points: "#{(60 * @props.scalar_000)},#{(20 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(40 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(80 * @props.scalar_000)} #{(60 * @props.scalar_000)},#{(100 * @props.scalar_000)} #{(20 * @props.scalar_000)}, #{(80 * @props.scalar_000)} #{20 * @props.scalar_000},#{(40 * @props.scalar_000)}"
+            points: "#{(60 * @state.scalar_000)},#{(20 * @state.scalar_000)} #{(100 * @state.scalar_000)},#{(40 * @state.scalar_000)} #{(100 * @state.scalar_000)},#{(80 * @state.scalar_000)} #{(60 * @state.scalar_000)},#{(100 * @state.scalar_000)} #{(20 * @state.scalar_000)}, #{(80 * @state.scalar_000)} #{20 * @state.scalar_000},#{(40 * @state.scalar_000)}"
 
 
 
-adhoc_controller = rr
 
-    render: ->
-        div
-            style:
-                position: 'fixed'
-                right: 0
-                top: 100
-                width: 70
-                height: 100
-            ,
-            div
-                style:
-                    position: 'absolute'
-                    width: '100%'
-                    height: '100%'
-                    background: 'purple'
-                    opacity: .4
-            div
-                style:
-                    position: 'absolute'
-                ,
-                input
-                    value: @props.scalar_000
-                    type: 'range'
-                    step: .1
-                    min: .1
-                    max: 10
-                    onChange: @props.shift_scalar_000
 
 javelins_space = rr
     
@@ -72,13 +45,10 @@ javelins_space = rr
         # it's just an svg.
         # we can pass this in as props , which would make more sense anyhow,
         # just to do the call once at some root node and propagate the data through
-    shift_scalar_000: (e) ->
 
-        @setState
-            scalar_000: e.currentTarget.value
     getInitialState: ->
         hello : 'hi'
-        scalar_000: 1
+        scalar_000: 1.2
 
     aperiodic_tiling: ->
 
@@ -95,9 +65,6 @@ javelins_space = rr
                 height: '100%'
                 background: 'grey'
             ,
-            adhoc_controller
-                scalar_000: @state.scalar_000
-                shift_scalar_000: @shift_scalar_000
             svg
                 width: '100%'
                 height: '100%'
@@ -152,9 +119,9 @@ javelins_space = rr
                     for i in [0 .. 10]
                         hexagon_cell
                             scalar_000: @state.scalar_000
-                            color: "hsl(#{Math.random() * 360}, 99%, 70%)"
-                            x: if (j % 2 is 0) then (i * (80 * @state.scalar_000)) else (i * ((80 * @state.scalar_000)) + (40 * @state.scalar_000))
-                            y: j * (60 * @state.scalar_000)
+                            color: "hsl(#{Math.random() * 360},99%,70%)"
+                            x: if (j % 2 is 0) then (i * 80) else ((i * 80) + 40)
+                            y: j * 60
 
 
 
