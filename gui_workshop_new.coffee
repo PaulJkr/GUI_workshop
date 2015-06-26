@@ -12,8 +12,6 @@ require('./__monkey_patch_succeeds__.coffee') # doesn't work, keeping it to try 
 
 { section_views, components_baskets_indexed_by_section } = require('./__payload__outlay__.coffee')()
 
-
-
 adhoc_section_link = rr
     render: ->
         div
@@ -27,8 +25,9 @@ adhoc_section_link = rr
             ,
             @props.name
 
-main = rr
 
+main = rr
+    
     componentDidMount: ->
         bounding_rect = React.findDOMNode(@).getBoundingClientRect()
         c 'bounding_rect', bounding_rect
@@ -114,6 +113,7 @@ main = rr
             cell: cell
 
     render: ->
+        c 'main'
         if not @state.view_width
             div
                 style:
@@ -177,5 +177,6 @@ main = rr
                             @state.cell
 
 
+c 'here2'
 
 React.render main(), __react__root__

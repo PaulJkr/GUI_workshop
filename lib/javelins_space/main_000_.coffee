@@ -9,16 +9,16 @@ require_dyn = require.context('./lib', true, /.coffee$/)
 # basket = for i in require_dyn.keys()
 #     require_dyn(i)()()
 
-basket_javelins = require_dyn.keys().reduce (acc, i) ->
-    acc[i] = require_dyn(i)()
-    acc
-, {}
+# basket_javelins = require_dyn.keys().reduce (acc, i) ->
+#     acc[i] = require_dyn(i)()
+#     acc
+# , {}
 
 
 hexagon_cell = rr
     render: ->
-        c @props, '@props'
         polygon
+            onClick: -> c "yeah " + Math.random()
             # vectorEffect: "non-scaling-stroke"
             filter: 'url(#f2)'
             # x: 300
@@ -98,13 +98,13 @@ javelins_space = rr
                         ,
                         feOffset result:"offOut"
                         in:"SourceGraphic"
-                        dx:"12"
-                        dy:"12"
+                        dx:"9"
+                        dy:"9"
                         ,
                         feGaussianBlur
                             result:"blurOut"
                             in:"offOut"
-                            stdDeviation:"3"
+                            stdDeviation:".8"
                             ,
                         feBlend
                             in:"SourceGraphic"
@@ -119,15 +119,21 @@ javelins_space = rr
                         color: "hsl(#{Math.random() * 360},99%,70%)"
                         x: i * 80
                         y: 100
-                # g
-                #     #transform: "translate(200, 50)"
-                #     x: "400px"
-                #     y: "200px"
-                #     ,
-                #     circle
-                #         cx: 100
-                #         cy: 100
-                #         r: 40
+                for i in [0 .. 10]
+                    hexagon_cell
+                        color: "hsl(#{Math.random() * 360},99%,70%)"
+                        x: (i * 80) + 40
+                        y: 160
+
+                g
+                    #transform: "translate(200, 50)"
+                    x: "400px"
+                    y: "200px"
+                    ,
+                    circle
+                        cx: 100
+                        cy: 100
+                        r: 40
 
 
                 rect

@@ -9,5 +9,4 @@ javelin = rr
             cy: @props.carte_y
             r: '20%'
 
-
 module.exports = -> javelin
