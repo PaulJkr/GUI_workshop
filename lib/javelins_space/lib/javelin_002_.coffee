@@ -5,19 +5,20 @@
 javelin = rr
 
     componentDidMount: ->
-        #@color_wheel_000()
+        @color_wheel_000()
 
     getInitialState: ->
         color: Math.random() * 360
 
     color_wheel_000: ->
+        color_shift_velocity = .10
         start = new Date().getTime()
         setInterval =>
             now = new Date().getTime()
-            delta = now - start
+            delta = (now - start) * color_shift_velocity
             @setState
                 color: delta % 360
-        , 10
+        , 20
 
     render: ->
 
@@ -36,8 +37,11 @@ javelin = rr
                     id: 'radial__003'
                     ,
                     stop
-                        offset: "22%"
-                        stopColor: "hsl(#{@state.color + 120},99%,70%)"
+                        offset: "2%"
+                        stopColor: "hsl(#{@state.color + 240},99%,80%)"
+                    stop
+                        offset: "30%"
+                        stopColor: "hsl(#{@state.color + 120},99%,80%)"
                     stop
                         offset: "200%"
                         stopColor: "hsl(#{@state.color},99%,70%)"
