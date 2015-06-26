@@ -21,16 +21,25 @@ require_dyn = require.context('./lib', true, /.coffee$/)
 hexagon_cell = rr
 
     render: ->
-        polygon
-            onClick: -> c "yeah " + Math.random()
-            # vectorEffect: "non-scaling-stroke"
-            #filter: 'url(#f2)'
-            # x: 300
-            # y: 50
-            stroke: 'black'
-            fill: @props.color
-            transform: "translate(#{@props.x}, #{@props.y})"
-            points: "#{(60 * @props.scalar_000)},#{(20 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(40 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(80 * @props.scalar_000)} #{(60 * @props.scalar_000)},#{(100 * @props.scalar_000)} #{(20 * @props.scalar_000)}, #{(80 * @props.scalar_000)} #{20 * @props.scalar_000},#{(40 * @props.scalar_000)}"
+        g
+            x: 0
+            ,
+            polygon
+                onClick: -> c "yeah " + Math.random()
+                # vectorEffect: "non-scaling-stroke"
+                #filter: 'url(#f2)'
+                # x: 300
+                # y: 50
+                stroke: 'black'
+                fill: @props.color
+                transform: "translate(#{@props.x}, #{@props.y})"
+                points: "#{(60 * @props.scalar_000)},#{(20 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(40 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(80 * @props.scalar_000)} #{(60 * @props.scalar_000)},#{(100 * @props.scalar_000)} #{(20 * @props.scalar_000)}, #{(80 * @props.scalar_000)} #{20 * @props.scalar_000},#{(40 * @props.scalar_000)}"
+                ,
+            circle
+                transform: "translate(#{@props.x}, #{@props.y})"
+                cx: (60 * @props.scalar_000)
+                cy: (60 * @props.scalar_000)
+                r: 10 * @props.scalar_000
 
 
 
