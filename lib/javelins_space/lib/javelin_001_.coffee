@@ -5,10 +5,11 @@
 javelin = rr
 
     render: ->
-        c @props
-        circle
-            cx: @props.x
-            cy: @props.y
-            r: 10
+        rect
+            x: @props.x - (5 * @props.scalar_000)
+            y: @props.y - (5 * @props.scalar_000)
+            width: 10 * @props.scalar_000
+            height: 10 * @props.scalar_000
+            fill: 'black'
 
 module.exports = -> javelin

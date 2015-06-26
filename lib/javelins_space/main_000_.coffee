@@ -8,13 +8,10 @@
 
 require_dyn = require.context('./lib', true, /.coffee$/)
 
-# basket = for i in require_dyn.keys()
-#     require_dyn(i)()()
-
-# basket_javelins = require_dyn.keys().reduce (acc, i) ->
-#     acc[i] = require_dyn(i)()
-#     acc
-# , {}
+basket_javelins = require_dyn.keys().reduce (acc, i) ->
+    acc[i] = require_dyn(i)()
+    acc
+, {}
 
 
 
@@ -35,11 +32,11 @@ hexagon_cell = rr
                 transform: "translate(#{@props.x}, #{@props.y})"
                 points: "#{(60 * @props.scalar_000)},#{(20 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(40 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(80 * @props.scalar_000)} #{(60 * @props.scalar_000)},#{(100 * @props.scalar_000)} #{(20 * @props.scalar_000)}, #{(80 * @props.scalar_000)} #{20 * @props.scalar_000},#{(40 * @props.scalar_000)}"
                 ,
-            circle
-                transform: "translate(#{@props.x}, #{@props.y})"
-                cx: (60 * @props.scalar_000)
-                cy: (60 * @props.scalar_000)
-                r: 10 * @props.scalar_000
+            # circle
+            #     transform: "translate(#{@props.x}, #{@props.y})"
+            #     cx: (60 * @props.scalar_000)
+            #     cy: (60 * @props.scalar_000)
+            #     r: 10 * @props.scalar_000
 
 
 
@@ -98,7 +95,7 @@ javelins_space = rr
     render: ->
         vW = @props.view_width
         vH = @props.view_height
-        c vW, vH, "vW and vH"
+        keys__ = Object.keys basket_javelins
         div
             style:
                 position: 'absolute'
@@ -161,11 +158,25 @@ javelins_space = rr
                             ,
                 for j in [0 .. 9]
                     for i in [0 .. 10]
-                        hexagon_cell
-                            scalar_000: @state.scalar_000
-                            color: "hsl(#{Math.random() * 360}, 99%, 70%)"
-                            x: if (j % 2 is 0) then (i * (80 * @state.scalar_000)) else (i * ((80 * @state.scalar_000)) + (40 * @state.scalar_000))
-                            y: j * (60 * @state.scalar_000)
+                        cursor = keys__.pop()
+                        elk = basket_javelins[cursor]
+                        g
+                            x: 0
+                            ,
+                            hexagon_cell
+                                scalar_000: @state.scalar_000
+                                color: "hsl(#{Math.random() * 360}, 99%, 70%)"
+                                x: if (j % 2 is 0) then (i * (80 * @state.scalar_000)) else (i * ((80 * @state.scalar_000)) + (40 * @state.scalar_000))
+                                y: j * (60 * @state.scalar_000)
+                                ,
+                            if typeof elk is 'function'
+                                elk
+                                    x: if (j % 2 is 0) then (i * (80 * @state.scalar_000) + (@state.scalar_000 * 60)) else (i * ((80 * @state.scalar_000)) + (40 * @state.scalar_000) + (@state.scalar_000 * 60))
+                                    y: j * (60 * @state.scalar_000) + (@state.scalar_000 * 60)
+                                    scalar_000: @state.scalar_000
+                                    ,
+
+
 
 
 
