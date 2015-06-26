@@ -111,26 +111,40 @@ javelins_space = rr
                             #in2:"blurOut"
                             mode:"normal"
                             ,
-                for j in [0 .. 9]
-                    for i in [0 .. 10]
-                        hexagon_cell
-                            color: "hsl(#{Math.random() * 360},99%,70%)"
-                            x: if (j % 2 is 0) then (i * 80) else ((i * 80) + 40)
-                            y: j * 60
+                hexagon_cell
+                    x: 400
+                    y: 200
+                for i in [0 .. 10]
+                    hexagon_cell
+                        color: "hsl(#{Math.random() * 360},99%,70%)"
+                        x: i * 80
+                        y: 100
+                for i in [0 .. 10]
+                    hexagon_cell
+                        color: "hsl(#{Math.random() * 360},99%,70%)"
+                        x: (i * 80) + 40
+                        y: 160
+                g
+                    #transform: "translate(200, 50)"
+                    x: "400px"
+                    y: "200px"
+                    ,
+                    circle
+                        cx: 100
+                        cy: 100
+                        r: 40
 
 
-
-
-                # rect
-                #     #vectorEffect: "non-scaling-stroke"
-                #     x: 200
-                #     y: 200
-                #     width:200
-                #     height: 200
-                #     stroke:"green"
-                #     strokeWidth: 1
-                #     fill:"yellow"
-                #     filter:"url(#f1)"
+                rect
+                    #vectorEffect: "non-scaling-stroke"
+                    x: 200
+                    y: 200
+                    width:200
+                    height: 200
+                    stroke:"green"
+                    strokeWidth: 1
+                    fill:"yellow"
+                    filter:"url(#f1)"
 
 
 
