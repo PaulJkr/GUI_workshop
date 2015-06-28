@@ -20,10 +20,8 @@ javelin = rr
     componentDidMount: ->
         @color_wheel_000()
 
-        bounding_rect = React.findDOMNode(@).getBoundingClientRect()
-
         @setState
-            bounding_rect: bounding_rect
+            bounding_rect: React.findDOMNode(@).getBoundingClientRect()
 
         window.addEventListener "resize", =>
             @setState
