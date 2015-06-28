@@ -58,15 +58,12 @@ main = rr
             components_baskets_indexed_by_section[@state.section][@state.cell]
 
     set_content_vector: (section, cell) ->
-        c "setting with", section, cell
         payload_000 =
             section: section
             cell: cell
         payload_000s= JSON.stringify(payload_000)
         localStorage.setItem 'gui_workshop_nav_state',
             payload_000s
-        c "verify with:"
-        c JSON.parse payload_000s
 
         @setState
             section: section
@@ -113,7 +110,6 @@ main = rr
             cell: cell
 
     render: ->
-        c 'main'
         if not @state.view_width
             div
                 style:
@@ -129,6 +125,8 @@ main = rr
             div
                 style:
                     position: 'absolute'
+                    # width: '100%'
+                    # height: '100%'
                     width: window.innerWidth
                     height: window.innerHeight
                     left: 0
@@ -136,6 +134,7 @@ main = rr
                     top: 0
                     bottom: 0
                 ,
+
                 @state.content?()
                     set_content_vector: @set_content_vector
                     focus_cell_selection: @set_content_vector #deprecate
@@ -150,7 +149,7 @@ main = rr
                         position: 'fixed'
                         height: '20%'
                         width: '10%'
-                        top: 0
+                        top: "60%"
                         left: 0
                     ,
                     div

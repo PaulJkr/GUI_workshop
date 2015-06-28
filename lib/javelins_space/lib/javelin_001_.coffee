@@ -5,11 +5,15 @@
 javelin = rr
 
     render: ->
+        c 'have jav_001 with', @props
+        s = @props.scalar_000
+        c 's', s
         rect
-            x: @props.x - (5 * @props.scalar_000)
-            y: @props.y - (5 * @props.scalar_000)
-            width: 10 * @props.scalar_000
-            height: 10 * @props.scalar_000
+            x: @props.x - (20 * s)
+            y: @props.y - (20 * s)
+            width: (40 * s)
+            height: (40 * s)
             fill: 'black'
+            onClick: => @props.set_content_vector(@props.section, @props.cursor)
 
 module.exports = -> javelin

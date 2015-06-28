@@ -21,9 +21,9 @@ hexagon_cell = rr
         s = @props.scalar_000
         {x, y} = @props
         hexagon_points_map = 
-            x_1 : s * -40
+            x_1 : s * 0
             y_1 : s * 20
-            x_2 : s * 0
+            x_2 : s * 40
             y_2 : s * 40
             x_3 : s * 40
             y_3 : s * 20
@@ -33,14 +33,12 @@ hexagon_cell = rr
             y_5 : s * -40
             x_6: s * -40
             y_6: s * -20
-
-        {x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, x_5, y_5, x_6, y_6} = hexagon_points_map
         polygon
             onClick: -> c "yeah " + Math.random()
             stroke: 'black'
             fill: @props.color
             transform: "translate(#{@props.x}, #{@props.y})"
-            points: "#{x_1},#{y_1} #{x_2},#{y_2} #{x_3},#{y_3} #{x_4},#{y_4} #{x_5},#{y_5} #{x_6},#{y_6}"
+            points: "#{(60 * @props.scalar_000)},#{(20 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(40 * @props.scalar_000)} #{(100 * @props.scalar_000)},#{(80 * @props.scalar_000)} #{(60 * @props.scalar_000)},#{(100 * @props.scalar_000)} #{(20 * @props.scalar_000)}, #{(80 * @props.scalar_000)} #{20 * @props.scalar_000},#{(40 * @props.scalar_000)}"
             ,
 
 
@@ -74,26 +72,36 @@ adhoc_controller = rr
                     onChange: @props.shift_scalar_000
 
 javelins_space = rr
+    
+    # componentDidMount: ->
+    #     c "okaa here ?"
+    #     bounding_rect = React.findDOMNode(@).getBoundingClientRect()
+    #     c 'bounding rect', bounding rect
+        # this does not work because this component hasn't got a dom node
+        # it's just an svg.
+        # we can pass this in as props , which would make more sense anyhow,
+        # just to do the call once at some root node and propagate the data through
     shift_scalar_000: (e) ->
+
         @setState
             scalar_000: e.currentTarget.value
-
     getInitialState: ->
+
         scalar_000: 2.5
 
     aperiodic_tiling: ->
+
+    hexagonal_tiling: ->
 
     componentDidMount: ->
         bounding_rect = React.findDOMNode(@).getBoundingClientRect()
         @setState
             bounding_rect: bounding_rect
-        window.addEventListener "resize", =>
-            bounding_rect = React.findDOMNode(@).getBoundingClientRect()
-            @setState
-                bounding_rect: bounding_rect
     
     render: ->
+
         if not @state.bounding_rect
+            c 'should get it'
             div
                 style:
                     position: 'absolute'
@@ -106,20 +114,21 @@ javelins_space = rr
                     height: '100%'
                     ,
         else
+            # original_hex_size = 80
             s = @state.scalar_000
             size_x = Math.floor(@state.bounding_rect.width / (s * 80))
             size_y = Math.floor(@state.bounding_rect.height / (s * 80))
 
-            vW = @props.view_width # redundant with above note
-            vH = @props.view_height
 
+            vW = @props.view_width
+            vH = @props.view_height
             keys__ = Object.keys basket_javelins
             div
                 style:
                     position: 'absolute'
                     width: '100%'
                     height: '100%'
-                    background: 'white'
+                    background: 'grey'
                 ,
                 adhoc_controller
                     scalar_000: @state.scalar_000
@@ -159,30 +168,48 @@ javelins_space = rr
                                 #in2:"blurOut"
                                 mode:"normal"
                                 ,
-                    for j in [0 .. (size_y)]
-                        if (j % 2) is 0 then limit_x = (size_x - 1) else limit_x = (size_x - 2)
-                        for i in [0 .. (limit_x)]
+                    for j in [0 .. (size_y - 1)]
+                        for i in [0 .. (size_x - 1)]
                             cursor = keys__.pop()
                             elk = basket_javelins[cursor]
-                            #elk = basket_javelins[keys__.pop()]
                             g
                                 x: 0
                                 ,
                                 hexagon_cell
                                     scalar_000: @state.scalar_000
                                     color: "hsl(#{Math.random() * 360}, 99%, 70%)"
-                                    x: if j % 2 is 0 then ((i * (80 * s)) + (s * 40)) else ((i * (80 * s)) + (s * 80))
-                                    y: (j * (60 * s)) + (s * 40)
+                                    x: if (j % 2 is 0) then (i * (80 * @state.scalar_000)) else (i * ((80 * @state.scalar_000)) + (40 * @state.scalar_000))
+                                    y: j * (60 * @state.scalar_000)
                                     ,
                                 if typeof elk is 'function'
                                     elk
-                                        x: if j % 2 is 0 then ((i * (80 * s)) + (s * 40)) else ((i * (80 * s)) + (s * 80))
-                                        y: (j * (60 * s)) + (s * 40)
+                                        x: if (j % 2 is 0) then (i * (80 * @state.scalar_000) + (@state.scalar_000 * 60)) else (i * ((80 * @state.scalar_000)) + (40 * @state.scalar_000) + (@state.scalar_000 * 60))
+                                        y: j * (60 * @state.scalar_000) + (@state.scalar_000 * 60)
                                         scalar_000: @state.scalar_000
-                                        set_content_vector: @props.set_content_vector
-                                        cursor: cursor
-                                        section: @props.section
-                                    ,
+                                        ,
+
+
+
+
+
 
 
 module.exports = -> javelins_space
+
+
+
+
+
+
+
+                # rect
+                #     #vectorEffect: "non-scaling-stroke"
+                #     x: 200
+                #     y: 200
+                #     width:200
+                #     height: 200
+                #     stroke:"green"
+                #     strokeWidth: 1
+                #     fill:"yellow"
+                #     filter:"url(#f1)"
+

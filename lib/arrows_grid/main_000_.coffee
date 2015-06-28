@@ -33,6 +33,10 @@ arrows = rr
         top: (@state.grid_cell_size.y ) * j
         left: (@state.grid_cell_size.x ) * i
 
+    componentWillUnmount: ->
+        #oc @interval_000
+        #clearInterval @interval_000
+
     componentDidMount: ->
         window.addEventListener 'resize', (e) =>
 
