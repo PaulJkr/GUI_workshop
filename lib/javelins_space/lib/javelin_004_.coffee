@@ -25,13 +25,6 @@ javelin = rr
     componentDidMount: ->
         @color_wheel_000()
 
-        @setState
-            bounding_rect: React.findDOMNode(@).getBoundingClientRect()
-
-        window.addEventListener "resize", =>
-            @setState
-                bounding_rect: React.findDOMNode(@).getBoundingClientRect()
-
     getInitialState: ->
         color: Math.random() * 360
         offset_1: 10
@@ -203,12 +196,12 @@ javelin = rr
                     height: '100%' # for establishing new defs like gradients specific to this element
                     ,
             else
-                c 'here', test_func_1
+
                 test_func_3()
 
 
         else
-            c "hi"
+
             {x, y} = @props
             s = @props.scalar_000
 

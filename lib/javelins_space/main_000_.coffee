@@ -1,8 +1,6 @@
-
-
 {c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
 
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
+{alert, prompt, p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
 
 # { here import some components , for doing like adhoc controllers, stuff like custom sliders , that stuff could be in lib root or something.}
 
@@ -12,8 +10,6 @@ basket_javelins = require_dyn.keys().reduce (acc, i) ->
     acc[i] = require_dyn(i)()
     acc
 , {}
-
-
 
 hexagon_cell = rr
 
@@ -36,7 +32,6 @@ hexagon_cell = rr
 
         {x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, x_5, y_5, x_6, y_6} = hexagon_points_map
         polygon
-            onClick: -> c "yeah " + Math.random()
             stroke: 'black'
             fill: @props.color
             transform: "translate(#{@props.x}, #{@props.y})"
@@ -84,106 +79,87 @@ javelins_space = rr
     aperiodic_tiling: ->
 
     componentDidMount: ->
-        bounding_rect = React.findDOMNode(@).getBoundingClientRect()
-        @setState
-            bounding_rect: bounding_rect
-        window.addEventListener "resize", =>
-            bounding_rect = React.findDOMNode(@).getBoundingClientRect()
-            @setState
-                bounding_rect: bounding_rect
+
     
     render: ->
-        if not @state.bounding_rect
-            div
-                style:
-                    position: 'absolute'
-                    width: '100%'
-                    height: '100%'
-                    background: 'grey'
-                ,
-                svg
-                    width: '100%'
-                    height: '100%'
-                    ,
-        else
-            s = @state.scalar_000
-            size_x = Math.floor(@state.bounding_rect.width / (s * 80))
-            size_y = Math.floor(@state.bounding_rect.height / (s * 80))
+        s = @state.scalar_000
+        size_x = Math.floor(@props.view_width / (s * 80))
+        size_y = 1 + Math.floor((@props.view_height - (s * 80)) / (s * 60))
 
-            vW = @props.view_width # redundant with above note
-            vH = @props.view_height
+        vW = @props.view_width # redundant with above note
+        vH = @props.view_height
 
-            keys__ = Object.keys basket_javelins
-            div
-                style:
-                    position: 'absolute'
-                    width: '100%'
-                    height: '100%'
-                    background: 'white'
-                    #pointerEvents: 'none'
+        keys__ = Object.keys basket_javelins
+        div
+            style:
+                position: 'absolute'
+                width: '100%'
+                height: '100%'
+                background: 'white'
+                #pointerEvents: 'none'
+            ,
+            adhoc_controller
+                scalar_000: @state.scalar_000
+                shift_scalar_000: @shift_scalar_000
+            svg
+                width: '100%'
+                height: '100%'
                 ,
-                adhoc_controller
-                    scalar_000: @state.scalar_000
-                    shift_scalar_000: @shift_scalar_000
-                svg
-                    width: '100%'
-                    height: '100%'
-                    ,
-                    defs
-                        filter
-                            id:"f1"
-                            x:0
-                            y:0
-                            ,
-                            feGaussianBlur
-                                in:"SourceGraphic"
-                                stdDeviation:"15"
-                        filter
-                            id:"f2"
-                            x:"-10"
-                            y:"-10"
-                            width:300
-                            height:300
-                            ,
-                            feOffset result:"offOut"
+                defs
+                    filter
+                        id:"f1"
+                        x:0
+                        y:0
+                        ,
+                        feGaussianBlur
                             in:"SourceGraphic"
-                            dx:"9"
-                            dy:"9"
+                            stdDeviation:"15"
+                    filter
+                        id:"f2"
+                        x:"-10"
+                        y:"-10"
+                        width:300
+                        height:300
+                        ,
+                        feOffset result:"offOut"
+                        in:"SourceGraphic"
+                        dx:"9"
+                        dy:"9"
+                        ,
+                        feGaussianBlur
+                            result:"blurOut"
+                            in:"offOut"
+                            stdDeviation:".8"
                             ,
-                            feGaussianBlur
-                                result:"blurOut"
-                                in:"offOut"
-                                stdDeviation:".8"
+                        feBlend
+                            in:"SourceGraphic"
+                            #in2:"blurOut"
+                            mode:"normal"
+                            ,
+                for j in [0 .. (size_y - 1)]
+                    if (j % 2) is 0 then limit_x = (size_x - 1) else limit_x = (size_x - 2)
+                    for i in [0 .. (limit_x)]
+                        cursor = keys__.pop()
+                        elk = basket_javelins[cursor]
+                        g
+                            x: 0
+                            ,
+                            hexagon_cell
+                                scalar_000: @state.scalar_000
+                                color: "hsl(#{Math.random() * 360}, 99%, 70%)"
+                                x: if j % 2 is 0 then ((i * (80 * s)) + (s * 40)) else ((i * (80 * s)) + (s * 80))
+                                y: (j * (60 * s)) + (s * 40)
                                 ,
-                            feBlend
-                                in:"SourceGraphic"
-                                #in2:"blurOut"
-                                mode:"normal"
-                                ,
-                    for j in [0 .. (size_y)]
-                        if (j % 2) is 0 then limit_x = (size_x - 1) else limit_x = (size_x - 2)
-                        for i in [0 .. (limit_x)]
-                            cursor = keys__.pop()
-                            elk = basket_javelins[cursor]
-                            #elk = basket_javelins[keys__.pop()]
-                            g
-                                x: 0
-                                ,
-                                hexagon_cell
-                                    scalar_000: @state.scalar_000
-                                    color: "hsl(#{Math.random() * 360}, 99%, 70%)"
+                            if typeof elk is 'function'
+                                elk
                                     x: if j % 2 is 0 then ((i * (80 * s)) + (s * 40)) else ((i * (80 * s)) + (s * 80))
                                     y: (j * (60 * s)) + (s * 40)
-                                    ,
-                                if typeof elk is 'function'
-                                    elk
-                                        x: if j % 2 is 0 then ((i * (80 * s)) + (s * 40)) else ((i * (80 * s)) + (s * 80))
-                                        y: (j * (60 * s)) + (s * 40)
-                                        scalar_000: @state.scalar_000
-                                        set_content_vector: @props.set_content_vector
-                                        cursor: cursor
-                                        section: @props.section
-                                    ,
+                                    scalar_000: @state.scalar_000
+                                    set_content_vector: @props.set_content_vector
+                                    cursor: cursor
+                                    cell: cursor
+                                    section: @props.section
+                                ,
 
 
 module.exports = -> javelins_space
