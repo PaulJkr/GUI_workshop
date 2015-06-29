@@ -51,52 +51,8 @@ javelin = rr
             x_6: s * -40
             y_6: s * -20
         {x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, x_5, y_5, x_6, y_6} = hexagon_points_map
-        div
-            style:
-                position: 'absolute'
-                width: '100%'
-                height: '100%'
-                top: '0%'
-                left: '0%'
-            ,
-            div
-                style:
-                    position: 'absolute'
-                    width: '10%'
-                    height: '30%'
-                    top: '40%'
-                    right: "10%"
-                ,
-                div
-                    style:
-                        position: 'absolute'
-                        width: '100%'
-                        height: '100%'
-                        background: 'blue'
-                        opacity: 0.4
-                    ,
-                div
-                    style:
-                        position: 'absolute'
-                    ,
-                    input
-                        value: @state.offset_1
-                        type: 'range'
-                        min: 0
-                        max: 300
-                        onChange: @change_input_1
-                    input
-                        value: @state.offset_2
-                        type: 'range'
-                        min: 0
-                        max: 300
-                        onChange: @change_input_2
-                    input
-                        value: @state.offset_3
-                        type: 'range'
-                        min: 0
-                        max: 300
-                        onChange: @change_input_3
+
+        root_svg = =>
             svg
                 width: '100%'
                 height: '100%'
@@ -119,5 +75,59 @@ javelin = rr
                     fill: 'url(#radial__003)'
                     #transform: "translate(#{x}, #{y})"
                     points: "#{x_1 + x},#{y_1 + y} #{x_2 + x},#{y_2 + y} #{x_3 + x},#{y_3 + y} #{x_4 + x},#{y_4 + y} #{x_5 + x},#{y_5 + y} #{x_6 + x},#{y_6 + y}"
+
+        with_control_panel = =>
+            div
+                style:
+                    position: 'absolute'
+                    width: '100%'
+                    height: '100%'
+                    top: '0%'
+                    left: '0%'
+                ,
+                div
+                    style:
+                        position: 'absolute'
+                        width: '10%'
+                        height: '30%'
+                        top: '40%'
+                        right: "10%"
+                    ,
+                    div
+                        style:
+                            position: 'absolute'
+                            width: '100%'
+                            height: '100%'
+                            background: 'blue'
+                            opacity: 0.4
+                        ,
+                    div
+                        style:
+                            position: 'absolute'
+                        ,
+                        input
+                            value: @state.offset_1
+                            type: 'range'
+                            min: 0
+                            max: 300
+                            onChange: @change_input_1
+                        input
+                            value: @state.offset_2
+                            type: 'range'
+                            min: 0
+                            max: 300
+                            onChange: @change_input_2
+                        input
+                            value: @state.offset_3
+                            type: 'range'
+                            min: 0
+                            max: 300
+                            onChange: @change_input_3
+                root_svg()
+        if @props.from_root is on
+            with_control_panel()
+        else
+            root_svg()
+
 
 module.exports = -> javelin
