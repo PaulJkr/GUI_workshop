@@ -1,18 +1,12 @@
 {c, React, rr, shortid, assign, update, __react__root__} = require('../__boiler__plate__.coffee')()
-
 {alert, prompt, p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
-
 # { here import some components , for doing like adhoc controllers, stuff like custom sliders , that stuff could be in lib root or something.}
-
 require_dyn = require.context('./lib', true, /.coffee$/)
-
 basket_javelins = require_dyn.keys().reduce (acc, i) ->
     acc[i] = require_dyn(i)()
     acc
 , {}
-
 hexagon_cell = rr
-
     render: ->
         s = @props.scalar_000
         {x, y} = @props
@@ -29,7 +23,6 @@ hexagon_cell = rr
             y_5 : s * -40
             x_6: s * -40
             y_6: s * -20
-
         {x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, x_5, y_5, x_6, y_6} = hexagon_points_map
         polygon
             stroke: 'black'
@@ -37,8 +30,6 @@ hexagon_cell = rr
             transform: "translate(#{@props.x}, #{@props.y})"
             points: "#{x_1},#{y_1} #{x_2},#{y_2} #{x_3},#{y_3} #{x_4},#{y_4} #{x_5},#{y_5} #{x_6},#{y_6}"
             ,
-
-
 adhoc_controller = rr
     render: ->
         div
@@ -67,28 +58,20 @@ adhoc_controller = rr
                     min: .1
                     max: 10
                     onChange: @props.shift_scalar_000
-
 javelins_space = rr
     shift_scalar_000: (e) ->
         @setState
             scalar_000: e.currentTarget.value
-
     getInitialState: ->
         scalar_000: 2.5
-
     aperiodic_tiling: ->
-
     componentDidMount: ->
-
-    
     render: ->
         s = @state.scalar_000
         size_x = Math.floor(@props.view_width / (s * 80))
         size_y = 1 + Math.floor((@props.view_height - (s * 80)) / (s * 60))
-
         vW = @props.view_width # redundant with above note
         vH = @props.view_height
-
         keys__ = Object.keys basket_javelins
         div
             style:
