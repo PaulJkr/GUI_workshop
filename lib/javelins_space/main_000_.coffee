@@ -120,6 +120,7 @@ javelins_space = rr
                     width: '100%'
                     height: '100%'
                     background: 'white'
+                    #pointerEvents: 'none'
                 ,
                 adhoc_controller
                     scalar_000: @state.scalar_000

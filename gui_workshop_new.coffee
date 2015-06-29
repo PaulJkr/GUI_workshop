@@ -25,23 +25,20 @@ adhoc_section_link = rr
             ,
             @props.name
 
-
 main = rr
-    
-    componentDidMount: ->
+
+    componentWillUnmount: ->
+        window.removeEventListener "resize", @set_boundingRect
+
+    set_boundingRect: ->
         bounding_rect = React.findDOMNode(@).getBoundingClientRect()
-        c 'bounding_rect', bounding_rect
         @setState
             view_width: bounding_rect.width
             view_height: bounding_rect.height
-        window.addEventListener "resize", =>
-            bounding_rect = React.findDOMNode(@).getBoundingClientRect()
-            c 'bounding_rect', bounding_rect
-            #if @isMounted()
-            @setState
-                view_width: bounding_rect.width
-                view_height: bounding_rect.height
-            @forceUpdate()
+
+    componentDidMount: ->
+        @set_boundingRect()
+        window.addEventListener "resize", @set_boundingRect
 
     remove_screenHint: ->
         @setState
@@ -79,7 +76,6 @@ main = rr
         #      section: section
         #      cell: cell
 
-
         # payload_001 =
         #     section: 'arrows'
         #     cell: 'section_root'
@@ -101,6 +97,8 @@ main = rr
         # imp = localStorage.getItem 'gui_workshop_nav_state'
         # if imp?
         #     c 'imp', JSON.parse(imp)
+
+
 
         section = 'arrows'
         cell = 'section_root'
@@ -141,9 +139,11 @@ main = rr
                     section: @state.section
                     cell: @state.cell
                     cursor: @state.cell #todo collapse redundancy
-
+                    scalar_000: @state.view_height / 80
                     view_width: @state.view_width
                     view_height: @state.view_height
+                    x: @state.view_width / 2 # transform coordinate system
+                    y: @state.view_height / 2 # translation of coordinate
                 div
                     style:
                         position: 'fixed'

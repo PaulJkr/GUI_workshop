@@ -11,8 +11,6 @@ test_func_1 = rr
             r: @props.bounding_rect.height / 2
             fill: 'url(#radial__003)'
 
-
-
 javelin = rr
 
     change_input_1: (e) ->
@@ -25,7 +23,7 @@ javelin = rr
         @setState
             offset_3: e.currentTarget.value
     componentDidMount: ->
-        #@color_wheel_000()
+        @color_wheel_000()
 
         @setState
             bounding_rect: React.findDOMNode(@).getBoundingClientRect()
