@@ -156,21 +156,52 @@ javelin = rr
                         left: 10
                     value: @state["#{p0}:0"]
                     type: 'number'
-                input
+                div
                     style:
                         position: 'absolute'
                         top: 20
                         left: 10
-                    type: 'range'
-                    min: -40
-                    max: 40
+                    ,
+                    input
+                        type: 'range'
+                        value: @state["#{p0}:0"]
+                        min: -40
+                        max: 40
+                        onChange:(e) =>
+                            @triangle_modify
+                                point_address: p0
+                                coord: 0 # 0 and 1 ::: x and y
+                                value: e.currentTarget.value
+                    span
+                        style:
+                            position: 'absolute'
+                        ,
+                        @state["#{p0}:0"]
+                div
+                    style:
+                        position: 'absolute'
+                        top: 80
+                        left: 10
+                    ,
+                    input
+                        type: 'range'
+                        value: @state["#{p0}:1"]
+                        min: -200
+                        max: 100
+                        onChange:(e) =>
+                            @triangle_modify
+                                point_address: p0
+                                coord: 1 # 0 and 1 ::: x and y
+                                value: e.currentTarget.value
+                        ,
+                    span
+                        style:
+                            position: 'absolute'
+                        ,
+                        #@state["#{p0}:1"]
+                        @state["#{p0}:1"]
 
-                    onChange:(e) =>
-                        c 'got change', e.currentTarget.value
-                        @triangle_modify
-                            point_address: p0
-                            coord: 0 # 0 and 1 ::: x and y
-                            value: e.currentTarget.value
+
                 bare_svg()
         if @props.from_root is on
             total_recall()
