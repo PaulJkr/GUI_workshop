@@ -1,5 +1,11 @@
+
+
+# todo :: improve coordinate system transformations
+
 #todo :::::::; very much optimisations.  later.
 # the obvious code improvements; design
+
+
 
 {c, React, rr, shortid, assign, update, __react__root__} = require('../../__boiler__plate__.coffee')()
 
@@ -166,9 +172,7 @@ javelin = rr
                 {x: i.x + x, y: i.y + y}
         triangle_to_string = (tri_arry) ->
             tri_arry.reduce (acc, i) ->
-                #c 'i.y', i.y
-                #nu_y = -(parseInt(i.y)/2)
-                #c 'nu_y', nu_y
+
                 if tri_arry.indexOf(i) is (tri_arry.length - 1)
                     acc + "#{i.x},#{-(i.y)}"
                 else
@@ -176,6 +180,7 @@ javelin = rr
             , ""
 
         bluefin = [
+            [30, 5]
             [10, 20]
             [0, 0]
         ]
@@ -198,12 +203,12 @@ javelin = rr
         scaled_transforms = scale_transforms transforms
 
         strang2 = triangle_to_string translate_triangle triangle
-        #c 'strang2', strang2
+
         kelp = translate_triangle scale_triangle triangle
-        c 'kelp', kelp[0]
-        #strang = triangle_to_string translate_triangle(scale_triangle(triangle))
+
+
         strang = triangle_to_string kelp
-        c 'strang',strang
+
         bare_svg = =>
             svg
                 width: '100%'
@@ -229,20 +234,15 @@ javelin = rr
                         polygon
                             onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
                             #fill: 'url(#radial__003)'
-                            #transform: "translate(#{i.x}, #{i.y})"
+                            transform: "translate(#{i.x}, #{i.y})"
                             points: strang
+                for i, idx in [p0, p1, p2]
+                    anchor_000
+                        cx: kelp[idx].x
+                        cy: -(kelp[idx].y)
+                        onMouseUp: @onMouseUp.bind(@, i)
+                        onMouseDown: @onMouseDown.bind(@, i)
 
-   
-                        for i, idx in [p0, p1, p2]
-                            anchor_000
-                                cx: kelp[idx].x
-                                cy: -(kelp[idx].y)
-                                p_: i
-                                onMouseUp: @onMouseUp.bind(@, i)
-                                onMouseDown: @onMouseDown.bind(@, i)
-
-
-        #bare_svg()
         total_recall = =>
             div
                 style:
