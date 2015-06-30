@@ -69,11 +69,27 @@ javelin = rr
                     stop
                         offset: @state.offset_3 + "%"
                         stopColor: "hsl(#{@state.color},99%,70%)"
-            polygon
-                onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
-                #fill: 'url(#radial__003)'
-                # transform: "translate(#{x}, #{y})"
-                points: triangle_to_string translate_triangle triangle
+
+            bale = [
+                [0, 0]
+                # [100 , 100]
+                # [-100, -100]
+                # [200, 200]
+                # [200, 0]
+                # [400, 0]
+                # [-400, 200]
+                # [-400, -300]
+                # [-400, 0]
+            ]
+
+
+            for i, idx in bale
+                polygon
+                    fill: 'blue'
+                    onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
+                    points: triangle_to_string translate_triangle triangle
+                    transform: "translate(#{i[0]}, #{i[1]})"
+
 
 
 

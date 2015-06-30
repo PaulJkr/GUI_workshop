@@ -38,12 +38,15 @@ javelin = rr
         {x, y} = @props ; s = @props.scalar_000
 
         triangle = [
-            {x: 0, y: 50}
-            {x: 50, y: -20}
-            {x: -50, y: -20}
+            {x: 0, y: 8}
+            {x: -20, y: -28}
+            {x: 5, y: -28}
         ]
 
         # nicer than using svg's transform ?
+        scale_triangle = (tri_arry) ->
+            for i, idx in tri_arry
+                {x: i.x * s, y: i.y *s}
         translate_triangle = (tri_arry) ->
             for i, idx in tri_arry
                 {x: i.x + x, y: i.y + y}
@@ -52,6 +55,21 @@ javelin = rr
                 acc + "#{i.x},#{i.y} "
             , ""
 
+        transforms = [
+            {x: 10, y: 20}
+            {x: 0, y: 0}
+
+        ]
+
+        scale_transforms = (trans_arry) ->
+            for i, idx in trans_arry
+                {x: i.x * s, y: i.y * s}
+
+        scaled_transforms = scale_transforms transforms
+
+        strang2 = triangle_to_string translate_triangle triangle
+        c 'strang2', strang2
+        strang = triangle_to_string translate_triangle(scale_triangle(triangle))
         svg
             width: '100%'
             height: '100%'
@@ -69,11 +87,12 @@ javelin = rr
                     stop
                         offset: @state.offset_3 + "%"
                         stopColor: "hsl(#{@state.color},99%,70%)"
-            polygon
-                onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
-                #fill: 'url(#radial__003)'
-                # transform: "translate(#{x}, #{y})"
-                points: triangle_to_string translate_triangle triangle
+            for i, idx in scaled_transforms
+                polygon
+                    onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
+                    #fill: 'url(#radial__003)'
+                    transform: "translate(#{i.x}, #{i.y})"
+                    points: strang
 
 
 
