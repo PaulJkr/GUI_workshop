@@ -18,7 +18,7 @@ javelin = rr
         @setState
             offset_3: e.currentTarget.value
     componentDidMount: ->
-        #@color_wheel_000()
+        @color_wheel_000()
     componentWillUnmount: ->
     getInitialState: ->
         color: Math.random() * 360
@@ -38,12 +38,15 @@ javelin = rr
         {x, y} = @props ; s = @props.scalar_000
 
         triangle = [
-            {x: 0, y: 50}
-            {x: 50, y: -20}
-            {x: -50, y: -20}
+            {x: 0, y: 8}
+            {x: -20, y: -28}
+            {x: 5, y: -28}
         ]
 
         # nicer than using svg's transform ?
+        scale_triangle = (tri_arry) ->
+            for i, idx in tri_arry
+                {x: i.x * s, y: i.y *s}
         translate_triangle = (tri_arry) ->
             for i, idx in tri_arry
                 {x: i.x + x, y: i.y + y}
@@ -52,6 +55,31 @@ javelin = rr
                 acc + "#{i.x},#{i.y} "
             , ""
 
+        bluefin = [
+            [10, 20]
+            [0, 0]
+        ]
+
+        arry_up_to_object = (arry)->
+            {x: arry[0], y: arry[1]}
+
+        transforms = for i, idx in bluefin
+            arry_up_to_object i
+
+        transforms_old = [
+            {x: 10, y: 20}
+            {x: 0, y: 0}
+        ]
+
+        scale_transforms = (trans_arry) ->
+            for i, idx in trans_arry
+                {x: i.x * s, y: i.y * s}
+
+        scaled_transforms = scale_transforms transforms
+
+        strang2 = triangle_to_string translate_triangle triangle
+        c 'strang2', strang2
+        strang = triangle_to_string translate_triangle(scale_triangle(triangle))
         svg
             width: '100%'
             height: '100%'
@@ -69,27 +97,12 @@ javelin = rr
                     stop
                         offset: @state.offset_3 + "%"
                         stopColor: "hsl(#{@state.color},99%,70%)"
-
-            bale = [
-                [0, 0]
-                # [100 , 100]
-                # [-100, -100]
-                # [200, 200]
-                # [200, 0]
-                # [400, 0]
-                # [-400, 200]
-                # [-400, -300]
-                # [-400, 0]
-            ]
-
-
-            for i, idx in bale
+            for i, idx in scaled_transforms
                 polygon
-                    fill: 'blue'
                     onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
-                    points: triangle_to_string translate_triangle triangle
-                    transform: "translate(#{i[0]}, #{i[1]})"
-
+                    fill: 'url(#radial__003)'
+                    transform: "translate(#{i.x}, #{i.y})"
+                    points: strang
 
 
 
