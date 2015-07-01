@@ -12,6 +12,7 @@ module.exports = ->
     rr : -> React.createFactory(React.createClass.apply(React, arguments))
     shortid : require 'shortid'
     assign: -> Object.assign.apply(Object, arguments)
+    keys: -> Object.keys.apply(Object, arguments)
     update : require('react/addons').addons.update
     __react__root__ : document.getElementById "__react__root__"
 

@@ -1,31 +1,48 @@
+
+
+# todo :: improve coordinate system transformations
+
+#todo :::::::; very much optimisations.  later.
+# the obvious code improvements; design
+
+# do more of the code-reuse chores, if possible factor out 
+# constantly reused stuff into components.  thinking the divs
+# and style boilerplate mostly.  or can just factor adhoc
+# the total_recall (change name to edit_interface_stuff or something)
+# stuff into another component and pass props.
+
+
+
 {c, React, rr, shortid, assign, update, __react__root__} = require('../../__boiler__plate__.coffee')()
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
 
 anchor_000 = rr
-
-    scale_vec: (vec2) ->
-        s = @props.s
-        {x: vec2.x * s, y: vec2.y * s}
-    translate_vec: (vec2) ->
-        {x, y} = @props
-        {x: vec2.x + x, y:  -(vec2.y + y)}
+    getInitialState: ->
+        opacity: .4
     render: ->
-        vec2 = {x: @props.cx, y: @props.cy}
-        ready__ = @translate_vec(@scale_vec(vec2))
-        #ready__ = @scale_vec(@translate_vec(vec2))
-        # the_big_idea = 'anchor: this will be an invisible space over a point
-        # centered at one of the three points stored in state (of the triangle)
-        # ... when mouseover it shows itself with a minimal ring.
-        #     ... if you button-down to drag onmousedown in this ring
-        #     ... then all x and y deltas get shuttled to the state
-        #     for that point.  
-        # '
-        circle
-            fill: 'red'
-            cx: ready__.x
-            cy: ready__.y
-            r: 10
+        svg
+            width: '100%'
+            height: '100%'
+            circle
+                onMouseOver: => @setState
+                    opacity: 1
+                onMouseOut: => @setState
+                    opacity: .4
+                opacity: 0
+                cx: @props.cx
+                cy: @props.cy
+                r: 7 * @props.s
+            circle
+                onMouseOver: => @setState
+                    opacity: 1
+                opacity: @state.opacity
+                cx: @props.cx
+                cy: @props.cy
+                fill: 'url(#radial__003)'
+                r: 2 * @props.s
+                onMouseDown: @props.onMouseDown
+                onMouseUp: @props.onMouseUp
 
 p0 = shortid.generate()
 p1 = shortid.generate()
@@ -34,6 +51,7 @@ p2 = shortid.generate()
 javelin = rr
 
     triangle_modify: (a) ->
+        c 'in triangle modify'
         p = a.point_address # one of those shortids on @point_1 eg
         coord = a.coord
         val = a.value
@@ -99,35 +117,55 @@ javelin = rr
         scalar - x
 
 
-    onMouseMove: (e) ->
-        # deltaX = (e.pageX - @state.originX) / (@props.scalar_000 * 10)
-        # deltaY = (e.pageY - @state.originY) / (@props.scalar_000 * 10)
+    onMouseMove_p0: (e) ->
         s = @props.scalar_000 * 10
         deltaX = (e.pageX / s) - (@state.originX / s)
         deltaY = (e.pageY / s) - (@state.originY / s)
-
         @setState
-            # "#{p0}:0": @state["#{p0}:0"] + deltaX #+ document.body.scrollLeft
-            # "#{p0}:1": @state["#{p0}:1"] - deltaY #+ document.body.scrollTop
             "#{p0}:0": @scale_scalar(@translate_scalar_x(e.pageX))
             "#{p0}:1": @scale_scalar(@translate_scalar_y(e.pageY))
 
-                # x: @state.elementX + deltaX + document.body.scrollLeft
-                # y: @state.elementY + deltaY + document.body.scrollTop
+    onMouseMove_p1: (e) ->
+        s = @props.scalar_000 * 10
+        deltaX = (e.pageX / s) - (@state.originX / s)
+        deltaY = (e.pageY / s) - (@state.originY / s)
+        @setState
+            "#{p1}:0": @scale_scalar(@translate_scalar_x(e.pageX))
+            "#{p1}:1": @scale_scalar(@translate_scalar_y(e.pageY))
+
+    onMouseMove_p2: (e) ->
+        s = @props.scalar_000 * 10
+        deltaX = (e.pageX / s) - (@state.originX / s)
+        deltaY = (e.pageY / s) - (@state.originY / s)
+        @setState
+            "#{p2}:0": @scale_scalar(@translate_scalar_x(e.pageX))
+            "#{p2}:1": @scale_scalar(@translate_scalar_y(e.pageY))
 
 
     removeDragEvents: ->
-        document.removeEventListener 'mousemove', @onMouseMove
+        document.removeEventListener 'mousemove', @onMouseMove_p0
+        document.removeEventListener 'mousemove', @onMouseMove_p1
+        document.removeEventListener 'mousemove', @onMouseMove_p2
         document.removeEventListener 'mouseup', @onMouseUp
-    addDragEvents: ->
-        document.addEventListener 'mousemove', @onMouseMove
+    addDragEvents: (p_) ->
+        c 'getting ', p_
         document.addEventListener 'mouseup', @onMouseUp
+        switch p_
+            when p0
+
+                document.addEventListener 'mousemove', @onMouseMove_p0
+            when p1
+                document.addEventListener 'mousemove', @onMouseMove_p1
+            when p2
+                document.addEventListener 'mousemove', @onMouseMove_p2
+
+        
     onMouseUp: ->
         @removeDragEvents()
-    onMouseDown: (point, e) ->
-
+    onMouseDown: (p_, e) ->
+        c 'starting drag point', p_
         e.stopPropagation()
-        @addDragEvents()
+        @addDragEvents(p_)
         pageOffset = e.currentTarget.getBoundingClientRect()
         @setState
             originX: e.pageX
@@ -159,9 +197,7 @@ javelin = rr
                 {x: i.x + x, y: i.y + y}
         triangle_to_string = (tri_arry) ->
             tri_arry.reduce (acc, i) ->
-                #c 'i.y', i.y
-                #nu_y = -(parseInt(i.y)/2)
-                #c 'nu_y', nu_y
+
                 if tri_arry.indexOf(i) is (tri_arry.length - 1)
                     acc + "#{i.x},#{-(i.y)}"
                 else
@@ -169,6 +205,7 @@ javelin = rr
             , ""
 
         bluefin = [
+            [30, 5]
             [10, 20]
             [0, 0]
         ]
@@ -191,11 +228,12 @@ javelin = rr
         scaled_transforms = scale_transforms transforms
 
         strang2 = triangle_to_string translate_triangle triangle
-        #c 'strang2', strang2
+
         kelp = translate_triangle scale_triangle triangle
 
-        #strang = triangle_to_string translate_triangle(scale_triangle(triangle))
+
         strang = triangle_to_string kelp
+
         bare_svg = =>
             svg
                 width: '100%'
@@ -221,25 +259,19 @@ javelin = rr
                         polygon
                             onClick: => @props.set_content_vector(@props.section, @props.cursor, 100)
                             #fill: 'url(#radial__003)'
-                            #transform: "translate(#{i.x}, #{i.y})"
+                            transform: "translate(#{i.x}, #{i.y})"
                             points: strang
-                        # anchor_000
-                        #     cx: @state["#{p0}:0"]
-                        #     cy: @state["#{p0}:1"]
-                        #     s: s
-                        #     x: x
-                        #     y: y
-                        circle
-                            cx: kelp[0].x
-                            cy: -(kelp[0].y)
-                            fill: 'green'
-                            r: 20
-                            onMouseDown: (e) =>
-                                c "mousedown here"
-                                @onMouseDown(p0, e)
-                            onMouseUp: (e) =>
-                                @onMouseUp(p0, e)
-        #bare_svg()
+                for i, idx in [p0, p1, p2]
+                    anchor_000
+                        s: s
+                        key: "anchor" + idx
+                        cx: kelp[idx].x
+                        cy: -(kelp[idx].y)
+                        onMouseUp: @onMouseUp.bind(@, i)
+                        #onMouseUp: (e) => @onMouseUp(i, e)
+                        onMouseDown: @onMouseDown.bind(@, i)
+                        #onMouseDown: (e) => @onMouseDown(i, e)
+
         total_recall = =>
             div
                 style:

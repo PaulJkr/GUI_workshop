@@ -24,6 +24,7 @@ adhoc_section_link = rr
             onClick: (e) => @props.vector_set(@props.name, 'section_root')
             ,
             @props.name
+
 main = rr
     componentWillUnmount: ->
         window.onresize = null
@@ -84,7 +85,7 @@ main = rr
             return @state.view_width
     getInitialState: ->
         # payload_001 =
-        #     section: 'arrows'
+        #     section: 'sidewinders'
         #     cell: 'section_root'
         # payload_001s = JSON.stringify payload_001
         # localStorage.setItem 'gui_workshop_nav_state', payload_001s
@@ -120,8 +121,6 @@ main = rr
             div
                 style:
                     position: 'absolute'
-                    # width: '100%'
-                    # height: '100%'
                     width: window.innerWidth
                     height: window.innerHeight
                     left: 0

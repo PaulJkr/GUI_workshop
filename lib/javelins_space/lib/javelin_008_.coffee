@@ -78,7 +78,6 @@ javelin = rr
         scaled_transforms = scale_transforms transforms
 
         strang2 = triangle_to_string translate_triangle triangle
-        c 'strang2', strang2
         strang = triangle_to_string translate_triangle(scale_triangle(triangle))
         svg
             width: '100%'

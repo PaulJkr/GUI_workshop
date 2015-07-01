@@ -5,6 +5,12 @@
 #todo :::::::; very much optimisations.  later.
 # the obvious code improvements; design
 
+# do more of the code-reuse chores, if possible factor out 
+# constantly reused stuff into components.  thinking the divs
+# and style boilerplate mostly.  or can just factor adhoc
+# the total_recall (change name to edit_interface_stuff or something)
+# stuff into another component and pass props.
+
 
 
 {c, React, rr, shortid, assign, update, __react__root__} = require('../../__boiler__plate__.coffee')()
