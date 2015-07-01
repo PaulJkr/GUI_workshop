@@ -32,6 +32,7 @@ section_views['arrows'] = arrows_root_view
 
 sidewinders_root_view = require('./lib/sidewinders_space/main_000_.coffee')()
 required_sidewinders = require.context('./lib/sidewinders_space/lib', true, /.coffee$/)
+c 'required_sidewinders', required_sidewinders.keys()
 sidewinders_basket = required_sidewinders.keys().reduce (acc, i) ->
     acc[i] = required_sidewinders(i)()
     acc

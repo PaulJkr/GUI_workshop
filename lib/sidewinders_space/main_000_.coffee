@@ -135,6 +135,7 @@ javelins_space = rr
                                 ,
                             if typeof elk is 'function'
                                 elk
+                                    from_hex: on
                                     x: if j % 2 is 0 then ((i * (80 * s)) + (s * 40)) else ((i * (80 * s)) + (s * 80))
                                     y: (j * (60 * s)) + (s * 40)
                                     scalar_000: @state.scalar_000
