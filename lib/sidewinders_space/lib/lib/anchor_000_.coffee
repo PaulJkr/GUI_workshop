@@ -4,7 +4,8 @@
 
 anchor = rr
     # todo :: implement this to implement the as-yet-un-named interface which allows components to be displayed in the catalogue cellular striation way.
-
+    testMe: ->
+        c "cool cool the refs is  working"
     componentDidMount: ->
         @toggle_warble on
 

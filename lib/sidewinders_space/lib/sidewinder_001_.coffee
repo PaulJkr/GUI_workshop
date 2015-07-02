@@ -65,6 +65,7 @@ javelin = rr
             offset_3: e.currentTarget.value
     componentDidMount: ->
         #@color_wheel_000()
+        @refs['anchor_ref_test'].testMe()
     componentWillUnmount: ->
     getInitialState: ->
         Object.assign @more_initial_state(),
@@ -138,7 +139,9 @@ javelin = rr
     onMouseUp: ->
         @removeDragEvents()
     onMouseDown: (p_, e) ->
+        e.preventDefault()
         e.stopPropagation()
+
         @addDragEvents(p_)
         pageOffset = e.currentTarget.getBoundingClientRect()
         @setState
@@ -237,6 +240,7 @@ javelin = rr
                             points: strang
                 for i, idx in [p0, p1, p2]
                     anchor_000
+                        ref: 'anchor_ref_test'
                         s: s
                         key: "anchor" + idx
                         cx: kelp[idx].x
