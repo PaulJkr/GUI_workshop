@@ -15,13 +15,20 @@ anchor = rr
         if a is off
             clearInterval @warble
         if a is on
-            c 'got on'
             start_warble = new Date().getTime()
             @warble = setInterval =>
                 now = new Date().getTime()
                 delta = now - start_warble
-                @setState
-                    opacity: ((delta % 1000) / 1000)
+                cursor = delta % 1800
+                if cursor < 900
+                    @setState
+                        opacity: cursor / 1000
+                else
+                    @setState
+                        opacity: (1800 - cursor) / 1000
+
+                # @setState
+                #     opacity: ((delta % 1000) / 1000)
             , 20
 
     render: ->
