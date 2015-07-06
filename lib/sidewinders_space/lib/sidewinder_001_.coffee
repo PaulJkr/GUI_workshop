@@ -6,15 +6,11 @@ anchor = require('./lib/anchor_000_.coffee')()
 sidewinder = rr
 
     cirque: ->
-        c 'math', math.multiply
         transform_matrix = @props.transform_matrix
-        c "props.transform_matrix", transform_matrix
-        
         vec_000 = [0, 0, 1]
         vec_001 = math.multiply(transform_matrix, vec_000)
-
         r = transform_matrix[0][0] * 50
-
+        c 'r and vec_001', r, vec_001
         cx: vec_001[0]
         cy: vec_001[1]
         r: r
@@ -22,13 +18,16 @@ sidewinder = rr
 
 
     render: ->
-
         {cx, cy, r} = @cirque()
-        circle
-            cx: cx
-            cy: cy
-            r: r
-            fill: 'blue'
+        svg
+            width: '100%'
+            height: '100%'
+            circle
+                onClick: => @props.set_content_vector(@props.section, @props.cell)
+                cx: cx
+                cy: cy
+                r: r
+                fill: 'blue'
 
 
 module.exports = -> sidewinder

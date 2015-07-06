@@ -106,8 +106,8 @@ sidewinders_space = rr
                     if (j % 2) is 0 then limit_x = (column_cardinality - 1) else limit_x = (column_cardinality - 2)
                     for i in [0 .. (limit_x)]
                         transform_matrix = @transform_matrix(j, i)
-                        cursor = keys__.pop()
-                        imp = basket_sidewinders[cursor]
+                        cell = keys__.pop()
+                        imp = basket_sidewinders[cell]
                         g
                             x: 0
                             ,
@@ -116,6 +116,9 @@ sidewinders_space = rr
                                 transform_matrix: transform_matrix
                             if typeof imp is 'function'
                                 imp
+                                    set_content_vector: @props.set_content_vector
+                                    section: @props.section
+                                    cell: cell
                                     from_hex: on
                                     transform_matrix: transform_matrix
 
