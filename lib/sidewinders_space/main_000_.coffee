@@ -39,7 +39,6 @@ hexagon_cell = rr
         strang = vector_complex.reduce (acc, i) =>
             acc + " " + @single_vector_to_svg_friendly_string(i)
         , ""
-        c 'strang', strang
         return strang
 
     transform_constellation: ->
@@ -55,15 +54,13 @@ hexagon_cell = rr
             fill: @props.color or 'lightgrey'
             points: @bunch_of_vectors_to_svg_friendly_string(@transform_constellation())
 
-
 sidewinders_space = rr
-
     getInitialState: ->
-        hex_size = 50
+        hex_size = 80
         scale_factor = 1
         vW = @props.view_width ; vH = @props.view_height
         if vW <= vH then smaller = vW else smaller = vH
-        scale_factor: ( hex_size) / 200
+        scale_factor: hex_size / 200
         hex_size: hex_size
 
     translation_vector: (j, i) ->
@@ -90,14 +87,9 @@ sidewinders_space = rr
         M = math.multiply @translation_matrix(j, i), @scale_matrix()
         return M
 
-    # matrix_multiply: (M_1, M_2) ->
-    #     for i, idx in M_1
-
-
     render: ->
         {scale_factor, hex_size} = @state ; vW = @props.view_width ; vH = @props.view_height
         column_cardinality = Math.floor(vW / (hex_size)) ; row_cardinality = 1 + Math.floor((vH - (hex_size)) / (hex_size * .75))
-
         keys__ = Object.keys basket_sidewinders
         div
             style:
@@ -110,16 +102,27 @@ sidewinders_space = rr
                 width: '100%'
                 height: '100%'
                 ,
-                # hexagon_cell
-                #     transform_matrix: @transform_matrix(1, 1)
                 for j in [0 .. (row_cardinality - 1)]
                     if (j % 2) is 0 then limit_x = (column_cardinality - 1) else limit_x = (column_cardinality - 2)
                     for i in [0 .. (limit_x)]
-                        #cursor = keys__.pop()
-                        #elk = basket_sidewinders[cursor]
-                        hexagon_cell
-                            transform_matrix: @transform_matrix(j, i)
-                            hex_size: @state.hex_size
+                        transform_matrix = @transform_matrix(j, i)
+                        cursor = keys__.pop()
+                        imp = basket_sidewinders[cursor]
+                        g
+                            x: 0
+                            ,
+                            hexagon_cell
+                                from_hex: on
+                                transform_matrix: transform_matrix
+                            if typeof imp is 'function'
+                                imp
+                                    from_hex: on
+                                    transform_matrix: transform_matrix
+
+
+
+
+
 
 
 module.exports = -> sidewinders_space
