@@ -36,6 +36,22 @@ sidewinder = rr
         , ""
         return strang
 
+    # removeDragEvents: ->
+    #     document.removeEventListener 'mousemove', @onMouseMove_p0
+    #     document.removeEventListener 'mousemove', @onMouseMove_p1
+    #     document.removeEventListener 'mousemove', @onMouseMove_p2
+    #     document.removeEventListener 'mouseup', @onMouseUp
+    onMouseMove: (p_, e) ->
+        c 'p_', p_
+        deltaX = (e.pageX) - (@state.originX)
+        deltaY = (e.pageY) - (@state.originY)
+        @setState
+            "#{p_}": [e.pageX, e.pageY]
+    addDragEvents: (p_) ->
+
+        document.addEventListener 'mouseup', @onMouseUp
+        document.addEventListener 'mousemove', @onMouseMove.bind(p_)
+
     onMouseUp: ->
         @removeDragEvents()
     onMouseDown: (p_, e) ->
@@ -58,15 +74,17 @@ sidewinder = rr
             polygon
                 onClick: => @props.set_content_vector(@props.section, @props.cell)
                 points: triangle.string
-            for i, idx in [@state.p0, @state.p1, @state.p2]
+            # for i, idx in [@state.p0, @state.p1, @state.p2]
+            for i, idx in ['p0', 'p1', 'p2']
                 nice_try = [
-                    [.068, 0, i[0]]
-                    [0, .3, i[1]]
+                    [.068, 0, @state[i][0]]
+                    [0, .3, @state[i][1]]
                     [0, 0, 1]
                 ]
                 anchor_transform_matrix = math.multiply(@props.transform_matrix, nice_try)
                 anchor_000
                     transform_matrix: anchor_transform_matrix
+                    onMouseDown: @onMouseDown.bind(@, i)
 
 
 

@@ -29,6 +29,7 @@ anchor = rr
                 r: r
                 fill: 'blue'
                 opacity: .38
+                onMouseDown: @props.onMouseDown
 
 
 
