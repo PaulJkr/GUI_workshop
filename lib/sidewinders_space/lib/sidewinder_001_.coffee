@@ -25,16 +25,21 @@ p0 = shortid.generate()
 p1 = shortid.generate()
 p2 = shortid.generate()
 
-javelin = rr
+sidewinder = rr
+
+    clock_work_gauche: ->
+        determine_vector = (t) -> # return vector as function of t
+            imp_0 = Math.PI() * 2 * (t / 1000)
+            # so t is a millisecord count
+
+
 
     triangle_modify: (a) ->
-        c 'in triangle modify'
         p = a.point_address # one of those shortids on @point_1 eg
         coord = a.coord
         val = a.value
         @setState
             "#{p}:#{coord}": val
-
 
 #---------------------------------------------
 # triangle = [
@@ -322,4 +327,4 @@ javelin = rr
 
 
 
-module.exports = -> javelin
+module.exports = -> sidewinder

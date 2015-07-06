@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "mathjs": "latest",
     "worker-loader": "latest",
     "redis": "latest",
     "react-hot-loader": "latest",

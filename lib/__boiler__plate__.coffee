@@ -15,6 +15,7 @@ module.exports = ->
     keys: -> Object.keys.apply(Object, arguments)
     update : require('react/addons').addons.update
     __react__root__ : document.getElementById "__react__root__"
+    math: require('../math.min.js')
 
 
 # usage:
