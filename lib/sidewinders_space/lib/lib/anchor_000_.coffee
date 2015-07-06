@@ -6,6 +6,7 @@ anchor = rr
     cirque: ->
         M = @props.transform_matrix
         origin = [0, 0, 1]
+
         mapped = math.multiply M, origin
         c 'mapped', mapped
         return mapped
@@ -14,6 +15,8 @@ anchor = rr
     render: ->
         c 'in render'
         cirque = @cirque()
+        r = @props.transform_matrix[0][0] * 80
+
 
         svg
             width: '100%'
@@ -21,10 +24,12 @@ anchor = rr
             ,
             circle
                 onClick: => @props.set_content_vector(@props.section, @props.cell)
-                cx: @cirque[0]
-                cy: @cirque[1]
-                r: 20000
+                cx: cirque[0]
+                cy: cirque[1]
+                r: r
                 fill: 'blue'
+                opacity: .38
+
 
 
 

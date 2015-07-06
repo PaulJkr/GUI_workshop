@@ -1,7 +1,7 @@
 {c, React, rr, shortid, keys, assign, update, __react__root__, math} = require('../../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient} = React.DOM
 
-#anchor_000 = require('./lib/anchor_000_.coffee')()
+anchor_000 = require('./lib/anchor_000_.coffee')()
 
 sidewinder = rr
 
@@ -52,24 +52,22 @@ sidewinder = rr
 
     render: ->
         triangle = @triangle()
-        nice_try = [
-            [1, 0, @state.p0[0]]
-            [0, 1, @state.p0[1]]
-            [0, 0, 1]
-        ]
-        p0_anchor_matrix = math.multiply(@props.transform_matrix, nice_try)
-        c 'p0', p0_anchor_matrix
         svg
             width: '100%'
             height: '100%'
+            polygon
+                onClick: => @props.set_content_vector(@props.section, @props.cell)
+                points: triangle.string
+            for i, idx in [@state.p0, @state.p1, @state.p2]
+                nice_try = [
+                    [.068, 0, i[0]]
+                    [0, .3, i[1]]
+                    [0, 0, 1]
+                ]
+                anchor_transform_matrix = math.multiply(@props.transform_matrix, nice_try)
+                anchor_000
+                    transform_matrix: anchor_transform_matrix
 
-            # g
-            #     x: 0
-            # polygon
-            #     onClick: => @props.set_content_vector(@props.section, @props.cell)
-            #     points: triangle.string
-            anchor_000
-                transform_matrix: p0_anchor_matrix
 
 
 
