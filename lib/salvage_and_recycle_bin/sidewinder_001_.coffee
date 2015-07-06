@@ -131,7 +131,6 @@ sidewinder = rr
         document.removeEventListener 'mousemove', @onMouseMove_p2
         document.removeEventListener 'mouseup', @onMouseUp
     addDragEvents: (p_) ->
-        c 'getting ', p_
         document.addEventListener 'mouseup', @onMouseUp
         switch p_
             when p0

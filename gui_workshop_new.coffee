@@ -131,7 +131,7 @@ main = rr
                     bottom: 0
                 ,
                 @state.content?()
-                    transform_matrix: [[z, 0, (@state.view_width / 2)],[0, z, (@state.view_height / 2)],[0, 0, 1]]
+                    transform_matrix: [[z, 0, (@state.view_width / 2)],[0, -z, (@state.view_height / 2)],[0, 0, 1]]
                     from_root: on
                     set_content_vector: @set_content_vector
                     focus_cell_selection: @set_content_vector #deprecate
@@ -146,9 +146,9 @@ main = rr
                 div
                     style:
                         position: 'fixed'
-                        height: '20%'
+                        height: '40%'
                         width: '10%'
-                        top: "60%"
+                        top: "30%"
                         left: 0
                     ,
                     div
@@ -168,7 +168,7 @@ main = rr
                     div
                         style:
                             position: 'absolute'
-                            top: '50%'
+                            top: '70%'
                             left: '10%'
                         ,
                         if @state.cell isnt 'section_root'

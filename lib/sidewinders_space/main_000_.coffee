@@ -56,7 +56,7 @@ hexagon_cell = rr
 
 sidewinders_space = rr
     getInitialState: ->
-        hex_size = 80
+        hex_size = 88
         scale_factor = 1
         vW = @props.view_width ; vH = @props.view_height
         if vW <= vH then smaller = vW else smaller = vH
@@ -79,7 +79,7 @@ sidewinders_space = rr
         scale_factor = @state.scale_factor
         M = []
         M[0] = [scale_factor, 0, 0]
-        M[1] = [0, scale_factor, 0]
+        M[1] = [0, -scale_factor, 0]
         M[2] = [0, 0, 1]
         return M
 
