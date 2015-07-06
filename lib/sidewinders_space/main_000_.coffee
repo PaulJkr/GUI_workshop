@@ -22,7 +22,7 @@ hexagon_cell = rr
 
     hexagon_002: ->  # there should be a class for 2-vecs
         # array of 2-vec points ; this more compatible with mathjs
-        z = 85
+        z = 100
         [
             [-z , z/2, 1]
             [0, z, 1]
@@ -59,10 +59,12 @@ hexagon_cell = rr
 sidewinders_space = rr
 
     getInitialState: ->
+        hex_size = 50
+        scale_factor = 1
         vW = @props.view_width ; vH = @props.view_height
         if vW <= vH then smaller = vW else smaller = vH
-        scale_factor: 200 / smaller
-        hex_size: 50
+        scale_factor: ( hex_size) / 200
+        hex_size: hex_size
 
     translation_vector: (j, i) ->
         hex_size = @state.hex_size
@@ -117,6 +119,7 @@ sidewinders_space = rr
                         #elk = basket_sidewinders[cursor]
                         hexagon_cell
                             transform_matrix: @transform_matrix(j, i)
+                            hex_size: @state.hex_size
 
 
 module.exports = -> sidewinders_space
