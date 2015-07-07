@@ -32,7 +32,7 @@ anchor = rr
         math.multiply @props.transform_matrix, [0, 0, 1]
     render: ->
         cirque = @cirque()
-        r = @props.transform_matrix[0][0] * 120
+        r = @props.transform_matrix[0][0] * 85
         svg
             width: '100%'
             height: '100%'
