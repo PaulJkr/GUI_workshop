@@ -71,41 +71,37 @@ sidewinder = rr
         svg
             width: '100%'
             height: '100%'
-
             polygon
                 onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
                 points: triangle.string
-
-
             M = @props.transform_matrix
             preArry = [@state.p0, @state.p1, @state.p2]
-            for i in [1 .. 3]
-                mango = math.multiply M, [[1,0,(30 * i)],[0,1,(-20 * i)],[0,0,1]]
-                arry = for ii, idx in preArry
-                    math.multiply mango, ii
-                amp = @bunch_of_vectors_to_svg_friendly_string(arry)
-                polygon
-                    points: amp
-
-            raa = triangle.arry
-            x_comp = ((raa[0][0] + raa[1][0] + raa[2][0]) / 3) - 20
-            y_comp = ((raa[0][1] + raa[1][1] + raa[2][1]) / 3) - 10
-            foreignObject
-                width: '100%'
-                height: '100%'
-                #onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
-                input
-                    onChange: (e) => @setState
-                        value: e.currentTarget.value
-                    type: 'text'
-                    value: @state.value
-                    style:
-                        color: 'white'
-                        background: 'transparent'
-                        border: 'none'
-                        position: 'absolute'
-                        top: y_comp
-                        left: x_comp
+            # for i in [1 .. 3]
+            #     mango = math.multiply M, [[1,0,(22 * i)],[0,1,(-17 * i)],[0,0,1]]
+            #     arry = for ii, idx in preArry
+            #         math.multiply mango, ii
+            #     amp = @bunch_of_vectors_to_svg_friendly_string(arry)
+            #     polygon
+            #         points: amp
+            # raa = triangle.arry
+            # x_comp = ((raa[0][0] + raa[1][0] + raa[2][0]) / 3) - 20
+            # y_comp = ((raa[0][1] + raa[1][1] + raa[2][1]) / 3) - 10
+            # foreignObject
+            #     width: '100%'
+            #     height: '100%'
+            #     onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
+                # input
+                #     onChange: (e) => @setState
+                #         value: e.currentTarget.value
+                #     type: 'text'
+                #     value: @state.value
+                #     style:
+                #         color: 'white'
+                #         background: 'transparent'
+                #         border: 'none'
+                #         position: 'absolute'
+                #         top: y_comp
+                #         left: x_comp
 
             for i, idx in ['p0', 'p1', 'p2']
                 nice_try = [

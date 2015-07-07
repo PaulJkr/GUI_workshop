@@ -51,7 +51,7 @@ hexagon_cell = rr
     render: ->
         polygon
             onClick: =>
-                'trying'
+                c 'trying', @props.cell
                 if @props.from_hex is on
                     @props.set_content_vector(@props.section, @props.cell)
                 else

@@ -66,6 +66,7 @@ main = rr
         else
             components_baskets_indexed_by_section[@state.section][@state.cell]
     set_content_vector: (section, cell, scale_dimension) ->
+        c "section, cell", section, cell
         payload_000 =
             section: section
             cell: cell
@@ -84,11 +85,15 @@ main = rr
         else
             return @state.view_width
     getInitialState: ->
+
+
         # payload_001 =
         #     section: 'sidewinders'
         #     cell: './sidewinder_002_.coffee'
         # payload_001s = JSON.stringify payload_001
         # localStorage.setItem 'gui_workshop_nav_state', payload_001s
+
+
         imp = localStorage.getItem 'gui_workshop_nav_state'
         if imp?
             imp2 = JSON.parse imp
