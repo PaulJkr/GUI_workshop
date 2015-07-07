@@ -57,7 +57,8 @@ hexagon_cell = rr
                 else
                     return null
             stroke: 'black'
-            fill: @props.color or 'lightgrey'
+            fill: @props.color or 'transparent'
+
             points: @bunch_of_vectors_to_svg_friendly_string(@transform_constellation())
 
 sidewinders_space = rr
@@ -117,12 +118,6 @@ sidewinders_space = rr
                         g
                             x: 0
                             ,
-                            hexagon_cell
-                                from_hex: on
-                                transform_matrix: transform_matrix
-                                set_content_vector: @props.set_content_vector
-                                section: @props.section
-                                cell: cell
                             if typeof imp is 'function'
                                 imp
                                     set_content_vector: @props.set_content_vector
@@ -130,6 +125,13 @@ sidewinders_space = rr
                                     cell: cell
                                     from_hex: on
                                     transform_matrix: transform_matrix
+                            hexagon_cell
+                                from_hex: on
+                                transform_matrix: transform_matrix
+                                set_content_vector: @props.set_content_vector
+                                section: @props.section
+                                cell: cell
+
 
 
 

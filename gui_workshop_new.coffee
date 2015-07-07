@@ -84,11 +84,11 @@ main = rr
         else
             return @state.view_width
     getInitialState: ->
-        payload_001 =
-            section: 'sidewinders'
-            cell: './sidewinder_002_.coffee'
-        payload_001s = JSON.stringify payload_001
-        localStorage.setItem 'gui_workshop_nav_state', payload_001s
+        # payload_001 =
+        #     section: 'sidewinders'
+        #     cell: './sidewinder_002_.coffee'
+        # payload_001s = JSON.stringify payload_001
+        # localStorage.setItem 'gui_workshop_nav_state', payload_001s
         imp = localStorage.getItem 'gui_workshop_nav_state'
         if imp?
             imp2 = JSON.parse imp

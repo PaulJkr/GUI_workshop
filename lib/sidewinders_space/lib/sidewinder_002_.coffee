@@ -93,7 +93,7 @@ sidewinder = rr
             foreignObject
                 width: '100%'
                 height: '100%'
-                onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
+                #onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
                 input
                     onChange: (e) => @setState
                         value: e.currentTarget.value
