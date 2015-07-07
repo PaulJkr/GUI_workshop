@@ -6,8 +6,8 @@ anchor_000 = require('./lib/anchor_000_.coffee')()
 sidewinder = rr
     getInitialState: ->
         p0: [3, 70, 1]
-        p1: [-30, -80, 1]
-        p2: [30, -80, 1]
+        p1: [-30, -20, 1]
+        p2: [30, -20, 1]
     cirque: ->
         transform_matrix = @props.transform_matrix
         vec_000 = [0, 0, 1]
@@ -64,6 +64,11 @@ sidewinder = rr
             polygon
                 onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
                 points: triangle.string
+            for i in [1 .. 2]
+                polygon
+                    points: triangle.string
+                    transform: "translate(#{-200 * i}, #{40 * i})"
+                    # set this transform through the transform matrix for better
             for i, idx in ['p0', 'p1', 'p2']
                 nice_try = [
                     [.068, 0, @state[i][0]]
@@ -75,6 +80,7 @@ sidewinder = rr
                     transform_matrix: anchor_transform_matrix
                     onMouseDown: @onMouseDown.bind(@, i)
                     onMouseUp: @onMouseUp.bind(@, i)
+
 
 
 
