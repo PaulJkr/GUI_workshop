@@ -36,25 +36,37 @@ sidewinder = rr
         , ""
         return strang
 
-    # removeDragEvents: ->
-    #     document.removeEventListener 'mousemove', @onMouseMove_p0
-    #     document.removeEventListener 'mousemove', @onMouseMove_p1
-    #     document.removeEventListener 'mousemove', @onMouseMove_p2
-    #     document.removeEventListener 'mouseup', @onMouseUp
-    onMouseMove: (p_, e) ->
-        c 'p_', p_
+    removeDragEvents: ->
+        document.removeEventListener 'mousemove', @onMouseMove
+        document.removeEventListener 'mouseup', @onMouseUp
+
+    onMouseMove: (e) ->
+
         deltaX = (e.pageX) - (@state.originX)
         deltaY = (e.pageY) - (@state.originY)
-        @setState
-            "#{p_}": [e.pageX, e.pageY]
-    addDragEvents: (p_) ->
 
+
+        notionally = [e.pageX, e.pageY, 1]
+
+        # where is our transform matrix to invert ?
+        # look in render .. it's props.transform_matrix
+        qubit = math.inv @props.transform_matrix
+        mongo = math.multiply qubit, notionally
+
+
+        @setState
+            #"#{@p}": [e.pageX, e.pageY, 1]
+            "#{@p}": mongo
+
+    addDragEvents: (p_) ->
+        @p = p_
         document.addEventListener 'mouseup', @onMouseUp
-        document.addEventListener 'mousemove', @onMouseMove.bind(p_)
+        document.addEventListener 'mousemove', @onMouseMove
 
     onMouseUp: ->
         @removeDragEvents()
     onMouseDown: (p_, e) ->
+        c 'mousedown: p_, e', p_, e
         e.preventDefault()
         e.stopPropagation()
 
@@ -72,7 +84,7 @@ sidewinder = rr
             width: '100%'
             height: '100%'
             polygon
-                onClick: => @props.set_content_vector(@props.section, @props.cell)
+                onClick: => if @props.from_root is on then @props.set_content_vector(@props.section, @props.cell) else return null
                 points: triangle.string
             # for i, idx in [@state.p0, @state.p1, @state.p2]
             for i, idx in ['p0', 'p1', 'p2']
@@ -85,6 +97,7 @@ sidewinder = rr
                 anchor_000
                     transform_matrix: anchor_transform_matrix
                     onMouseDown: @onMouseDown.bind(@, i)
+                    onMouseUp: @onMouseUp.bind(@, i)
 
 
 

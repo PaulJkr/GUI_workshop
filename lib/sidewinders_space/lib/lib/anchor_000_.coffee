@@ -8,12 +8,12 @@ anchor = rr
         origin = [0, 0, 1]
 
         mapped = math.multiply M, origin
-        c 'mapped', mapped
+
         return mapped
 
 
     render: ->
-        c 'in render'
+
         cirque = @cirque()
         r = @props.transform_matrix[0][0] * 80
 
@@ -23,13 +23,14 @@ anchor = rr
             height: '100%'
             ,
             circle
-                onClick: => @props.set_content_vector(@props.section, @props.cell)
+                onClick: => if @props.from_root is on then @props.set_content_vector(@props.section, @props.cell) else return null
                 cx: cirque[0]
                 cy: cirque[1]
                 r: r
                 fill: 'blue'
                 opacity: .38
                 onMouseDown: @props.onMouseDown
+                onMouseUp: @props.onMouseUp
 
 
 
