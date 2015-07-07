@@ -23,7 +23,7 @@ anchor = rr
             height: '100%'
             ,
             circle
-                onClick: => if @props.from_root is on then @props.set_content_vector(@props.section, @props.cell) else return null
+                onClick: => if @props.from_hex is on then @props.set_content_vector(@props.section, @props.cell) else return null
                 cx: cirque[0]
                 cy: cirque[1]
                 r: r
