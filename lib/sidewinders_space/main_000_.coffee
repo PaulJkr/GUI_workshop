@@ -50,6 +50,12 @@ hexagon_cell = rr
 
     render: ->
         polygon
+            onClick: =>
+                'trying'
+                if @props.from_hex is on
+                    @props.set_content_vector(@props.section, @props.cell)
+                else
+                    return null
             stroke: 'black'
             fill: @props.color or 'lightgrey'
             points: @bunch_of_vectors_to_svg_friendly_string(@transform_constellation())
@@ -114,6 +120,9 @@ sidewinders_space = rr
                             hexagon_cell
                                 from_hex: on
                                 transform_matrix: transform_matrix
+                                set_content_vector: @props.set_content_vector
+                                section: @props.section
+                                cell: cell
                             if typeof imp is 'function'
                                 imp
                                     set_content_vector: @props.set_content_vector

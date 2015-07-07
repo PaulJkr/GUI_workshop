@@ -33,34 +33,6 @@ anchor = rr
             , 20
 
     render: ->
-        # if @props.from_hex is on
-        #     c 'say hello'
-        #     svg
-        #         width: '100%'
-        #         height: '100%'
-        #         circle
-        #             onMouseOver: => @setState
-        #                 opacity: 1
-        #             onMouseOut: => @setState
-        #                 opacity: .4
-        #             opacity: 0
-        #             cx: @props.x
-        #             cy: @props.y
-        #             r: 7 * @props.s
-        #         circle
-        #             onMouseOver: => @setState
-        #                 opacity: 1
-        #             opacity: 1
-        #             cx: @props.x
-        #             cy: @props.y
-        #             #fill: 'url(#radial__003)'
-        #             fill: 'black'
-        #             r: 20# * @props.s
-        #             onMouseDown: @props.onMouseDown
-        #             onMouseUp: @props.onMouseUp
-
-        # else
-
         svg
             width: '100%'
             height: '100%'
