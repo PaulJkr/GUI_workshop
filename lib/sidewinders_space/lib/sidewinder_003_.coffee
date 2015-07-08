@@ -1,6 +1,9 @@
 # sidewinder_003_
 # : working to get the full pipeline running now for svg path elements,
 # interfacing to the transform protocol
+
+# todo:  establish shared initial alias for M and iM inverse of M
+
 {c, React, rr, shortid, keys, assign, update, __react__root__, math} = require('../../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, foreignObject, text} = React.DOM
 anchor_000 = require('./lib/anchor_000_.coffee')()
@@ -94,9 +97,7 @@ sidewinder = rr
 
     path_tractor: (tao) ->
         M = @props.transform_matrix
-        # right now this takes the already transformed vector values
-        # and stringifies them.  we'll need to factor out functions
-        # to transform for example the args for arc.
+
         amp = tao.reduce (acc, i) =>
             # i := {cmd: <string>, vector: <array> or <null>}
             if tao.indexOf(i) is tao.length - 1
@@ -171,13 +172,13 @@ sidewinder = rr
         basket = {}
         command_b = for cmd, idx in tao_000_start_bundle
             cmd_z = shortid.generate()
-            basket_z_b = []
+            vec_z_b = []
             for scalar, idx1 in cmd.vec
                 scalar_z = shortid.generate()
-                basket_z_b.push scalar_z
+                vec_z_b.push scalar_z
                 assign basket, "#{scalar_z}": scalar
             # now we want to return something like
-            {cmd: cmd.cmd, vec_z_b: basket_z_b} #maybe also a key to index them and attach them to a particular path's d complex
+            {cmd: cmd.cmd, vec_z_b: vec_z_b} #maybe also a key to index them and attach them to a particular path's d complex
 
 
 
@@ -229,90 +230,34 @@ sidewinder = rr
             height: '100%'
             path
                 d: strang
-            for i, idx in tao_001
-                for j, idx1 in i.vec_z_b
-                    do (j, idx1) => #not needed
-                        foreignObject
-                            x: strang_1[0]
-                            y: (100 * idx) + (50 * idx1) + "px"
-                            width: smallest * 96 + "px"
-                            height: '100%'
-                            span
-                                style: null
-                                "j, #{j}"
-                            input
-                                type: 'number'
-                                value: @state[j]
-                                style:
-                                    color: 'red'
-                                    fontSize: smallest * 10 + "px"
-                                    background: 'transparent'
-                                    border: 'none'
-                                onChange: (e) =>
-                                    @setState
-                                        "#{j}": parseInt(e.currentTarget.value)
+            if @props.from_root is on
+                for i, idx in tao_001
+                    for j, idx1 in i.vec_z_b
+                        do (j, idx1) => #not needed
+                            foreignObject
+                                x: strang_1[0]
+                                y: (100 * idx) + (30 * idx1) + "px"
+                                width: smallest * 96 + "px"
+                                height: '100%'
+                                span
+                                    style: null
+                                    "#{i.cmd}, #{j}"
+                                input
+                                    type: 'number'
+                                    value: @state[j]
+                                    style:
+                                        color: 'red'
+                                        fontSize: smallest * 5 + "px"
+                                        background: 'transparent'
+                                        border: 'none'
+                                    onChange: (e) =>
+                                        @setState
+                                            "#{j}": parseInt(e.currentTarget.value)
 
 
 
 
 
-            # circle
-            #     stroke: 'black'
-            #     fill: 'white'
-            #     cx: strang_1[0] + (smallest * 10)
-            #     cy: strang_1[1]
-            #     r: smallest * 20
-            # text
-            #     fill: 'blue'
-            #     #stroke: 'green'
-            #     fontSize: smallest * 10 + "px"
-            #     x: strang_1[0]
-            #     y: strang_1[1]
-            #     "x"
-
-            # foreignObject
-            #     x: strang_1[0]
-            #     y: strang_1[1]
-            #     width: smallest * 96 + "px"
-            #     height: smallest * 24 + "px"
-            #     input
-            #         type: 'number'
-            #         value: @state.x
-            #         style:
-            #             color: 'red'
-            #             fontSize: smallest * 10 + "px"
-            #             background: 'transparent'
-            #             border: 'none'
-            #         onChange: (e) => @setState
-            #             x: e.currentTarget.value
-            # circle
-            #     stroke: 'black'
-            #     fill: 'white'
-            #     cx: strang_2[0] + (smallest * 10)
-            #     cy: strang_2[1]
-            #     r: smallest * 20
-            # text
-            #     fill: 'blue'
-            #     #stroke: 'green'
-            #     fontSize: smallest * 10 + "px"
-            #     x: strang_2[0]
-            #     y: strang_2[1]
-            #     "#{@state.tao_000_start_bundle[0].cmd}"
-            # foreignObject
-            #     x: strang_2[0]
-            #     y: strang_2[1]
-            #     width: smallest * 96 + "px"
-            #     height: smallest * 24 + "px"
-            #     input
-            #         type: 'number'
-            #         value: @state.tao_000_start_bundle[0].vec[1]
-            #         style:
-            #             color: 'red'
-            #             fontSize: smallest * 10 + "px"
-            #             background: 'transparent'
-            #             border: 'none'
-            #         #onChange: (e) => @setState
-            #             #: e.currentTarget.value
 
 
 

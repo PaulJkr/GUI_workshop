@@ -29,6 +29,8 @@ SVGDOMPropertyConfig.Properties.in = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.in2 = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.x = MUST_USE_ATTRIBUTE
 SVGDOMPropertyConfig.Properties.y = MUST_USE_ATTRIBUTE
+SVGDOMPropertyConfig.Properties.rx = MUST_USE_ATTRIBUTE
+SVGDOMPropertyConfig.Properties.ry = MUST_USE_ATTRIBUTE
     
 ReactDOM.filter = createFactory 'filter'
 ReactDOM.feGaussianBlur = createFactory 'feGaussianBlur'
