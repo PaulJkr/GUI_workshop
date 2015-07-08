@@ -21,7 +21,9 @@ adhoc_section_link = rr
                 left: '10%'
                 cursor: 'pointer'
                 color: @props.color
-            onClick: (e) => @props.vector_set(@props.name, 'section_root')
+            onClick: (e) =>
+                c 'setting with', @props.name, 'section_root'
+                @props.vector_set(@props.name, 'section_root')
             ,
             @props.name
 
@@ -88,8 +90,8 @@ main = rr
 
 
         # payload_001 =
-        #     section: 'sidewinders'
-        #     cell: './sidewinder_002_.coffee'
+        #     section: 'javelins'
+        #     cell: 'section_root'
         # payload_001s = JSON.stringify payload_001
         # localStorage.setItem 'gui_workshop_nav_state', payload_001s
 

@@ -125,6 +125,7 @@ sidewinders_space = rr
                                     cell: cell
                                     from_hex: on
                                     transform_matrix: transform_matrix
+                                    rectangle_transform_matrix: @props.rectangle_transform_matrix
                             hexagon_cell
                                 from_hex: on
                                 transform_matrix: transform_matrix
