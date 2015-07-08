@@ -26,9 +26,9 @@ sidewinder = rr
 
     tao_001: ->
         populated = for i, idx in @state.command_b
-            pop_vector = for j, idx1 in i.vec_z_b[0]
+            pop_vector = for j, idx1 in i.vec_z_b
                 @state[j]
-            {cmd: i.cmd, vec: pop_vector}
+            {cmd: i.cmd, vec: pop_vector, vec_z_b: i.vec_z_b}
         return populated
 
     # so now we want to develop a pipeline tool for processing paths
@@ -177,7 +177,7 @@ sidewinder = rr
                 basket_z_b.push scalar_z
                 assign basket, "#{scalar_z}": scalar
             # now we want to return something like
-            {cmd: cmd.cmd, vec_z_b: [basket_z_b]} #maybe also a key to index them and attach them to a particular path's d complex
+            {cmd: cmd.cmd, vec_z_b: basket_z_b} #maybe also a key to index them and attach them to a particular path's d complex
 
 
 
@@ -187,6 +187,7 @@ sidewinder = rr
             x1: 38
         assign to_return, basket
         assign to_return, command_b: command_b
+        c 'to_return', to_return
         return to_return
 
 
@@ -194,6 +195,12 @@ sidewinder = rr
         c 'here'
         # imp = @tao_to_string(@tao_000())
         # c 'imp', imp
+        # test = shortid.generate()
+        # @setState
+        #     "#{test}": "hello good"
+        # setTimeout =>
+        #     c "testing for hello good", @state[test]
+        # , 1000
 
     single_vector_to_svg_friendly_string: (vec_2) ->
         "#{vec_2[0]},#{vec_2[1]}"
@@ -201,15 +208,17 @@ sidewinder = rr
         vector_complex.reduce (acc, i) =>
             acc + " " + @single_vector_to_svg_friendly_string(i)
         , ""
-
+    kludge: (j) ->
+        c 'if ', @state[j]
+        @forceUpdate()
     render: ->
         rM = @props.rectangle_transform_matrix
         
         M = @props.transform_matrix
-
+        tao_001 = @tao_001()
         strang = @path_tractor @tao_001()
 
-        strang_1 = math.multiply rM, [70, -10, 1]
+        strang_1 = math.multiply rM, [70, -70, 1]
         strang_2 = math.multiply rM, [70, 30, 1]
         smallest = if rM[0][0] < math.abs(rM[1][1])
             rM[0][0]
@@ -220,6 +229,31 @@ sidewinder = rr
             height: '100%'
             path
                 d: strang
+            for i, idx in tao_001
+                for j, idx1 in i.vec_z_b
+                    do (j, idx1) => #not needed
+                        foreignObject
+                            x: strang_1[0]
+                            y: (100 * idx) + (50 * idx1) + "px"
+                            width: smallest * 96 + "px"
+                            height: '100%'
+                            span
+                                style: null
+                                "j, #{j}"
+                            input
+                                type: 'number'
+                                value: @state[j]
+                                style:
+                                    color: 'red'
+                                    fontSize: smallest * 10 + "px"
+                                    background: 'transparent'
+                                    border: 'none'
+                                onChange: (e) =>
+                                    @setState
+                                        "#{j}": parseInt(e.currentTarget.value)
+
+
+
 
 
             # circle
