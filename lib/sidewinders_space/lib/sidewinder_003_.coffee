@@ -2,7 +2,7 @@
 # : working to get the full pipeline running now for svg path elements,
 # interfacing to the transform protocol
 {c, React, rr, shortid, keys, assign, update, __react__root__, math} = require('../../__boiler__plate__.coffee')()
-{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, foreignObject} = React.DOM
+{p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, foreignObject, text} = React.DOM
 anchor_000 = require('./lib/anchor_000_.coffee')()
 sidewinder = rr
 
@@ -13,9 +13,9 @@ sidewinder = rr
 
     tao_000: ->
         [
-            {cmd: 'M', vec: [-10, -30]}
+            {cmd: 'M', vec: [-10, -@state.x]}
             {cmd: 'L', vec: [40, 40]}
-            {cmd: 'C', vec: [-20, -30, 20, 30, -40, 70]}
+            {cmd: 'C', vec: [-(@state.x1), -30, 20, 30, -40, 70]}
             {cmd: 'c', vec: [-25, -34, 22, 34, -40, 70]}
      #       {cmd: 'A', vec: [20, 30, -45, 0, 1, 10, 15]}
    #         {cmd: 'M', vec: [70, 0]}
@@ -71,7 +71,7 @@ sidewinder = rr
         return ov
 
     transform_curve_vector: (a_vec) ->
-        M = @props.rectangle_transform_matrix
+        M = math.matrix @props.rectangle_transform_matrix
         M_alt = math.matrix M
         M_alt._data[0][2] = 0
         M_alt._data[1][2] = 0
@@ -158,7 +158,22 @@ sidewinder = rr
 
     getInitialState: ->
         c 'getting state here'
-        {}
+        tao_000 = [
+            {idx: null, cmd: 'M', vec: [-10, -30]}
+            {cmd: 'L', vec: [40, 40]}
+            {cmd: 'C', vec: [-20, -30, 20, 30, -40, 70]}
+            {cmd: 'c', vec: [-25, -34, 22, 34, -40, 70]}
+     #       {cmd: 'A', vec: [20, 30, -45, 0, 1, 10, 15]}
+   #         {cmd: 'M', vec: [70, 0]}
+    #        {cmd: 'L', vec: [50, 85]}
+     #       {cmd: 'L', vec: [40, 77]}
+     #       {cmd: 'Z', vec: null}
+        ]
+        to_return =
+            tao_000: tao_000
+            x: 40
+            x1: 38
+        return to_return
 
 
     componentDidMount: ->
@@ -174,13 +189,84 @@ sidewinder = rr
         , ""
 
     render: ->
+        rM = @props.rectangle_transform_matrix
+        
+        M = @props.transform_matrix
+
         strang = @path_tractor @tao_000()
-        c 'strang', strang
+
+        strang_1 = math.multiply rM, [70, -10, 1]
+        strang_2 = math.multiply rM, [70, 30, 1]
+        smallest = if rM[0][0] < math.abs(rM[1][1])
+            rM[0][0]
+        else
+            math.abs(rM[1][1])
         svg
             width: '100%'
             height: '100%'
             path
                 d: strang
+
+
+            circle
+                stroke: 'black'
+                fill: 'white'
+                cx: strang_1[0] + (smallest * 10)
+                cy: strang_1[1]
+                r: smallest * 20
+            text
+                fill: 'blue'
+                #stroke: 'green'
+                fontSize: smallest * 10 + "px"
+                x: strang_1[0]
+                y: strang_1[1]
+                "x"
+
+            foreignObject
+                x: strang_1[0]
+                y: strang_1[1]
+                width: smallest * 96 + "px"
+                height: smallest * 24 + "px"
+                input
+                    type: 'number'
+                    value: @state.x
+                    style:
+                        color: 'red'
+                        fontSize: smallest * 10 + "px"
+                        background: 'transparent'
+                        border: 'none'
+                    onChange: (e) => @setState
+                        x: e.currentTarget.value
+            circle
+                stroke: 'black'
+                fill: 'white'
+                cx: strang_2[0] + (smallest * 10)
+                cy: strang_2[1]
+                r: smallest * 20
+            text
+                fill: 'blue'
+                #stroke: 'green'
+                fontSize: smallest * 10 + "px"
+                x: strang_2[0]
+                y: strang_2[1]
+                "x1"
+
+            foreignObject
+                x: strang_2[0]
+                y: strang_2[1]
+                width: smallest * 96 + "px"
+                height: smallest * 24 + "px"
+                input
+                    type: 'number'
+                    value: @state.x1
+                    style:
+                        color: 'red'
+                        fontSize: smallest * 10 + "px"
+                        background: 'transparent'
+                        border: 'none'
+                    onChange: (e) => @setState
+                        x1: e.currentTarget.value
+
 
 
 
