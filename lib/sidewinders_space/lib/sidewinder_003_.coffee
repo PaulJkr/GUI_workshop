@@ -24,6 +24,13 @@ sidewinder = rr
      #       {cmd: 'Z', vec: null}
         ]
 
+    tao_001: ->
+        populated = for i, idx in @state.command_b
+            pop_vector = for j, idx1 in i.vec_z_b[0]
+                @state[j]
+            {cmd: i.cmd, vec: pop_vector}
+        return populated
+
     # so now we want to develop a pipeline tool for processing paths
     # in a systematic way that we can scale according to our interface
     # with the usual (homogeneous coordinate matrix transform system)
@@ -152,27 +159,34 @@ sidewinder = rr
         return amp
 
     componentWillMount: ->
-        c 'will mount here'
-        imp = @path_tractor @tao_000()
-        c 'imp', imp
 
     getInitialState: ->
-        c 'getting state here'
-        tao_000 = [
-            {idx: null, cmd: 'M', vec: [-10, -30]}
-            {cmd: 'L', vec: [40, 40]}
-            {cmd: 'C', vec: [-20, -30, 20, 30, -40, 70]}
+
+        tao_000_start_bundle = [
+            {cmd: 'M', vec: [-10, -30]}
+            {cmd: 'L', vec: [40, 30]}
+            {cmd: 'C', vec: [-38, -30, 20, 30, -40, 70]}
             {cmd: 'c', vec: [-25, -34, 22, 34, -40, 70]}
-     #       {cmd: 'A', vec: [20, 30, -45, 0, 1, 10, 15]}
-   #         {cmd: 'M', vec: [70, 0]}
-    #        {cmd: 'L', vec: [50, 85]}
-     #       {cmd: 'L', vec: [40, 77]}
-     #       {cmd: 'Z', vec: null}
         ]
+        basket = {}
+        command_b = for cmd, idx in tao_000_start_bundle
+            cmd_z = shortid.generate()
+            basket_z_b = []
+            for scalar, idx1 in cmd.vec
+                scalar_z = shortid.generate()
+                basket_z_b.push scalar_z
+                assign basket, "#{scalar_z}": scalar
+            # now we want to return something like
+            {cmd: cmd.cmd, vec_z_b: [basket_z_b]} #maybe also a key to index them and attach them to a particular path's d complex
+
+
+
         to_return =
-            tao_000: tao_000
+            tao_000_start_bundle: tao_000_start_bundle
             x: 40
             x1: 38
+        assign to_return, basket
+        assign to_return, command_b: command_b
         return to_return
 
 
@@ -193,7 +207,7 @@ sidewinder = rr
         
         M = @props.transform_matrix
 
-        strang = @path_tractor @tao_000()
+        strang = @path_tractor @tao_001()
 
         strang_1 = math.multiply rM, [70, -10, 1]
         strang_2 = math.multiply rM, [70, 30, 1]
@@ -208,64 +222,63 @@ sidewinder = rr
                 d: strang
 
 
-            circle
-                stroke: 'black'
-                fill: 'white'
-                cx: strang_1[0] + (smallest * 10)
-                cy: strang_1[1]
-                r: smallest * 20
-            text
-                fill: 'blue'
-                #stroke: 'green'
-                fontSize: smallest * 10 + "px"
-                x: strang_1[0]
-                y: strang_1[1]
-                "x"
+            # circle
+            #     stroke: 'black'
+            #     fill: 'white'
+            #     cx: strang_1[0] + (smallest * 10)
+            #     cy: strang_1[1]
+            #     r: smallest * 20
+            # text
+            #     fill: 'blue'
+            #     #stroke: 'green'
+            #     fontSize: smallest * 10 + "px"
+            #     x: strang_1[0]
+            #     y: strang_1[1]
+            #     "x"
 
-            foreignObject
-                x: strang_1[0]
-                y: strang_1[1]
-                width: smallest * 96 + "px"
-                height: smallest * 24 + "px"
-                input
-                    type: 'number'
-                    value: @state.x
-                    style:
-                        color: 'red'
-                        fontSize: smallest * 10 + "px"
-                        background: 'transparent'
-                        border: 'none'
-                    onChange: (e) => @setState
-                        x: e.currentTarget.value
-            circle
-                stroke: 'black'
-                fill: 'white'
-                cx: strang_2[0] + (smallest * 10)
-                cy: strang_2[1]
-                r: smallest * 20
-            text
-                fill: 'blue'
-                #stroke: 'green'
-                fontSize: smallest * 10 + "px"
-                x: strang_2[0]
-                y: strang_2[1]
-                "x1"
-
-            foreignObject
-                x: strang_2[0]
-                y: strang_2[1]
-                width: smallest * 96 + "px"
-                height: smallest * 24 + "px"
-                input
-                    type: 'number'
-                    value: @state.x1
-                    style:
-                        color: 'red'
-                        fontSize: smallest * 10 + "px"
-                        background: 'transparent'
-                        border: 'none'
-                    onChange: (e) => @setState
-                        x1: e.currentTarget.value
+            # foreignObject
+            #     x: strang_1[0]
+            #     y: strang_1[1]
+            #     width: smallest * 96 + "px"
+            #     height: smallest * 24 + "px"
+            #     input
+            #         type: 'number'
+            #         value: @state.x
+            #         style:
+            #             color: 'red'
+            #             fontSize: smallest * 10 + "px"
+            #             background: 'transparent'
+            #             border: 'none'
+            #         onChange: (e) => @setState
+            #             x: e.currentTarget.value
+            # circle
+            #     stroke: 'black'
+            #     fill: 'white'
+            #     cx: strang_2[0] + (smallest * 10)
+            #     cy: strang_2[1]
+            #     r: smallest * 20
+            # text
+            #     fill: 'blue'
+            #     #stroke: 'green'
+            #     fontSize: smallest * 10 + "px"
+            #     x: strang_2[0]
+            #     y: strang_2[1]
+            #     "#{@state.tao_000_start_bundle[0].cmd}"
+            # foreignObject
+            #     x: strang_2[0]
+            #     y: strang_2[1]
+            #     width: smallest * 96 + "px"
+            #     height: smallest * 24 + "px"
+            #     input
+            #         type: 'number'
+            #         value: @state.tao_000_start_bundle[0].vec[1]
+            #         style:
+            #             color: 'red'
+            #             fontSize: smallest * 10 + "px"
+            #             background: 'transparent'
+            #             border: 'none'
+            #         #onChange: (e) => @setState
+            #             #: e.currentTarget.value
 
 
 
