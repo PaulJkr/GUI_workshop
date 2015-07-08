@@ -28,6 +28,20 @@ sidewinder = rr
     # in a systematic way that we can scale according to our interface
     # with the usual (homogeneous coordinate matrix transform system)
 
+    transform_Move_vector: (a_vec) ->
+        iv = [a_vec[0], a_vec[1], 1]
+        M = math.matrix @props.transform_matrix
+        ov = math.multiply M, iv
+        return ov._data
+
+    transform_move_vector: (a_vec) ->
+        M = math.matrix @props.transform_matrix
+        M._data[0][2] = 0
+        M._data[1][2] = 0
+        iv = [a_vec[0], a_vec[1], 1]
+        ov = math.muliply M, iv
+        return ov._data
+
     transform_arc_vector: (a_vec) ->
         M = @props.transform_matrix
         o_vec = []
@@ -57,10 +71,10 @@ sidewinder = rr
         return ov
 
     transform_curve_vector: (a_vec) ->
-        M = @props.transform_matrix # move this to this.M = __ ...?
-        M_alt = [M[0], M[1], M[2]]
-        M_alt[0][2] = 0
-        M_alt[1][2] = 0
+        M = @props.rectangle_transform_matrix
+        M_alt = math.matrix M
+        M_alt._data[0][2] = 0
+        M_alt._data[1][2] = 0
         iv = a_vec
         siv_0 = [iv[0], iv[1], 1]
         siv_1 = [iv[2], iv[3], 1]
@@ -107,24 +121,16 @@ sidewinder = rr
                     reef = "+"
                 when 'C', 'c'
                     ov = if i.cmd is 'c'
-                        c 'little'
                         @transform_curve_vector i.vec
                     else
-                        c 'big'
                         @transform_Curve_vector i.vec
-                    # iv = i.vec
-                    # siv_0 = [iv[0], iv[1], 1]
-                    # siv_1 = [iv[2], iv[3], 1]
-                    # siv_2 = [iv[4], iv[5], 1]
-                    # sov_0 = math.multiply M, siv_0
-                    # sov_1 = math.multiply M, siv_1
-                    # sov_2 = math.multiply M, siv_2
-                    # ov = [sov_0[0], sov_0[1], sov_1[0], sov_1[1], sov_2[0], sov_2[1]]
                     reef = "#{i.cmd} #{ov[0]} #{ov[1]} #{ov[2]} #{ov[3]} #{ov[4]} #{ov[5]}"
-                when 'M'
-                    #pre_v = i.vec
-                    vi = i.vec # this will be transformed
-                    reef = "M#{vi[0]} #{vi[1]}" + q_space
+                when 'M', 'm'
+                    ov = if i.cmd is 'm'
+                        @transform_move_vector i.vec
+                    else
+                        @transform_Move_vector i.vec
+                    reef = "M#{ov[0]} #{ov[1]}" + q_space
                 when 'Z'
                     reef = "Z" + q_space
                 when 'L'
