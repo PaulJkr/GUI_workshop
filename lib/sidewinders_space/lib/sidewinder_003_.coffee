@@ -1,10 +1,10 @@
-# sidewinder_001_
-#
+# sidewinder_003_
+# : working to get the full pipeline running now for svg path elements,
+# interfacing to the transform protocol
 {c, React, rr, shortid, keys, assign, update, __react__root__, math} = require('../../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, foreignObject} = React.DOM
 anchor_000 = require('./lib/anchor_000_.coffee')()
 sidewinder = rr
-
 
     __inverse__transform: (vec) ->
         math.multiply(math.inv(@props.transform_matrix), vec)
@@ -16,6 +16,7 @@ sidewinder = rr
             {cmd: 'M', vec: [-10, -30]}
             {cmd: 'L', vec: [40, 40]}
             {cmd: 'C', vec: [-20, -30, 20, 30, -40, 70]}
+            {cmd: 'c', vec: [-25, -34, 22, 34, -40, 70]}
             {cmd: 'A', vec: [20, 30, -45, 0, 1, 10, 15]}
    #         {cmd: 'M', vec: [70, 0]}
     #        {cmd: 'L', vec: [50, 85]}
@@ -27,41 +28,12 @@ sidewinder = rr
     # in a systematic way that we can scale according to our interface
     # with the usual (homogeneous coordinate matrix transform system)
 
-    transform_Arc_vector: (a_vec) ->
-
+    transform_arc_vector: (a_vec) ->
         M = @props.transform_matrix
-        # a_vec has size 7
-        # the first two args are radii
-        # those can be independently scaled
-
         o_vec = []
         o_vec[0] = a_vec[0] * M[0][0]
         o_vec[1] = a_vec[1] * M[1][1]
-        c 'o_vec', o_vec
         o_vec[2] = a_vec[2] # shouldn't need to transform an angle 
-        # at this level, but we could do that later if we wanted
-        # the flexibility to reorient elements.  in that case we
-        # could express the angle in a_vec[2] in terms of a transform 
-        # matrix and then multiply it by the provided matrix for 
-        # composition.  it looks like it's expressed as a degrees angle
-        # xAR = a_vec[2] #x_axis_rotation
-        # c 'xAR', xAR
-        # theta = math.unit(xAR, 'deg')
-        # c 'theta', theta
-        # yy = math.cos(theta)
-        # c 'yy', yy
-        # zz = math.acos(yy)
-        # c 'zz', zz
-        # aa = zz * (360 / (2 * math.pi))
-        # c 'aa', aa
-        
-        # x_ARM = [[math.cos(theta), math.sin(theta), 0],[-(math.sin(theta)), math.cos(theta), 0],[0,0,1]] #x_axis_rotation_matrix
-        # c 'x_ARM'
-        # composed_000 = math.multiply(M, x_ARM)
-        # cursor_0 = composed_000[0][0]
-        # c 'cursor_0', cursor_0
-        # xx = math.acos(cursor_0)
-        # c 'xx', xx.im * (360 / (2 * math.pi))
         o_vec[3] = a_vec[3] #boolean flag
         o_vec[4] = a_vec[4] # boolean flag
         x = a_vec[5]
@@ -70,12 +42,19 @@ sidewinder = rr
         out_translate_vec = math.multiply M, cursor_vec
         o_vec[5] = out_translate_vec[0]
         o_vec[6] = out_translate_vec[1]
-        #c 'o_vec 2', o_vec
-
         return o_vec
 
-
-
+    transform_curve_vector: (a_vec) ->
+        M = @props.transform_matrix # move this to this.M = __ ...?
+        iv = a_vec
+        siv_0 = [iv[0], iv[1], 1]
+        siv_1 = [iv[2], iv[3], 1]
+        siv_2 = [iv[4], iv[5], 1]
+        sov_0 = math.multiply M, siv_0
+        sov_1 = math.multiply M, siv_1
+        sov_2 = math.multiply M, siv_2
+        ov = [sov_0[0], sov_0[1], sov_1[0], sov_1[1], sov_2[0], sov_2[1]]
+        return ov
 
     path_tractor: (tao) ->
         M = @props.transform_matrix
@@ -96,14 +75,12 @@ sidewinder = rr
                     c 'got H'
                     reef = "+"
 
-                when 'a'
-                    c 'got a, vec of size 7 but last two args are relative from point'
-                when 'A'
-                    c 'got A, this means we get a vector of size 7'
-                    pre_vi = i.vec
-                    mid_v = @transform_Arc_vector pre_vi
-                    vi = mid_v
-                    reef = "A #{vi[0]} #{vi[1]} #{vi[2]} #{vi[3]} #{vi[4]} #{vi[5]} #{vi[6]}" + q_space
+                when 'a', 'A'
+                    ov = @transform_arc_vector i.vec
+                    reef = "#{i.cmd} #{ov[0]} #{ov[1]} #{ov[2]} #{ov[3]} #{ov[4]} #{ov[5]} #{ov[6]}" + q_space
+                # when 'A'
+                #     ov = @transform_arc_vector i.vec
+                #     reef = "A #{ov[0]} #{ov[1]} #{ov[2]} #{ov[3]} #{ov[4]} #{ov[5]} #{ov[6]}" + q_space
                 when 'S'
                     c 'got big S, for bez curves'
                     reef = "+"
@@ -113,17 +90,17 @@ sidewinder = rr
                 when 'T'
                     c 'got T, have to figure something out for stringing together bezier curves'
                     reef = "+"
-                when 'C'
-                    c 'got C, vecs of size 6'
-                    iv = i.vec
-                    siv_0 = [iv[0], iv[1], 1]
-                    siv_1 = [iv[2], iv[3], 1]
-                    siv_2 = [iv[4], iv[5], 1]
-                    sov_0 = math.multiply M, siv_0
-                    sov_1 = math.multiply M, siv_1
-                    sov_2 = math.multiply M, siv_2
-                    ov = [sov_0[0], sov_0[1], sov_1[0], sov_1[1], sov_2[0], sov_2[1]]
-                    reef = "C #{ov[0]} #{ov[1]} #{ov[2]} #{ov[3]} #{ov[4]} #{ov[5]}"
+                when 'C', 'c'
+                    ov = @transform_curve_vector i.vec
+                    # iv = i.vec
+                    # siv_0 = [iv[0], iv[1], 1]
+                    # siv_1 = [iv[2], iv[3], 1]
+                    # siv_2 = [iv[4], iv[5], 1]
+                    # sov_0 = math.multiply M, siv_0
+                    # sov_1 = math.multiply M, siv_1
+                    # sov_2 = math.multiply M, siv_2
+                    # ov = [sov_0[0], sov_0[1], sov_1[0], sov_1[1], sov_2[0], sov_2[1]]
+                    reef = "#{i.cmd} #{ov[0]} #{ov[1]} #{ov[2]} #{ov[3]} #{ov[4]} #{ov[5]}"
                 when 'M'
                     #pre_v = i.vec
                     vi = i.vec # this will be transformed
