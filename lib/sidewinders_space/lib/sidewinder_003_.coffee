@@ -17,7 +17,7 @@ sidewinder = rr
             {cmd: 'L', vec: [40, 40]}
             {cmd: 'C', vec: [-20, -30, 20, 30, -40, 70]}
             {cmd: 'c', vec: [-25, -34, 22, 34, -40, 70]}
-            {cmd: 'A', vec: [20, 30, -45, 0, 1, 10, 15]}
+     #       {cmd: 'A', vec: [20, 30, -45, 0, 1, 10, 15]}
    #         {cmd: 'M', vec: [70, 0]}
     #        {cmd: 'L', vec: [50, 85]}
      #       {cmd: 'L', vec: [40, 77]}
@@ -44,7 +44,7 @@ sidewinder = rr
         o_vec[6] = out_translate_vec[1]
         return o_vec
 
-    transform_curve_vector: (a_vec) ->
+    transform_Curve_vector: (a_vec) ->
         M = @props.transform_matrix # move this to this.M = __ ...?
         iv = a_vec
         siv_0 = [iv[0], iv[1], 1]
@@ -53,6 +53,21 @@ sidewinder = rr
         sov_0 = math.multiply M, siv_0
         sov_1 = math.multiply M, siv_1
         sov_2 = math.multiply M, siv_2
+        ov = [sov_0[0], sov_0[1], sov_1[0], sov_1[1], sov_2[0], sov_2[1]]
+        return ov
+
+    transform_curve_vector: (a_vec) ->
+        M = @props.transform_matrix # move this to this.M = __ ...?
+        M_alt = [M[0], M[1], M[2]]
+        M_alt[0][2] = 0
+        M_alt[1][2] = 0
+        iv = a_vec
+        siv_0 = [iv[0], iv[1], 1]
+        siv_1 = [iv[2], iv[3], 1]
+        siv_2 = [iv[4], iv[5], 1]
+        sov_0 = math.multiply M_alt, siv_0
+        sov_1 = math.multiply M_alt, siv_1
+        sov_2 = math.multiply M_alt, siv_2
         ov = [sov_0[0], sov_0[1], sov_1[0], sov_1[1], sov_2[0], sov_2[1]]
         return ov
 
@@ -91,7 +106,12 @@ sidewinder = rr
                     c 'got T, have to figure something out for stringing together bezier curves'
                     reef = "+"
                 when 'C', 'c'
-                    ov = @transform_curve_vector i.vec
+                    ov = if i.cmd is 'c'
+                        c 'little'
+                        @transform_curve_vector i.vec
+                    else
+                        c 'big'
+                        @transform_Curve_vector i.vec
                     # iv = i.vec
                     # siv_0 = [iv[0], iv[1], 1]
                     # siv_1 = [iv[2], iv[3], 1]

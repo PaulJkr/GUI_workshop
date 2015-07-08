@@ -125,6 +125,8 @@ main = rr
         else
             smaller = if @state.view_width < @state.view_height then @state.view_width else @state.view_height
             z = smaller / 200
+            x_scale = @state.view_width / 200
+            y_scale = @state.view_height / 200
             div
                 style:
                     position: 'absolute'
@@ -136,7 +138,9 @@ main = rr
                     bottom: 0
                 ,
                 @state.content?()
+                    square_transform_matrix: [[z, 0, (@state.view_width / 2)],[0, -z, (@state.view_height / 2)],[0, 0, 1]]
                     transform_matrix: [[z, 0, (@state.view_width / 2)],[0, -z, (@state.view_height / 2)],[0, 0, 1]]
+                    rectangle_transform_matrix: [[x_scale, 0, (@state.view_width / 2)],[0, -y_scale, (@state.view_height / 2)],[0, 0, 1]]
                     from_root: on
                     set_content_vector: @set_content_vector
                     focus_cell_selection: @set_content_vector #deprecate
