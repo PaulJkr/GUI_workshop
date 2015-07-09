@@ -10,14 +10,29 @@ anchor_000 = require('./lib/anchor_000_.coffee')()
 
 control_panel = rr
 
+    button_000: ->
+        [
+            [.18, 0, 120]
+            [0,.18, 50]
+            [0, 0, 1]
+        ]
+    button_001: ->
+        [
+            [.16, 0, 120]
+            [0,.16, -50]
+            [0, 0, 1]
+        ]
+
     render: ->
         svg
             width: '100%'
             height: '100%'
-            circle
-                cx: 20
-                cy: 20
-                r: 20
+            content
+                action_name: 'king'
+                transform_matrix: math.multiply @props.transform_matrix, @button_000()
+            content
+                action_name: 'the'
+                transform_matrix: math.multiply @props.transform_matrix, @button_001()
 
 content = rr
     clicked: (e) ->
@@ -43,7 +58,7 @@ content = rr
 
     textic: ->
         {rx, ry, action_name} = @state
-
+        c 'rx', rx
         M = @props.transform_matrix
 
         origin = [0, 0, 1]
@@ -51,10 +66,9 @@ content = rr
         scale = M[0][0]
         width = rx * M[0][0]
         height = ry * M[0][0]
-
-        fontSize: (ry * .1) * scale
-        x: transformed_origin[0] - ((action_name.length / 2) * scale * 3)
-        y: transformed_origin[1]# + (height * .3 )
+        fontSize: (ry * .5) * scale
+        x: transformed_origin[0] - (rx * .5 * scale)
+        y: transformed_origin[1] + (ry * .13 * scale)
         width: width
         height: height
         onClick: @clicked
@@ -98,45 +112,18 @@ content = rr
             text @textic(), (@state.action_name or 'helo')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 sidewinder = rr
     render: ->
-        props = assign {}, @props, ref: 'content'
+        content_props = assign {}, @props, ref: 'content'
         if @props.from_root is on
-            props = assign props, action_name: 'pale'
+            content_props = assign content_props, action_name: 'pale'
         svg
             width: '100%'
             height: '100%'
-            content props
+            content content_props
             if @props.from_root is on
-                control_panel()
+                control_panel
+                    transform_matrix: @props.transform_matrix
 
 
 module.exports = -> sidewinder
