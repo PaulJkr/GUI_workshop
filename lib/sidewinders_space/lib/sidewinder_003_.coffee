@@ -7,6 +7,41 @@
 {c, React, rr, shortid, keys, assign, update, __react__root__, math} = require('../../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, foreignObject, text} = React.DOM
 anchor_000 = require('./lib/anchor_000_.coffee')()
+
+button_000 = require('./sidewinder_004_.coffee')()
+
+
+control_panel = rr
+
+    render: ->
+        {tao_001, smallest, strang_1} = @props
+        svg
+            width: '100%'
+            height: '100%'
+            for i, idx in tao_001
+                for j, idx1 in i.vec_z_b
+                    do (j, idx1) =>
+                        foreignObject
+                            x: strang_1[0]
+                            y: (100 * idx) + (30 * idx1) + "px"
+                            width: smallest * 96 + "px"
+                            height: '100%'
+                            span
+                                style: null
+                                "#{i.cmd}, #{j}"
+                            input
+                                type: 'number'
+                                value: @props.state[j]
+                                style:
+                                    color: 'red'
+                                    fontSize: smallest * 5 + "px"
+                                    background: 'transparent'
+                                    border: 'none'
+                                onChange: (e) =>
+                                    @props.changeVal(j, e.currentTarget.value)
+                                    # @setState
+                                    #     "#{j}": parseInt(e.currentTarget.value)
+
 sidewinder = rr
 
     __inverse__transform: (vec) ->
@@ -209,9 +244,9 @@ sidewinder = rr
         vector_complex.reduce (acc, i) =>
             acc + " " + @single_vector_to_svg_friendly_string(i)
         , ""
-    kludge: (j) ->
-        c 'if ', @state[j]
-        @forceUpdate()
+    changeVal: (j, val) ->
+        @setState
+            "#{j}": parseFloat val
     render: ->
         rM = @props.rectangle_transform_matrix
         
@@ -230,29 +265,20 @@ sidewinder = rr
             height: '100%'
             path
                 d: strang
+            button_transform = [[.13, 0, 40],[0,.13, -40],[0, 0, 1]]
+            button_transform_2 = math.multiply M, button_transform
+            button_000
+                transform_matrix: button_transform_2
+                action_name: "+cmd"
             if @props.from_root is on
-                for i, idx in tao_001
-                    for j, idx1 in i.vec_z_b
-                        do (j, idx1) => #not needed
-                            foreignObject
-                                x: strang_1[0]
-                                y: (100 * idx) + (30 * idx1) + "px"
-                                width: smallest * 96 + "px"
-                                height: '100%'
-                                span
-                                    style: null
-                                    "#{i.cmd}, #{j}"
-                                input
-                                    type: 'number'
-                                    value: @state[j]
-                                    style:
-                                        color: 'red'
-                                        fontSize: smallest * 5 + "px"
-                                        background: 'transparent'
-                                        border: 'none'
-                                    onChange: (e) =>
-                                        @setState
-                                            "#{j}": parseInt(e.currentTarget.value)
+                control_panel
+                    tao_001: tao_001
+                    state: @state
+                    smallest: smallest
+                    strang_1: strang_1
+                    changeVal: @changeVal
+
+
 
 
 
