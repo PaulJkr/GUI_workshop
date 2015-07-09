@@ -27,8 +27,10 @@ control_panel = rr
                             width: smallest * 96 + "px"
                             height: '100%'
                             span
-                                style: null
+                                style:
+                                    userSelect: 'none'
                                 "#{i.cmd}, #{j}"
+
                             input
                                 type: 'number'
                                 value: @props.state[j]
@@ -277,19 +279,6 @@ sidewinder = rr
                     smallest: smallest
                     strang_1: strang_1
                     changeVal: @changeVal
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
