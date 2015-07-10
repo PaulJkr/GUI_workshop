@@ -6,9 +6,11 @@
 
 module.exports = ->
     React = require("react")
+    Immutable = require('immutable')
 
     c : -> console.log.apply console, arguments
     React: React
+    Imm: Immutable
     rr : -> React.createFactory(React.createClass.apply(React, arguments))
     shortid : require 'shortid'
     assign: -> Object.assign.apply(Object, arguments)

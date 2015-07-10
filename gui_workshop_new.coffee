@@ -6,7 +6,7 @@ document.getElementById('__react__root__').style.overflow = 'hidden'
 require('./__monkey_patch_succeeds__.coffee') # doesn't work, keeping it to try again in new way
 #require('./lib/main.styl') # nothing in it
 
-{c, React, rr, shortid, assign, update, __react__root__} = require('./lib/__boiler__plate__.coffee')()
+{c, React, Imm, rr, shortid, keys, assign, update, __react__root__} = require('./lib/__boiler__plate__.coffee')()
 
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, ul, li, ol, code, a} = React.DOM
 
