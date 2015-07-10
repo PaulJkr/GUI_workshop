@@ -105,7 +105,33 @@ content = rr
     # Q, q
     # T, t
     # A, a
-    #
+
+    # the controls can be described in functions on the object
+    # before they are inserted into the render function. also more we do this
+    # more should be able to reuse code.
+
+    standard_number_input: ->
+        # these are the attributes to put to the stardard number input
+        # perform calculations here
+        #returning object:
+        type: 'number'
+        value: 'helo' #@props.state[j] or something
+        style:
+            fontSize: 4 # scale by some variable by transform_matrix
+            background: 'transparent'
+            border: 'none'
+        onChange: (e) =>
+            c 'changed'
+            #@props.changeVal(j, e.currentTarget.value)
+
+    M_command: -> # not to be confused with M the transform_matrix
+        # needs two number input boxes for the vector coordinates
+        # needs a button to delete the command
+        # we might want to shift order around, but that's for later
+        # actually this should be a component because it can be decomposed ?
+        # the number input boxes will be reused
+        # for now though just here
+
 
     # one good question is whether or not the on-screen draggable anchors
     # associated with command parameters --like (x,y) vector of a M command
@@ -113,11 +139,53 @@ content = rr
     # or whether it should be utterly independent of that line.  probbably the 
     # former.
 
+    # reminder: within the ideal coordinate system one can measure the 
+    # dimensions of the object exactly, so it should be a deterministic thing
+    # to , within another context , know exactly the transform matrix needed to
+    # place the component within a particular space size in that other context.
+
 
     render: ->
-
+        # this is now just to be an M command. we'll do other components for 
+        # all the others, and in the end wonder how to do the optimisaition
+        # provided by inheritance, or not.  this file ultimately just for the
+        # comments.
         M = @props.transform_matrix
-        #cirque = @cirque()
+        Sc_x = M[0][0]
+        Sc_y = - M[1][1]
+        c "Sc_x, Sc_y", Sc_x, Sc_y
+
+        # actually the fOs are one each to an input, and should be just placed
+        # over custom svg graphics, with the fO inputs' stuff all invisible 
+        # except the text.  
+        # could make one of these objects per input instead of per fO
+        # so they share sort of, will see
+        fO_0 = ->
+            locus = [-40, 0, 1]
+            span = [60, 20, 1] # [width, height] in our ideal coordinate system
+            M_l = math.multiply M, locus
+            Sc_span = [span[0] * Sc_x, span[1] * Sc_y]
+            #---------------------
+            M_l : M_l
+            Sc_span : Sc_span
+            fontSize: Sc_span[1] * .5
+            # we might not actually have to return all of that. it's just the 
+            # transformed coordinates that the render needs.
+
+        fO_1 = ->
+            locus = [0, 0, 1]
+            span = [60, 20, 1] # [width, height] in our ideal coordinate system
+            M_l = math.multiply M, locus
+            Sc_span = [span[0] * Sc_x, span[1] * Sc_y]
+            #---------------------
+            M_l : M_l
+            Sc_span : Sc_span
+            fontSize: Sc_span[1] * .5
+
+
+
+
+
         svg
             width: '100%'
             height: '100%'
@@ -133,6 +201,52 @@ content = rr
                         result: "dropBlur"
                         dx: "5"
                         dy: "5"
+            fO_0 = fO_0()
+            fO_1 = fO_1()
+
+            foreignObject
+                x: fO_0.M_l[0]
+                y: fO_0.M_l[1]
+                width: fO_0.Sc_span[0]
+                height: fO_0.Sc_span[1]
+                input
+                    #type: 'number'
+                    value: 'helo'
+                    style:
+                        background: 'transparent'
+                        border: 'none'
+                        fontSize: fO_0.fontSize
+            rect
+                x: fO_0.M_l[0]
+                y: fO_0.M_l[1]
+                width: fO_0.Sc_span[0] * .5
+                height: fO_0.Sc_span[1]
+                fillOpacity: 0
+                stroke: 'red'
+            foreignObject
+                x: fO_1.M_l[0]
+                y: fO_1.M_l[1]
+                width: fO_1.Sc_span[0]
+                height: fO_1.Sc_span[1]
+                input
+                    #type: 'number'
+                    value: 42
+                    style:
+                        background: 'transparent'
+                        border: 'none'
+                        fontSize: fO_1.fontSize
+            rect
+                x: fO_1.M_l[0] - (fO_1.Sc_span[0] * .1)
+                y: fO_1.M_l[1] - (fO_1.Sc_span[1] * .3)
+                width: fO_1.Sc_span[0] * .5
+                height: fO_1.Sc_span[1]
+                fillOpacity: 0
+                stroke: 'blue'
+
+
+
+
+
 
 
 
@@ -149,7 +263,6 @@ content = rr
             # text @textic(), (@state.action_name or 'helo')
 
 
-            
 
 
 
