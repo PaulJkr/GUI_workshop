@@ -179,10 +179,16 @@ minesweeper = rr
             for i in [0 .. 7]
                 for j in [0 .. 7]
 
-
+                    # circle_vec = math.multiply(transforms[i][j], [0, 0, 1])
+                    # circ_radius = 100
+                    # circle
+                    #     cx: circle_vec[0]
+                    #     cy: circle_vec[1]
+                    #     r: 20
 
                     transform_here = transforms[i][j]
-
+                    # anchor_000
+                    #     transform_matrix: transform_here
                     switch @state["#{i}#{j}"]
                         when 'mined'
                             mine_000
