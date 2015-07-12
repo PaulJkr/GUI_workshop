@@ -6,13 +6,6 @@ anchor_000 = require('./lib/anchor_000_.coffee')()
 
 
 mine_000 = require('./mine_000_.coffee')()
-
-zero_000 = require('./lib/zero_000_.coffee')()
-one_000 = require('./lib/one_000_.coffee')()
-two_000 = require('./lib/two_000_.coffee')()
-three_000 = require('./lib/three_000_.coffee')()
-four_000 = require('./lib/four_000_.coffee')()
-
 empty_water_000 = require('./lib/generic_empty_water_000_.coffee')()
 
 
@@ -159,39 +152,88 @@ minesweeper = rr
                 "#{i}#{j}": [0, 0, value]
 
 
+    cursive_zero_reveal: (idx, stack, state) ->
 
-    reveal: (idx, state, setState, forceUpdate) ->
-        i = idx[0]
-        j = idx[1]
-        if @state isnt undefined
-            cursor = @state["#{i}#{j}"]
-            state = @state
-            setState = @setState
-            forceUpdate = @forceUpdate
-            state["#{i}#{j}"] = [1, 0, cursor[2]]
-            forceUpdate()
+        c 'have cursive with', idx, stack
+        i = idx[0] ; j = idx[1]
+        c 'i, j', i, j
+        cursor = state["#{i}#{j}"]
+        c 'cursor', cursor
+        value = cursor[2]
+        c 'value', value
+        stack["#{i}#{j}"] = [1, 0, value]
 
-            # @setState
-            #     "#{i}#{j}": [1, 0, cursor[2]]
+        if (value is 0) and (cursor[0] is 0)
+            stack_keys = keys stack
+            if i > 0
+                if stack_keys.indexOf("#{i - 1}#{j}") is -1
+                    arguments.callee [i - 1, j], stack, state
+            if i < 7
+                if stack_keys.indexOf("#{i + 1}#{j}") is -1
+                    arguments.callee [i + 1, j], stack, state
+            if j > 0
+                if stack_keys.indexOf("#{i}#{j - 1}") is -1
+                    arguments.callee [i, j - 1], stack, state
+            if j < 7
+                if stack_keys.indexOf("#{i}#{j + 1}") is -1
+                    arguments.callee [i, j + 1], stack, state
 
-        else
-            cursor = state["#{i}#{j}"]
-            state["#{i}#{j}"] = [1, 0, cursor[2]]
-            forceUpdate()
+        stack["#{i}#{j}"] = [1, 0, value]
+        c 'stack', stack
 
-            # setState
-            #     "#{i}#{j}": [1, 0, cursor[2]]
-    
+
+
+
+
+    reveal: (idx) ->
+        i = idx[0] ; j = idx[1]
+        cursor = @state["#{i}#{j}"]
         value = cursor[2]
         if value is 0
-            if (i < 7)
-                arguments.callee [i + 1, j], state, setState, forceUpdate
-            if (i > 0)
-                arguments.callee [i - 1, j], state, setState, forceUpdate
-            if (j > 0)
-                arguments.callee [i, j - 1], state, setState, forceUpdate
-            if (j < 7)
-                arguments.callee [i, j + 1], state, setState, forceUpdate
+            c 'boing'
+            #stack = {"#{i}#{j}": [1, 0, value]}
+            stack = {}
+            @cursive_zero_reveal idx, stack, @state
+            @setState stack
+
+        else
+            @setState
+                "#{i}#{j}": [1, 0, value]
+
+
+
+    # reveal: (idx, state, setState, forceUpdate) ->
+    #     i = idx[0]
+    #     j = idx[1]
+    #     if @state isnt undefined
+    #         cursor = @state["#{i}#{j}"]
+    #         state = @state
+    #         setState = @setState
+    #         forceUpdate = @forceUpdate
+    #         state["#{i}#{j}"] = [1, 0, cursor[2]]
+    #         forceUpdate()
+
+    #         # @setState
+    #         #     "#{i}#{j}": [1, 0, cursor[2]]
+
+    #     else
+    #         cursor = state["#{i}#{j}"]
+    #         state["#{i}#{j}"] = [1, 0, cursor[2]]
+    #         forceUpdate()
+
+    #         # setState
+    #         #     "#{i}#{j}": [1, 0, cursor[2]]
+    
+    #     value = cursor[2]
+    #     if value is 0
+    #         if (i < 7)
+    #             arguments.callee [i + 1, j], state, setState, forceUpdate
+    #         if (i > 0)
+    #             arguments.callee [i - 1, j], state, setState, forceUpdate
+    #         if (j > 0)
+    #             arguments.callee [i, j - 1], state, setState, forceUpdate
+    #         if (j < 7)
+    #             arguments.callee [i, j + 1], state, setState, forceUpdate
 
 
 
