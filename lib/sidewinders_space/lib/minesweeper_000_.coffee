@@ -13,6 +13,9 @@ two_000 = require('./lib/two_000_.coffee')()
 three_000 = require('./lib/three_000_.coffee')()
 four_000 = require('./lib/four_000_.coffee')()
 
+empty_water_000 = require('./lib/generic_empty_water_000_.coffee')()
+
+
 
 minesweeper = rr
 
@@ -109,7 +112,7 @@ minesweeper = rr
                         mined = Math.random() < .35
                         if mined
                             rayy_000[idx_i][idx_j] = "mined"
-                            initialState["#{idx_i}#{idx_j}"] = "mined"
+                            initialState["#{idx_i}#{idx_j}"] = [0, 0, "mined"]
 
         for i, idx_i in rayy_000
             do (i, idx_i) ->
@@ -125,16 +128,40 @@ minesweeper = rr
                                 if rayy_000[idx_i][idx_j - 1] is 'mined' then counter += 1
                             if idx_j < 7
                                 if rayy_000[idx_i][idx_j + 1] is 'mined' then counter += 1
-                            initialState["#{idx_i}#{idx_j}"] = counter
+                            initialState["#{idx_i}#{idx_j}"] = [0, 0, counter] # [<shown>, <flagged>, value]
 
 
-        initialState
-
-
-
+        assign initialState, game_state : "in_progress"
 
 
 
+
+
+
+    change_gameState: (a) ->
+        @setState
+            game_state: a
+
+    toggle_flag: (idx) ->
+        i = idx[0]
+        j = idx[1]
+        cursor = @state["#{i}#{j}"]
+        value = cursor[2]
+        flag = parseInt(cursor[1])
+        if flag is 0
+            @setState
+                "#{i}#{j}": [0, 1, value]
+        else
+            @setState
+                "#{i}#{j}": [0, 0, value]
+
+    reveal: (idx) ->
+        i = idx[0]
+        j = idx[1]
+        cursor = @state["#{i}#{j}"]
+        value = cursor[2]
+        @setState
+            "#{i}#{j}": [1, 0, value]
 
     render: ->
         M = @props.transform_matrix
@@ -154,31 +181,24 @@ minesweeper = rr
             transforms = @main_board_003()
 
 
-
-
-
             for i in [0 .. 7]
                 for j in [0 .. 7]
+                    cursor = @state["#{i}#{j}"]
+                    if cursor[2] is 'mined'
+                        mine_000
+                            index: [i,j]
+                            transform_matrix: transforms[i][j]
+                            change_gameState: @change_gameState
+                            cursor: cursor #info on flagged
+                            reveal: @reveal
+                    else
+                        empty_water_000
+                            transform_matrix: transforms[i][j]
+                            index: [i,j]
+                            cursor: cursor
+                            toggle_flag: @toggle_flag
+                            reveal: @reveal
 
-                    switch @state["#{i}#{j}"]
-                        when 'mined'
-                            mine_000
-                                transform_matrix: transforms[i][j]
-                        when 0
-                            zero_000
-                                transform_matrix: transforms[i][j]
-                        when 1
-                            one_000
-                                transform_matrix: transforms[i][j]
-                        when 2
-                            two_000
-                                transform_matrix: transforms[i][j]
-                        when 3
-                            three_000
-                                transform_matrix: transforms[i][j]
-                        when 4
-                            four_000
-                                transform_matrix: transforms[i][j]
 
 
 

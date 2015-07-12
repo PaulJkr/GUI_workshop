@@ -1,10 +1,10 @@
-# zero_000 for minesweeper game
+# generic empty water component for minesweeper game
 # glyph for naval mine for minesweeper game
 {c, React, Imm, rr, shortid, keys, assign, update, __react__root__, math} = require('../../../__boiler__plate__.coffee')()
 {p, div, h1, h2, h3, h4, h5, h6, span, svg, circle, rect, ul, line, li, ol, code, a, input, defs, clipPath, linearGradient, stop, g, path, d, polygon, image, pattern, filter, feBlend, feOffset, polyline, feGaussianBlur, feMergeNode, feMerge, radialGradient, foreignObject, text, ellipse} = React.DOM
 
 
-zero = rr
+empty_water = rr
 
     tex: ->
         M = @props.transform_matrix
@@ -24,7 +24,7 @@ zero = rr
 
 
     render: ->
-        c 'cursor', @props.cursor
+
         cursor = @props.cursor
         svg
             width: '100%'
@@ -35,14 +35,16 @@ zero = rr
                 circle
                     onContextMenu: (e) =>
                         e.preventDefault()
-                        @props.toggle_flag @props.index, 1
+                        @props.toggle_flag @props.index
                     onClick: (e) =>
+                        @props.reveal @props.index
 
                     cx: c_.cx
                     cy: c_.cy
                     r: c_.r
                     fill: if cursor[1] is 0 then 'blue' else 'black'
             else
+                c 'should show text'
                 t_ = @tex()
                 text
                     # width: 30
@@ -50,10 +52,10 @@ zero = rr
                     x: t_.x
                     y: t_.y
                     fontSize: t_.fontSize
-                    "0"
+                    cursor[2]
 
 
 
 
 
-module.exports = -> zero
+module.exports = -> empty_water
