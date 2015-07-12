@@ -21,7 +21,6 @@ mine = rr
         else
             'red'
 
-
     render: ->
         svg
             width: '100%'
@@ -30,9 +29,9 @@ mine = rr
             circle
                 onContextMenu: (e) =>
                     e.preventDefault()
+                    @props.toggle_flag @props.index
                 onClick: (e) =>
                     c "kaboom"
-                    @props.change_gameState "blown_up"
                     @props.reveal @props.index
                 cx: c_.cx
                 cy: c_.cy

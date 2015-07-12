@@ -38,17 +38,14 @@ empty_water = rr
                         @props.toggle_flag @props.index
                     onClick: (e) =>
                         @props.reveal @props.index
-
                     cx: c_.cx
                     cy: c_.cy
                     r: c_.r
                     fill: if cursor[1] is 0 then 'blue' else 'black'
             else
-                c 'should show text'
                 t_ = @tex()
                 text
-                    # width: 30
-                    # height: 30
+
                     x: t_.x
                     y: t_.y
                     fontSize: t_.fontSize

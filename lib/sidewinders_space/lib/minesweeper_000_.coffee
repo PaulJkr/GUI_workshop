@@ -16,6 +16,9 @@ four_000 = require('./lib/four_000_.coffee')()
 empty_water_000 = require('./lib/generic_empty_water_000_.coffee')()
 
 
+# todo : the macro thing where if you hit zero it 
+# automatically reveals all those adjacent squares
+
 
 minesweeper = rr
 
@@ -109,7 +112,7 @@ minesweeper = rr
             do (i, idx_i) ->
                 for j, idx_j in i
                     do (j, idx_j) ->
-                        mined = Math.random() < .35
+                        mined = Math.random() < .09
                         if mined
                             rayy_000[idx_i][idx_j] = "mined"
                             initialState["#{idx_i}#{idx_j}"] = [0, 0, "mined"]
@@ -155,13 +158,45 @@ minesweeper = rr
             @setState
                 "#{i}#{j}": [0, 0, value]
 
-    reveal: (idx) ->
+
+
+    reveal: (idx, state, setState, forceUpdate) ->
         i = idx[0]
         j = idx[1]
-        cursor = @state["#{i}#{j}"]
+        if @state isnt undefined
+            cursor = @state["#{i}#{j}"]
+            state = @state
+            setState = @setState
+            forceUpdate = @forceUpdate
+            state["#{i}#{j}"] = [1, 0, cursor[2]]
+            forceUpdate()
+
+            # @setState
+            #     "#{i}#{j}": [1, 0, cursor[2]]
+
+        else
+            cursor = state["#{i}#{j}"]
+            state["#{i}#{j}"] = [1, 0, cursor[2]]
+            forceUpdate()
+
+            # setState
+            #     "#{i}#{j}": [1, 0, cursor[2]]
+    
         value = cursor[2]
-        @setState
-            "#{i}#{j}": [1, 0, value]
+        if value is 0
+            if (i < 7)
+                arguments.callee [i + 1, j], state, setState, forceUpdate
+            if (i > 0)
+                arguments.callee [i - 1, j], state, setState, forceUpdate
+            if (j > 0)
+                arguments.callee [i, j - 1], state, setState, forceUpdate
+            if (j < 7)
+                arguments.callee [i, j + 1], state, setState, forceUpdate
+
+
+
+
+
 
     render: ->
         M = @props.transform_matrix
@@ -186,10 +221,10 @@ minesweeper = rr
                     cursor = @state["#{i}#{j}"]
                     if cursor[2] is 'mined'
                         mine_000
-                            index: [i,j]
                             transform_matrix: transforms[i][j]
-                            change_gameState: @change_gameState
+                            index: [i,j]
                             cursor: cursor #info on flagged
+                            toggle_flag: @toggle_flag
                             reveal: @reveal
                     else
                         empty_water_000
