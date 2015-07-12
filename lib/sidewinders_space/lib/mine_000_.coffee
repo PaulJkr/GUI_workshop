@@ -5,12 +5,11 @@
 
 
 mine = rr
-    componentWillMount: ->
-        @M = @props.transform_matrix
 
     cirque: ->
-        vector = math.multiply @M, [0, 0, 1]
-        radius = @M[0][0] * 50
+        M = @props.transform_matrix
+        vector = math.multiply M, [0, 0, 1]
+        radius = M[0][0] * 50
 
         cx: vector[0]
         cy: vector[1]

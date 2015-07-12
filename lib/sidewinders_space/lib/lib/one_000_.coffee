@@ -5,14 +5,13 @@
 
 
 one = rr
-    componentWillMount: ->
-        @M = @props.transform_matrix
 
     tex: ->
-        vector = math.multiply @M, [0, 0, 1]
+        M = @props.transform_matrix
+        vector = math.multiply M, [0, 0, 1]
         x: vector[0]
         y: vector[1]
-        fontSize: 80 * @M[0][0]
+        fontSize: 80 * M[0][0]
 
     render: ->
         svg
