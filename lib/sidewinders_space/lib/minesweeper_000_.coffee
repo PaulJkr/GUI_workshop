@@ -105,7 +105,7 @@ minesweeper = rr
             do (i, idx_i) ->
                 for j, idx_j in i
                     do (j, idx_j) ->
-                        mined = Math.random() < .09
+                        mined = Math.random() < .195
                         if mined
                             rayy_000[idx_i][idx_j] = "mined"
                             initialState["#{idx_i}#{idx_j}"] = [0, 0, "mined"]
@@ -153,16 +153,10 @@ minesweeper = rr
 
 
     cursive_zero_reveal: (idx, stack, state) ->
-
-        c 'have cursive with', idx, stack
         i = idx[0] ; j = idx[1]
-        c 'i, j', i, j
         cursor = state["#{i}#{j}"]
-        c 'cursor', cursor
         value = cursor[2]
-        c 'value', value
         stack["#{i}#{j}"] = [1, 0, value]
-
         if (value is 0) and (cursor[0] is 0)
             stack_keys = keys stack
             if i > 0
@@ -179,10 +173,6 @@ minesweeper = rr
                     arguments.callee [i, j + 1], stack, state
 
         stack["#{i}#{j}"] = [1, 0, value]
-        c 'stack', stack
-
-
-
 
 
     reveal: (idx) ->
@@ -190,55 +180,12 @@ minesweeper = rr
         cursor = @state["#{i}#{j}"]
         value = cursor[2]
         if value is 0
-            c 'boing'
-            #stack = {"#{i}#{j}": [1, 0, value]}
             stack = {}
             @cursive_zero_reveal idx, stack, @state
             @setState stack
-
         else
             @setState
                 "#{i}#{j}": [1, 0, value]
-
-
-
-    # reveal: (idx, state, setState, forceUpdate) ->
-    #     i = idx[0]
-    #     j = idx[1]
-    #     if @state isnt undefined
-    #         cursor = @state["#{i}#{j}"]
-    #         state = @state
-    #         setState = @setState
-    #         forceUpdate = @forceUpdate
-    #         state["#{i}#{j}"] = [1, 0, cursor[2]]
-    #         forceUpdate()
-
-    #         # @setState
-    #         #     "#{i}#{j}": [1, 0, cursor[2]]
-
-    #     else
-    #         cursor = state["#{i}#{j}"]
-    #         state["#{i}#{j}"] = [1, 0, cursor[2]]
-    #         forceUpdate()
-
-    #         # setState
-    #         #     "#{i}#{j}": [1, 0, cursor[2]]
-    
-    #     value = cursor[2]
-    #     if value is 0
-    #         if (i < 7)
-    #             arguments.callee [i + 1, j], state, setState, forceUpdate
-    #         if (i > 0)
-    #             arguments.callee [i - 1, j], state, setState, forceUpdate
-    #         if (j > 0)
-    #             arguments.callee [i, j - 1], state, setState, forceUpdate
-    #         if (j < 7)
-    #             arguments.callee [i, j + 1], state, setState, forceUpdate
-
-
-
-
-
 
     render: ->
         M = @props.transform_matrix

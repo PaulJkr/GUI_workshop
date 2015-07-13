@@ -1,10 +1,10 @@
-
+# gui_workshop main entry file
 
 document.getElementsByTagName('body')[0].style.overflow = 'hidden'
 document.getElementById('__react__root__').style.overflow = 'hidden'
 
-require('./__monkey_patch_succeeds__.coffee') # doesn't work, keeping it to try again in new way
-#require('./lib/main.styl') # nothing in it
+require('./__monkey_patch_succeeds__.coffee')
+#require('./lib/main.styl') # nothing in it, but may use it later
 
 {c, React, Imm, rr, shortid, keys, assign, update, __react__root__} = require('./lib/__boiler__plate__.coffee')()
 
