@@ -1,21 +1,34 @@
 {
+  "name": "gui_workshop",
+  "version": "1.0.0",
+  "description": "GUI Workshop using CoffeeScript and Webpack",
+  "main": "gui_workshop__packed.js",
+  "scripts": {
+    "dev": "webpack-dev-server --mode development --hot --open --config webpack.config.coffee"
+  },
   "dependencies": {
-    "mathjs": "latest",
-    "worker-loader": "latest",
-    "redis": "latest",
-    "react-hot-loader": "latest",
     "babel-loader": "latest",
+    "coffee-loader": "latest",
+    "css-loader": "latest",
+    "file-loader": "latest",
+    "immutable": "latest",
+    "mathjs": "latest",
+    "react": "^15.7.0",
+    "react-dom": "^15.7.0",
+    "react-hot-loader": "latest",
+    "redis": "latest",
     "shortid": "latest",
     "source-map-loader": "latest",
-    "immutable":"latest",
-    "webpack-dev-middleware": "latest",
-    "extract-text-webpack-plugin": "latest",
-    "file-loader": "latest",
     "style-loader": "latest",
-    "css-loader": "latest",
     "stylus-loader": "latest",
-    "webpack-dev-server": "latest",
-    "coffee-loader": "latest",
-    "webpack": "latest"
+    "webpack": "latest",
+    "webpack-dev-middleware": "latest",
+    "webpack-dev-server": "latest"
+  },
+  "devDependencies": {
+    "coffeescript": "^2.7.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "webpack-cli": "^6.0.1",
+    "worker-loader": "^3.0.8"
   }
 }
