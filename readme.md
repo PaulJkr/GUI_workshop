@@ -8,7 +8,7 @@ For the most part the content from this repo won't be migrated, and in the near-
 
 _________________________________
 
-###### GUI_workshop
+###### GUI_workshop.
 
 
 
